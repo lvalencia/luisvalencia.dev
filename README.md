@@ -1,71 +1,75 @@
-# luvle-portfolio
+# Luis Valencia Site Portfolio
 
-This template should help get you started developing with Vue 3 in Vite.
+This repo is the luisvalencia.dev website
 
-## Recommended IDE Setup
+## Development
+
+### Setup
+
+#### IDE
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Type Support for `.vue` Imports in TS
+##### Type Support for `.vue` Imports in TS
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+If you're have errors in your `.vue` files, follow the steps in [Editor Setup](https://yarnpkg.com/getting-started/editor-sdks#editor-setup). This Vue setup doesn't play nice with Yarn's PnP strategy out of the box. See [Compatibility Issue](https://github.com/johnsoncodehk/volar/issues/918)
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
+##### Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+### Running
+
+#### (Optional) Install
+
+This codebase uses a [PnP](https://yarnpkg.com/features/pnp) strategy, you shouldn't need to run this step, but if you find that you do.
 
 ```sh
-npm install
+yarn install
 ```
 
-### Compile and Hot-Reload for Development
+#### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+yarn dev
 ```
 
-### Type-Check, Compile and Minify for Production
+#### Type-Check, Compile and Minify for Production
 
 ```sh
-npm run build
+yarn build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+#### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
-npm run test:unit
+yarn test:unit
 ```
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+#### Run End-to-End Tests with [Playwright](https://playwright.dev)
 
 ```sh
 # Install browsers for the first run
-npx playwright install
+yarn playwright install
 
 # When testing on CI, must build the project first
-npm run build
+yarn build
 
 # Runs the end-to-end tests
-npm run test:e2e
+yarn test:e2e
 # Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
+yarn test:e2e -- --project=chromium
 # Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
+yarn test:e2e -- tests/example.spec.ts
 # Runs the tests in debug mode
-npm run test:e2e -- --debug
+yarn test:e2e -- --debug
+
+# Open teh last report
+yarn playwright show-report
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+#### Lint with [ESLint](https://eslint.org/)
 
 ```sh
-npm run lint
+yarn lint
 ```
