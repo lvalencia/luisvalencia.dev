@@ -1,8 +1,16 @@
 import { SharedIniFileCredentials, Credentials } from 'aws-sdk';
 import { cwd } from 'process';
 import { join } from 'path';
-import { DeploymentConfiguration, SupportedRegions } from './shared';
 import { fromMaybe, isSomething, isValidFilePath, Maybe, ValidFilePath } from './utils';
+
+export type SupportedRegions = 'us-east-1';
+
+export interface DeploymentConfiguration {
+    credentials: Credentials;
+    region: SupportedRegions;
+    sourceFolder: ValidFilePath;
+}
+
 
 interface ConfigArgs {
     environmentConfiguration: any;
@@ -25,12 +33,12 @@ export class Config {
             DISTRIBUTION_DIRECTORY: distributionDirectory,
         } = args.environmentConfiguration;
 
-        this.awsProfile = fromMaybe<string>({
+        this.awsProfile = fromMaybe({
             maybe: awsProfile,
             fallback: DEFAULT_AWS_PROFILE
         });
 
-        this.awsRegion = fromMaybe<SupportedRegions>({
+        this.awsRegion = fromMaybe({
             maybe: awsRegion,
             fallback: DEFAULT_AWS_REGION
         });

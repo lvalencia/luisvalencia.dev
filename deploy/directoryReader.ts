@@ -18,6 +18,7 @@ interface DirectoryReaderArgs {
 export class DirectoryReader implements FileSystemReader {
     private readDirectory: ReadDirectoryFunction;
     private filePathsRead: Set<ValidFilePath>;
+
     constructor(args?: DirectoryReaderArgs) {
         const {
             filePathsRead, 
@@ -29,7 +30,7 @@ export class DirectoryReader implements FileSystemReader {
             fallback: readdirSync
         });
 
-        this.filePathsRead = fromMaybe<CollectionOfFilePaths>({
+        this.filePathsRead = fromMaybe({
             maybe: filePathsRead,
             fallback: new Set<ValidFilePath>()
         });

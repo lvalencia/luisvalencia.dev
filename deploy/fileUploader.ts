@@ -1,9 +1,9 @@
 import { S3, Credentials } from 'aws-sdk';
 import { createReadStream, PathLike, ReadStream } from 'fs';
 import { DefaultLogger, Logger } from './logger';
-import { SupportedRegions } from './shared';
 import { fromMaybe, ValidFilePath } from './utils';
 import { lookup } from 'mime-types';
+import { SupportedRegions } from './config';
 
 type UploadParams = S3.Types.PutObjectRequest;
 type UploadResultData = S3.ManagedUpload.SendData;
@@ -72,27 +72,27 @@ export class FileUploader implements Uploader {
             resolveContentType,
         } = args;
 
-        this.fileReader = fromMaybe<FileReader>({
+        this.fileReader = fromMaybe({
             maybe: fileReader,
             fallback: createReadStream
         });
 
-        this.resolveContentType = fromMaybe<ContentTypeResolverFunction>({
+        this.resolveContentType = fromMaybe({
             maybe: resolveContentType,
             fallback: lookup
         });
 
-        this.uploadTarget = fromMaybe<UploadTarget>({
+        this.uploadTarget = fromMaybe({
             maybe: uploadTarget,
             fallback: DEFAULT_AWS_S3_BUCKET,
         });
 
-        const apiVersion = fromMaybe<SupportedClientAPIs>({
+        const apiVersion = fromMaybe({
             maybe: uploadClientVersion,
             fallback: DEAFULT_AWS_S3_API_VERSION
         });
 
-        const clientConstructor = fromMaybe<UploadClientConstructor>({
+        const clientConstructor = fromMaybe({
             maybe: uploadClientConstructor,
             fallback: AWS_S3_CLIENT
         })

@@ -1,46 +1,23 @@
-import { fromMaybe, Maybe } from "./utils";
-
-export interface Logger {
-    debug(...data: any[]): void;
-    info(...data: any[]): void;
-    log(...data: any[]): void;
-    warn(...data: any[]): void;
-}
-
-export const DefaultLogger: Logger = console;
-
-export interface Formatter {
-    format(prefix: string, ...data: any[]): string;
-}
-
-export const DefaultFormatter: Formatter = {
-    format(prefix: string, ...data: any[]): string {
-        if (prefix) {
-            return `${prefix} - ${data}`;
-        }
-        return `${data}`;
-    },
-};
+import { Formatter, PrefixFormatter, ReducerFormatter, TimestampFormatter } from "../formatter";
+import { fromMaybe } from "../utils";
+import { DefaultLogger, Logger } from "./shared";
 
 export type LoggerOperations = keyof Logger;
 
 interface DeploymentLoggerArgs {
     logger?: Logger;
     formatter?: Formatter;
-    prefix?: string;
 }
 
 
 export class DeploymentLogger implements Logger {
     private logger: Logger;
     private formatter: Formatter;
-    private maybePrefix: Maybe<string>;
 
     constructor(args?: DeploymentLoggerArgs) {
         const {
             logger,
             formatter,
-            prefix
         } = {...args};
 
         this.logger = fromMaybe({
@@ -50,10 +27,17 @@ export class DeploymentLogger implements Logger {
 
         this.formatter = fromMaybe({
             maybe: formatter,
-            fallback: DefaultFormatter
+            fallback: new ReducerFormatter({
+                formatters: [
+                    new PrefixFormatter(),
+                    new PrefixFormatter({
+                        prefix: ' - '
+                    }),
+                    new TimestampFormatter()
+                ],
+                ordering: (arr: any[]) => { return arr.reverse() }
+            })
         });
-
-        this.maybePrefix = prefix;
     }
     
     public debug(...data: any[]): void {
@@ -70,14 +54,7 @@ export class DeploymentLogger implements Logger {
     }
 
     private write(action: LoggerOperations, ...data: any[]): void {
-        const output = this.formatter.format(this.prefix, ...data);
+        const output = this.formatter.format(` ${data}`);
         this.logger[action](output);
-    }
-
-    private get prefix() {
-        return fromMaybe<string>({
-            maybe: this.maybePrefix,
-            fallback: `${new Date().toISOString()} deploy`
-        });
     }
 }

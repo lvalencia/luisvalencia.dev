@@ -1,8 +1,7 @@
-import { threadId } from "worker_threads";
+import { DeploymentConfiguration } from "./config";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
 import { FileUploader, Uploader } from "./fileUploader";
 import { DefaultLogger, Logger } from "./logger";
-import { DeploymentConfiguration } from "./shared";
 import { fromMaybe, groupBy, prettyJSON, ValidFilePath } from "./utils";
 
 interface CodeDeployerArgs {
@@ -32,17 +31,17 @@ export class CodeDeployer {
 
         this.sourceFolder = sourceFolder;
 
-        this.logger = fromMaybe<Logger>({
+        this.logger = fromMaybe({
             maybe: logger,
             fallback: DefaultLogger
         });
 
-        this.directoryReader = fromMaybe<FileSystemReader>({
+        this.directoryReader = fromMaybe({
             maybe: directoryReader,
             fallback: new DirectoryReader()
         });
 
-        this.uploader = fromMaybe<Uploader>({
+        this.uploader = fromMaybe({
             maybe: uploader,
             fallback: new FileUploader({
                 credentials,
