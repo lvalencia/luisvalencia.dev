@@ -14,6 +14,10 @@ This repo is the luisvalencia.dev website
 
 If you're have errors in your `.vue` files, follow the steps in [Editor Setup](https://yarnpkg.com/getting-started/editor-sdks#editor-setup). This Vue setup doesn't play nice with Yarn's PnP strategy out of the box. See [Compatibility Issue](https://github.com/johnsoncodehk/volar/issues/918)
 
+##### PnP Support 
+
+This project uses PnP strategy, [ZipFS](https://github.com/lvalencia/luvle-portfolio/tree/main/deploy) plugin should enable the `Go to Definition` behavior to work properly.
+
 ##### Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
