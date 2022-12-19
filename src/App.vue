@@ -5,17 +5,11 @@ import HelloWorld from "./components/HelloWorld.vue";
 
 <template>
   <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
     <div class="wrapper">
-      <HelloWorld msg="Updated via script!" />
-
+      <HelloWorld msg="You did it!" />
+      <font-awesome-icon icon="fa-solid fa-house" />
+      <font-awesome-icon icon="fa-regular fa-user" />
+      
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
