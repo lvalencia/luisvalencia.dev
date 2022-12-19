@@ -9,7 +9,6 @@ interface DeploymentLoggerArgs {
     formatter?: Formatter;
 }
 
-
 export class DeploymentLogger implements Logger {
     private logger: Logger;
     private formatter: Formatter;

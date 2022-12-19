@@ -1,6 +1,6 @@
 import { DeploymentConfiguration } from "./config";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
-import { FileUploader, Uploader } from "./fileUploader";
+import { FileUploader, Uploader, UploadResultError, UploadResultSuccess } from "./fileUploader";
 import { DefaultLogger, Logger } from "./logger";
 import { fromMaybe, groupBy, prettyJSON, ValidFilePath } from "./utils";
 
@@ -58,13 +58,13 @@ export class CodeDeployer {
         let results = await this.uploader.upload(filesToUpload, this.sourceFolder);
         results = groupBy(results, 'status');
 
-        const successes = fromMaybe({
+        const successes = fromMaybe<UploadResultSuccess[]>({
             maybe: results['SUCCESS'],
             fallback: []
         });
         this.logger.log(`Successfullly uploaded ${successes.length} files: ${prettyJSON(successes.map((success) => success.data.Location))}`);
 
-        const failures = fromMaybe({
+        const failures = fromMaybe<UploadResultError[]>({
             maybe: results['ERROR'],
             fallback: []
         });

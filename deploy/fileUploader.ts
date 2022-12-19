@@ -34,11 +34,11 @@ interface FileUploaderArgs {
     resolveContentType?: ContentTypeResolverFunction;
 }
 
-interface UploadResultSuccess {
+export interface UploadResultSuccess {
     status: "SUCCESS",
     data: UploadResultData
 }
-interface UploadResultError {
+export interface UploadResultError {
     status: "ERROR",
     data: Error
 }
