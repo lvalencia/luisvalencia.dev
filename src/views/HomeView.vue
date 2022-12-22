@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import TheWelcome from "../components/TheWelcome.vue";
 </script>
 
 <script lang="ts">
@@ -20,6 +19,15 @@ export default {
 <template>
   <main class="grid-item"
   :class="classObject">
-    <TheWelcome />
+    <h1>Luis Valencia</h1>
+    <p>Software Engineer in Sunny SoCal</p>
+    <font-awesome-icon class="construction-icon" icon="fa-solid fa-person-digging" /><span>Site Under Construction</span>
+    <p><strong>State:</strong> Broke Ground</p>
   </main>
 </template>
+
+<style scoped lang="scss">
+.construction-icon + span {
+  margin-left: 8px;
+}
+</style>
