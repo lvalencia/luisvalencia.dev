@@ -57,6 +57,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=aae4e6"],\
             ["vite", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:4.0.0"],\
+            ["vite-plugin-inject-preload", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:1.1.2"],\
             ["vitest", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.25.5"],\
             ["vue", "npm:3.2.45"],\
             ["vue-router", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:4.1.6"],\
@@ -3702,6 +3703,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=aae4e6"],\
             ["vite", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:4.0.0"],\
+            ["vite-plugin-inject-preload", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:1.1.2"],\
             ["vitest", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.25.5"],\
             ["vue", "npm:3.2.45"],\
             ["vue-router", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:4.1.6"],\
@@ -5481,6 +5483,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "stylus",\
             "sugarss",\
             "terser"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["vite-plugin-inject-preload", [\
+        ["npm:1.1.2", {\
+          "packageLocation": "./.yarn/cache/vite-plugin-inject-preload-npm-1.1.2-3309ac365d-933ed01600.zip/node_modules/vite-plugin-inject-preload/",\
+          "packageDependencies": [\
+            ["vite-plugin-inject-preload", "npm:1.1.2"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:1.1.2", {\
+          "packageLocation": "./.yarn/__virtual__/vite-plugin-inject-preload-virtual-c43663ce68/0/cache/vite-plugin-inject-preload-npm-1.1.2-3309ac365d-933ed01600.zip/node_modules/vite-plugin-inject-preload/",\
+          "packageDependencies": [\
+            ["vite-plugin-inject-preload", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:1.1.2"],\
+            ["@types/vite", null],\
+            ["mime-types", "npm:2.1.35"],\
+            ["vite", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:4.0.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/vite",\
+            "vite"\
           ],\
           "linkType": "HARD"\
         }]\
