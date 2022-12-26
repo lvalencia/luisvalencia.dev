@@ -1,22 +1,21 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import PaperStyler from './components/stylers/Paper.vue';
+import PaperStyler from "./components/stylers/PaperStyler.vue";
 import ShowGridSwitch from "./components/ShowGridSwitch.vue";
 </script>
 
 <script lang="ts">
-import { useGrid } from './stores/useGrid';
-import { mapState } from 'pinia';
+import { useGrid } from "./stores/useGrid";
+import { mapState } from "pinia";
 
 export default {
   data() {
-    return {
-    }
+    return {};
   },
   computed: {
-    ...mapState(useGrid, ['classObject']),
-  }
-}
+    ...mapState(useGrid, ["classObject"]),
+  },
+};
 </script>
 
 <template>
@@ -36,6 +35,4 @@ export default {
   </PaperStyler>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

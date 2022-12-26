@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import VitePluginInjectPreload from 'vite-plugin-inject-preload'
+import VitePluginInjectPreload from "vite-plugin-inject-preload";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,14 +13,14 @@ export default defineConfig({
         {
           match: /[a-zA-Z]*\.ttf$/,
           attributes: {
-            type: 'font/ttf',
-            as: 'font',
-            crossorigin: 'anonymous',
-          }
-        }
+            type: "font/ttf",
+            as: "font",
+            crossorigin: "anonymous",
+          },
+        },
       ],
-      injectTo: 'head-prepend'
-    })
+      injectTo: "head-prepend",
+    }),
   ],
   resolve: {
     alias: {

@@ -8,12 +8,16 @@ const logger = new DeploymentLogger();
 logger.log("Starting Deployment");
 
 const configuration = new Config({
-    environmentConfiguration: process.env
+  environmentConfiguration: process.env,
 }).config();
 
-logger.log(`Deploying with configuration: ${prettyJSON(pick(configuration, 'region', 'sourceFolder'))}`);
+logger.log(
+  `Deploying with configuration: ${prettyJSON(
+    pick(configuration, "region", "sourceFolder")
+  )}`
+);
 
 new CodeDeployer({
-    configuration,
-    logger
+  configuration,
+  logger,
 }).deploy();

@@ -16,7 +16,7 @@ If you're have errors in your `.vue` files, follow the steps in [Editor Setup](h
 
 ##### PnP Support 
 
-This project uses PnP strategy, [ZipFS](https://github.com/lvalencia/luvle-portfolio/tree/main/deploy) plugin should enable the `Go to Definition` behavior to work properly.
+This project uses PnP strategy, [ZipFS](https://marketplace.visualstudio.com/items?itemName=arcanis.vscode-zipfs) plugin should enable the `Go to Definition` behavior to work properly.
 
 ##### Customize configuration
 

@@ -1,56 +1,65 @@
-import { defineStore } from 'pinia';
-import type { Store, StoreDefinition } from 'pinia';
+import { defineStore } from "pinia";
+import type { Store, StoreDefinition } from "pinia";
 
 export enum GridState {
-    Visible,
-    NotVisible,
+  Visible,
+  NotVisible,
 }
 
 const GridStateTransition: Record<GridState, GridState> = {
-    [GridState.Visible]: GridState.NotVisible,
-    [GridState.NotVisible]: GridState.Visible
-}
+  [GridState.Visible]: GridState.NotVisible,
+  [GridState.NotVisible]: GridState.Visible,
+};
 
 interface GridStoreState {
-    gridState: GridState
+  gridState: GridState;
 }
 
 export interface GridStoreClassObject {
-    show: boolean;
+  show: boolean;
 }
 
 type GridSymbol = "grid";
 interface GridStoreGetters {
-    isVisible(): boolean;
-    classObject(): GridStoreClassObject; 
+  isVisible(): boolean;
+  classObject(): GridStoreClassObject;
 }
 interface GridStoreActions {
-    toggleVisbility(): void;
- 
+  toggleVisbility(): void;
 }
 
-export type GridStore = Store<GridSymbol, GridStoreState, GridStoreGetters, GridStoreActions>;
-type GridStoreDefinition = StoreDefinition<GridSymbol, GridStoreState, GridStoreGetters, GridStoreActions>;
+export type GridStore = Store<
+  GridSymbol,
+  GridStoreState,
+  GridStoreGetters,
+  GridStoreActions
+>;
+type GridStoreDefinition = StoreDefinition<
+  GridSymbol,
+  GridStoreState,
+  GridStoreGetters,
+  GridStoreActions
+>;
 
 export const useGrid: GridStoreDefinition = defineStore("grid", {
-    state(): GridStoreState {
-        return {
-            gridState: GridState.NotVisible
-        }
+  state(): GridStoreState {
+    return {
+      gridState: GridState.NotVisible,
+    };
+  },
+  getters: {
+    isVisible(): boolean {
+      return this.gridState == GridState.Visible;
     },
-    getters: {
-        isVisible(): boolean {
-            return this.gridState == GridState.Visible;
-        },
-        classObject(): GridStoreClassObject {
-            return {
-                show: this.isVisible
-            }
-        }
+    classObject(): GridStoreClassObject {
+      return {
+        show: this.isVisible,
+      };
     },
-    actions: {
-        toggleVisbility(): void {
-            this.gridState = GridStateTransition[this.gridState];
-        }
-    }
+  },
+  actions: {
+    toggleVisbility(): void {
+      this.gridState = GridStateTransition[this.gridState];
+    },
+  },
 });

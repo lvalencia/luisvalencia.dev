@@ -9,6 +9,7 @@
     "dev": "vite",
     "deploy:prod": "ts-node ./deploy/main.ts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint:fix": "eslint --fix . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "preview": "vite preview",
     "test:unit": "vitest --environment jsdom --root src/",
     "test:e2e": "playwright test",

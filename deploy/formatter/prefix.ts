@@ -2,26 +2,24 @@ import { fromMaybe } from "../utils";
 import { Formatter } from "./shared";
 
 interface PrefixFormatterArgs {
-    prefix?: string;
+  prefix?: string;
 }
 
-const DEFAULT_FORMAT_PREFIX = 'Deploy';
+const DEFAULT_FORMAT_PREFIX = "Deploy";
 
 export class PrefixFormatter implements Formatter {
-    private prefix: string;
+  private prefix: string;
 
-    constructor(args?: PrefixFormatterArgs) {
-        const {
-            prefix,
-        } = {...args};
+  constructor(args?: PrefixFormatterArgs) {
+    const { prefix } = { ...args };
 
-        this.prefix = fromMaybe({
-            maybe: prefix,
-            fallback: DEFAULT_FORMAT_PREFIX
-        });
-    }
+    this.prefix = fromMaybe({
+      maybe: prefix,
+      fallback: DEFAULT_FORMAT_PREFIX,
+    });
+  }
 
-    public format(...data: any[]): string {
-        return `${this.prefix}${data}`;
-    }
+  public format(...data: any[]): string {
+    return `${this.prefix}${data}`;
+  }
 }
