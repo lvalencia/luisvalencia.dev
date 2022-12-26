@@ -1,6 +1,6 @@
-# Luis Valencia Site Portfolio
+# Site Portfolio 
 
-This repo is the luisvalencia.dev website
+This repo is the [luisvalencia.dev](https://luisvalencia.dev/) website
 
 ## Development
 
