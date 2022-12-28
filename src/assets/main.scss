@@ -32,6 +32,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-family: PlayfairDisplay, serif;
   font-size: 3.75em;
+  color: $on-surface;
 
   p {
     margin-top: 8px;
@@ -67,4 +68,19 @@ h2 {
 p {
   font-family: Raleway, sans-serif;
   font-size: 1em;
+  color: $on-surface-variant;
+}
+
+a {
+  color: $primary-variant;
+  text-decoration: none;
+  &:hover {
+      color: $primary-variant-900;
+  }
+  &:visited {
+    color: $primary-variant;
+    &:hover {
+      color: $primary-variant-900;
+    }
+  }
 }

@@ -8,16 +8,19 @@ export default {
   },
   computed: {
     ...mapState(useGrid, ["gridState", "isVisible"]),
+    icon() {
+      const icon = this.isVisible ? "fa-pen-ruler" : "fa-pen";
+      return `fa-solid ${icon}`;
+    }
   },
 };
 </script>
 
 <template>
-  <div class="container toggle-grid" :class="{ visible: isVisible }">
+  <div class="container" :class="{ visible: isVisible }">
     <input type="checkbox" @click="toggleVisbility" :checked="isVisible" />
     <label>
-      <font-awesome-icon icon="fa-solid fa-pen" class="no-grid-icon" />
-      <font-awesome-icon icon="fa-solid fa-pen-ruler" class="grid-icon" />
+      <font-awesome-icon :icon="icon" />
     </label>
   </div>
 </template>
@@ -32,7 +35,8 @@ $slider-height: $input-height;
 $slider-width: calc($input-width / 2);
 
 $slider-position-change-timing: 0.24s;
-$background-color-change-timing: calc($slider-position-change-timing + 0.4s);
+$background-color-change-timing: calc($slider-position-change-timing + 0.08s);
+$icon-change-timing: calc($slider-position-change-timing);
 $background-timing-function: linear;
 $slider-timing-function: ease-in-out;
 
@@ -95,23 +99,12 @@ input[type="checkbox"] {
   }
 }
 
-.toggle-grid {
-  .grid-icon {
-    display: none;
-  }
 
-  .no-grid-icon {
-    display: block;
-  }
-
-  &.visible {
-    .no-grid-icon {
-      display: none;
-    }
-
-    .grid-icon {
-      display: block;
-    }
+svg {
+  transition: all $icon-change-timing;
+  transition-timing-function: $slider-timing-function;
+  &[data-icon="pen-ruler"] {
+    transform: rotate(360deg);
   }
 }
 </style>
