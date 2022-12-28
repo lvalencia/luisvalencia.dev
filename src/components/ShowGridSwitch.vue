@@ -34,7 +34,7 @@ $input-width: calc($input-height * 2);
 $slider-height: $input-height;
 $slider-width: calc($input-width / 2);
 
-$slider-position-change-timing: 0.24s;
+$slider-position-change-timing: 0.32s;
 $background-color-change-timing: calc($slider-position-change-timing + 0.08s);
 $icon-change-timing: calc($slider-position-change-timing);
 $background-timing-function: linear;
@@ -103,8 +103,9 @@ input[type="checkbox"] {
 svg {
   transition: all $icon-change-timing;
   transition-timing-function: $slider-timing-function;
+  transform: scaleX(-1);
   &[data-icon="pen-ruler"] {
-    transform: rotate(360deg);
+    transform: scaleX(1);
   }
 }
 </style>
