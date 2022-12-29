@@ -82,6 +82,14 @@ h2 {
     "_state": "Condición",
     "_status": "Abriendo Nuevos Caminos",
     "state": "@:_state: @:_status"
+  }, 
+  "ca": {
+    "occupation": "Enginyer de Software",
+    "location": "Sud de Califòrnia",
+    "message": "En Construcció",
+    "_state": "Estat",
+    "_status": "Desenvolupant el Lloc",
+    "state": "@:_state: @:_status" 
   }
 }
 </i18n>

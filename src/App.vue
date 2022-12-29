@@ -33,7 +33,7 @@ export default {
         <div class="wrapper">
           <nav>
             <RouterLink to="/">{{ t("home") }}</RouterLink>
-            <RouterLink to="/about">{{ t("about") }}</RouterLink>
+            <RouterLink to="/about">{{ t("explore") }}</RouterLink>
           </nav>
         </div>
       </header>
@@ -46,11 +46,16 @@ export default {
 {
   "en": {
     "home": "Home",
-    "about": "About"
+    "explore": "Explore"
   },
   "es": {
     "home": "Inicio",
-    "about": "Autor"
+    "explore": "Explora"
+  },
+  "ca": {
+    "home": "Inici",
+    "explore": "Explora"
+
   }
 }
 </i18n>
