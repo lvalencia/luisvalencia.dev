@@ -149,6 +149,18 @@ Expected package location: ./.yarn/unplugged/vue-demi-virtual-3d0746fbf4/node_mo
 
 ```
 
+or
+
+```
+[WebServer] ✘ [ERROR] Could not resolve "vue-demi"
+
+    .yarn/__virtual__/pinia-virtual-3ae45d3bfd/0/cache/pinia-npm-2.0.27-3e0154e702-29c862ea43.zip/node_modules/pinia/dist/pinia.mjs:6:206:
+      6 │ ...reactive, toRef, del, nextTick, computed, toRefs } from 'vue-demi';
+        ╵                                                            ~~~~~~~~~~
+
+  You can mark the path "vue-demi" as external to exclude it from the bundle, which will remove this error.
+```
+
 It means the peer dependency for vue-demi isn't installed on the machine
 To install it run:
 
