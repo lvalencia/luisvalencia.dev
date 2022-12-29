@@ -80,17 +80,26 @@ yarn lint
 
 ### Testing
 
-#### Framework
+#### Unit
 
-This project uses the [vitest](https://vitest.dev/) Framework
+##### Framework
 
-#### Components
+This project uses [vitest](https://vitest.dev/) for authoring unit tests
+
+##### Components
 
 This project usses [vue test utils](https://test-utils.vuejs.org/) for testing Vue Components
 
-#### Pinia
-
-[How to test a Pinia Store](https://pinia.vuejs.org/cookbook/testing.html#unit-testing-a-store)
+##### Pinia
 
 This project uses [the pinia test utils](https://pinia.vuejs.org/api/modules/pinia_testing.html) to aid in testing components
 that use a pinia store.
+
+To test a Pinia store check out [their cookbook](https://pinia.vuejs.org/cookbook/testing.html#unit-testing-a-store)
+
+
+#### E2E
+
+##### Framework
+
+This project uses [Playwright](https://playwright.dev/docs/writing-tests) for authoring E2E tests
