@@ -503,6 +503,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pinia/testing@npm:^0.0.14":
+  version: 0.0.14
+  resolution: "@pinia/testing@npm:0.0.14"
+  dependencies:
+    vue-demi: "*"
+  peerDependencies:
+    pinia: ">=2.0.19"
+  checksum: 314dfa5f0eb8efe8055152ea1409f709c3a06614cdc15aaae8f92d424371bdaae844531358235d2ad922456c54059df96ac9da84298fd8b72be0d6a1b65459af
+  languageName: node
+  linkType: hard
+
 "@playwright/test@npm:^1.28.1":
   version: 1.28.1
   resolution: "@playwright/test@npm:1.28.1"
@@ -3243,6 +3254,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.2.1
     "@fortawesome/vue-fontawesome": latest-3
     "@intlify/unplugin-vue-i18n": ^0.8.1
+    "@pinia/testing": ^0.0.14
     "@playwright/test": ^1.28.1
     "@rushstack/eslint-patch": ^1.1.4
     "@types/jsdom": ^20.0.1

@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
-
 import { mount } from "@vue/test-utils";
-import PaperStyler from "../../stylers/PaperStyler.vue";
+import PaperStyler from "@/components/stylers/PaperStyler.vue";
 
 describe("PaperStyler", () => {
   it("appends styled overlay", () => {

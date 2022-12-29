@@ -34,6 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fortawesome/free-solid-svg-icons", "npm:6.2.1"],\
             ["@fortawesome/vue-fontawesome", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:3.0.2"],\
             ["@intlify/unplugin-vue-i18n", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.8.1"],\
+            ["@pinia/testing", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.0.14"],\
             ["@playwright/test", "npm:1.28.1"],\
             ["@rushstack/eslint-patch", "npm:1.2.0"],\
             ["@types/jsdom", "npm:20.0.1"],\
@@ -683,6 +684,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@npmcli/move-file", "npm:2.0.1"],\
             ["mkdirp", "npm:1.0.4"],\
             ["rimraf", "npm:3.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@pinia/testing", [\
+        ["npm:0.0.14", {\
+          "packageLocation": "./.yarn/cache/@pinia-testing-npm-0.0.14-d0b884aa3c-314dfa5f0e.zip/node_modules/@pinia/testing/",\
+          "packageDependencies": [\
+            ["@pinia/testing", "npm:0.0.14"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.0.14", {\
+          "packageLocation": "./.yarn/__virtual__/@pinia-testing-virtual-70d7dd396b/0/cache/@pinia-testing-npm-0.0.14-d0b884aa3c-314dfa5f0e.zip/node_modules/@pinia/testing/",\
+          "packageDependencies": [\
+            ["@pinia/testing", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.0.14"],\
+            ["@types/pinia", null],\
+            ["pinia", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:2.0.27"],\
+            ["vue-demi", "virtual:70d7dd396b465e84f1a4121cf05708921da432ed22ede46efe5084d03f8432658e32d34be8dcf8dcc6a7860eabe46e620615ad3f5be3371df8459d4438b30201#npm:0.13.11"]\
+          ],\
+          "packagePeers": [\
+            "@types/pinia",\
+            "pinia"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3904,6 +3928,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fortawesome/free-solid-svg-icons", "npm:6.2.1"],\
             ["@fortawesome/vue-fontawesome", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:3.0.2"],\
             ["@intlify/unplugin-vue-i18n", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.8.1"],\
+            ["@pinia/testing", "virtual:8865e8a0c455b373ad1163257061f84abab31bdc30cc0d5efcc04926723ca4d969a5e18e7ec961a72f2f3f9b15850de014025787c036bc04c5277de036b7ae04#npm:0.0.14"],\
             ["@playwright/test", "npm:1.28.1"],\
             ["@rushstack/eslint-patch", "npm:1.2.0"],\
             ["@types/jsdom", "npm:20.0.1"],\
@@ -5847,6 +5872,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/vue__composition-api", null],\
             ["@vue/composition-api", null],\
             ["vue", "npm:3.2.45"]\
+          ],\
+          "packagePeers": [\
+            "@types/vue",\
+            "@types/vue__composition-api",\
+            "@vue/composition-api",\
+            "vue"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:70d7dd396b465e84f1a4121cf05708921da432ed22ede46efe5084d03f8432658e32d34be8dcf8dcc6a7860eabe46e620615ad3f5be3371df8459d4438b30201#npm:0.13.11", {\
+          "packageLocation": "./.yarn/unplugged/vue-demi-virtual-3d0746fbf4/node_modules/vue-demi/",\
+          "packageDependencies": [\
+            ["vue-demi", "virtual:70d7dd396b465e84f1a4121cf05708921da432ed22ede46efe5084d03f8432658e32d34be8dcf8dcc6a7860eabe46e620615ad3f5be3371df8459d4438b30201#npm:0.13.11"],\
+            ["@types/vue", null],\
+            ["@types/vue__composition-api", null],\
+            ["@vue/composition-api", null],\
+            ["vue", null]\
           ],\
           "packagePeers": [\
             "@types/vue",\

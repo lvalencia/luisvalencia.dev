@@ -77,3 +77,20 @@ yarn playwright show-report
 ```sh
 yarn lint
 ```
+
+### Testing
+
+#### Framework
+
+This project uses the [vitest](https://vitest.dev/) Framework
+
+#### Components
+
+This project usses [vue test utils](https://test-utils.vuejs.org/) for testing Vue Components
+
+#### Pinia
+
+[How to test a Pinia Store](https://pinia.vuejs.org/cookbook/testing.html#unit-testing-a-store)
+
+This project uses [the pinia test utils](https://pinia.vuejs.org/api/modules/pinia_testing.html) to aid in testing components
+that use a pinia store.
