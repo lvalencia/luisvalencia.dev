@@ -78,7 +78,9 @@ describe("Home Page", () => {
       expect(locale).toBe("en");
     });
 
-    test("toggling locale to es translates content to spanish", async ({ page }) => {
+    test("toggling locale to es translates content to spanish", async ({
+      page,
+    }) => {
       await page.goto("/");
 
       const spanishLocale = "es";
@@ -90,9 +92,12 @@ describe("Home Page", () => {
       expect(locale).toBe(spanishLocale);
 
       await expect(page.getByText("Ingeniero")).toBeVisible();
+      await expect(page.getByText("Sur de")).toBeVisible();
     });
 
-    test("toggling locale to en translates content to english", async ({ page }) => {
+    test("toggling locale to en translates content to english", async ({
+      page,
+    }) => {
       await page.goto("/");
 
       const spanishLocale = "es";
@@ -105,7 +110,8 @@ describe("Home Page", () => {
       const locale = await localeSelector.inputValue();
       expect(locale).toBe(englishLocale);
 
-      await expect(page.getByText("Engineer")).toBeVisible(); 
+      await expect(page.getByText("Engineer")).toBeVisible();
+      await expect(page.getByText("Southern")).toBeVisible();
     });
   });
 });
