@@ -7,8 +7,8 @@ const { locale, availableLocales } = useI18n({
 </script>
 
 <template>
-  <select v-model="locale">
-    <option 
+  <select v-model="locale" data-testid="locale-select">
+    <option
       v-for="locale in availableLocales"
       :key="`locale-${locale}`"
       :value="locale"

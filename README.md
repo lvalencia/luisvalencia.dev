@@ -103,3 +103,27 @@ To test a Pinia store check out [their cookbook](https://pinia.vuejs.org/cookboo
 ##### Framework
 
 This project uses [Playwright](https://playwright.dev/docs/writing-tests) for authoring E2E tests
+
+### Troubleshooting
+
+#### Playwright
+
+If you see an error that looks like this
+
+```
+    browserType.launch: Executable doesn't exist at /Users/lvalencia/Library/Caches/ms-playwright/chromium-1033/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+```
+I means the browsers Playwright uses to automate E2E testing are not installed on the machine. 
+To install them, from the project root run:
+
+```
+yarn playwright install
+```

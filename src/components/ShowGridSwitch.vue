@@ -11,16 +11,21 @@ export default {
     icon() {
       const icon = this.isVisible ? "fa-pen-ruler" : "fa-pen";
       return `fa-solid ${icon}`;
-    }
+    },
   },
 };
 </script>
 
 <template>
   <div class="container" :class="{ visible: isVisible }">
-    <input type="checkbox" @click="toggleVisbility" :checked="isVisible" />
+    <input
+      type="checkbox"
+      @click="toggleVisbility"
+      :checked="isVisible"
+      data-testid="show-grid"
+    />
     <label>
-      <font-awesome-icon :icon="icon" />
+      <font-awesome-icon :icon="icon" data-testid="show-grid-icon" />
     </label>
   </div>
 </template>
@@ -44,7 +49,7 @@ $slider-timing-function: ease-in-out;
   display: flex;
   align-items: center;
 
-  &>* {
+  & > * {
     &:first-child {
       margin-right: 8px;
     }
@@ -99,11 +104,11 @@ input[type="checkbox"] {
   }
 }
 
-
 svg {
   transition: all $icon-change-timing;
   transition-timing-function: $slider-timing-function;
   transform: scaleX(-1);
+
   &[data-icon="pen-ruler"] {
     transform: scaleX(1);
   }
