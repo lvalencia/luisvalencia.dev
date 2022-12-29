@@ -55,6 +55,9 @@ export class DeploymentLogger implements Logger {
   public warn(...data: any[]): void {
     this.write("warn", ...data);
   }
+  public error(...data: any[]): void {
+    this.write("error", ...data);  
+  }
 
   private write(action: LoggerOperations, ...data: any[]): void {
     const output = this.formatter.format(` ${data}`);

@@ -1,3 +1,4 @@
+import { CacheInvalidator, Invalidator } from "./CacheInvalidator";
 import { DeploymentConfiguration } from "./config";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
 import {
@@ -13,6 +14,7 @@ interface CodeDeployerArgs {
   configuration: DeploymentConfiguration;
   logger?: Logger;
   uploader?: Uploader;
+  invalidator?: Invalidator;
   directoryReader?: FileSystemReader;
 }
 
@@ -20,13 +22,19 @@ export class CodeDeployer {
   private readonly sourceFolder: ValidFilePath;
   private readonly directoryReader: FileSystemReader;
   private readonly uploader: Uploader;
+  private readonly invalidator: Invalidator;
   private readonly logger: Logger;
 
   constructor(args: CodeDeployerArgs) {
     const {
       uploader,
+      invalidator,
       directoryReader,
-      configuration: { credentials, region, sourceFolder },
+      configuration: { 
+        credentials, 
+        region, 
+        sourceFolder 
+      },
       logger,
     } = args;
 
@@ -50,6 +58,17 @@ export class CodeDeployer {
         logger,
       }),
     });
+
+    this.invalidator = fromMaybe({
+      maybe: invalidator,
+      fallback: new CacheInvalidator({
+        configuration: {
+          credentials,
+          region
+        },
+        logger
+      })
+    })
   }
 
   public async deploy(): Promise<void> {
@@ -80,5 +99,7 @@ export class CodeDeployer {
         failures.map((failure) => failure.data)
       )}`
     );
+
+    await this.invalidator.invalidate();
   }
 }

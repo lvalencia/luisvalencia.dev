@@ -148,7 +148,7 @@ export class FileUploader implements Uploader {
         },
         (error, data) => {
           if (error) {
-            this.logger.info(`Upload error: ${error}`);
+            this.logger.error(`Upload error: ${error}`);
             resolve({
               status: "ERROR",
               data: error,
