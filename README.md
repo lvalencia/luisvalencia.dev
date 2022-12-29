@@ -121,9 +121,39 @@ If you see an error that looks like this
     ║ <3 Playwright Team                                                      ║
     ╚═════════════════════════════════════════════════════════════════════════╝
 ```
-I means the browsers Playwright uses to automate E2E testing are not installed on the machine. 
+
+It means the browsers Playwright uses to automate E2E testing are not installed on the machine. 
 To install them, from the project root run:
 
 ```
 yarn playwright install
 ```
+
+You should be able to run the e2e tests now
+
+#### Pinia Testing
+
+If you see an error that looks like this
+
+```
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Error: Required unplugged package missing from disk. This may happen when switching branches without running installs (unplugged packages must be fully materialized on disk to work).
+
+Missing package: vue-demi@virtual:70d7dd396b465e84f1a4121cf05708921da432ed22ede46efe5084d03f8432658e32d34be8dcf8dcc6a7860eabe46e620615ad3f5be3371df8459d4438b30201#npm:0.13.11
+Expected package location: ./.yarn/unplugged/vue-demi-virtual-3d0746fbf4/node_modules/vue-demi/
+
+```
+
+It means the peer dependency for vue-demi isn't installed on the machine
+To install it run:
+
+```
+ yarn add -D vue-demi
+```
+
+you should be able to run the unit tests now

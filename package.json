@@ -55,6 +55,7 @@
     "vite": "^4.0.0",
     "vite-plugin-inject-preload": "^1.1.2",
     "vitest": "^0.25.3",
+    "vue-demi": "^0.13.11",
     "vue-tsc": "^1.0.9"
   }
 }
