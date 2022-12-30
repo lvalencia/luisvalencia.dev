@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 import PaperStyler from "./components/stylers/PaperStyler.vue";
-import ShowGridSwitch from "./components/ShowGridSwitch.vue";
-import LocaleSelector from "./components/LocaleSelector.vue";
-import { useI18n } from "vue-i18n";
-
-const { t } = useI18n({
-  useScope: "local",
-});
+import SiteNavigation from "./components/SiteNavigation.vue";
+import SiteOptions from "./components/SiteOptions.vue";
 </script>
 
 <script lang="ts">
@@ -27,35 +22,11 @@ export default {
 <template>
   <PaperStyler>
     <div class="grid-container" :class="classObject">
-      <ShowGridSwitch />
-      <LocaleSelector />
-      <header class="grid-item" :class="classObject">
-        <div class="wrapper">
-          <nav>
-            <RouterLink to="/">{{ t("home") }}</RouterLink>
-            <RouterLink to="/about">{{ t("explore") }}</RouterLink>
-          </nav>
-        </div>
+      <header class="grid-item flex-container" :class="classObject">
+        <SiteNavigation />
+        <SiteOptions />
       </header>
       <RouterView />
     </div>
   </PaperStyler>
 </template>
-
-<i18n lang="json">
-{
-  "en": {
-    "home": "Home",
-    "explore": "Explore"
-  },
-  "es": {
-    "home": "Inicio",
-    "explore": "Explora"
-  },
-  "ca": {
-    "home": "Inici",
-    "explore": "Explora"
-
-  }
-}
-</i18n>

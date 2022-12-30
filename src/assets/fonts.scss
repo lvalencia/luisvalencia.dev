@@ -27,3 +27,9 @@
     src: local('Raleway-Medium'), url('@/assets/fonts/Raleway-Medium.ttf') format('truetype');
     font-weight: 500;
 }
+
+@font-face {
+    font-family: Raleway;
+    src: local('Raleway-Regular'), url('@/assets/fonts/Raleway-Regular.ttf') format('truetype');
+    font-weight: 400;
+}

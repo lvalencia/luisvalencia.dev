@@ -23,7 +23,7 @@ app.use(createPinia());
 app.use(router);
 
 const i18n = createI18n<[MessageSchema], SuppportedLocales>({
-  locale: "en-US",
+  locale: "en",
   fallbackLocale: "en",
   messages: {
     en: {},

@@ -5,12 +5,15 @@ import { useI18n } from "vue-i18n";
 const LocaleToHumanReadable: Record<SuppportedLocales, string> = {
   en: "English",
   es: "Español",
-  ca: "Català"
-}
+  ca: "Català",
+};
 
 export default {
   setup() {
-    const { locale, availableLocales } = useI18n<[MessageSchema], SuppportedLocales>({
+    const { locale, availableLocales } = useI18n<
+      [MessageSchema],
+      SuppportedLocales
+    >({
       useScope: "global",
     });
     return { locale, availableLocales };
@@ -18,15 +21,45 @@ export default {
   methods: {
     humanReadableLocale(locale: SuppportedLocales): string {
       return LocaleToHumanReadable[locale];
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
-  <select v-model="locale" data-testid="locale-select">
-    <option v-for="locale in availableLocales" :key="`locale-${locale}`" :value="locale">
-      {{ humanReadableLocale(locale) }}
-    </option>
-  </select>
+  <div class="wrapper">
+    <select v-model="locale" data-testid="locale-select">
+      <option
+        v-for="selectableLocale in availableLocales"
+        :key="`locale-${selectableLocale}`"
+        :value="selectableLocale"
+      >
+        {{ humanReadableLocale(selectableLocale) }}
+      </option>
+    </select>
+    <font-awesome-icon class="arrow" icon="fa-solid fa-chevron-down" />
+  </div>
 </template>
+
+<style scoped lang="scss">
+@import "@/assets/mixins.scss";
+
+.wrapper {
+  position: relative;
+}
+
+select {
+  position: relative;
+  background: transparent;
+  @include appearance;
+  border: none;
+  padding-right: 24px;
+}
+
+.arrow {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  top: 0;
+}
+</style>

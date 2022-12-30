@@ -30,11 +30,7 @@ export class CodeDeployer {
       uploader,
       invalidator,
       directoryReader,
-      configuration: { 
-        credentials, 
-        region, 
-        sourceFolder 
-      },
+      configuration: { credentials, region, sourceFolder },
       logger,
     } = args;
 
@@ -64,11 +60,11 @@ export class CodeDeployer {
       fallback: new CacheInvalidator({
         configuration: {
           credentials,
-          region
+          region,
         },
-        logger
-      })
-    })
+        logger,
+      }),
+    });
   }
 
   public async deploy(): Promise<void> {

@@ -19,9 +19,17 @@
   }
 }
 
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
 body {
   font-family: sans-serif;
   font-size: 16px;
+  padding: 8px 16px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -40,7 +48,7 @@ h1 {
     font-size: 1.5em;
   }
 
-  &+h6 {
+  & + h6 {
     margin-bottom: 8px;
   }
 }
@@ -67,11 +75,15 @@ h2 {
 
 p {
   font-family: Raleway, sans-serif;
+  font-weight: 500;
   font-size: 1em;
   color: $on-surface-variant;
 }
 
 a {
+  font-family: Raleway, sans-serif;
+  font-weight: 500;
+  font-size: 1em;
   color: $primary-variant;
   text-decoration: none;
   &:hover {
@@ -83,4 +95,10 @@ a {
       color: $primary-variant-900;
     }
   }
+}
+
+select {
+  font-family: Raleway, sans-serif;
+  font-size: 1em;
+  font-weight: 400;
 }

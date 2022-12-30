@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <div class="container" :class="{ visible: isVisible }">
+  <div class="container flex-container" :class="{ visible: isVisible }">
     <input
       type="checkbox"
       @click="toggleVisbility"
@@ -46,9 +46,6 @@ $background-timing-function: linear;
 $slider-timing-function: ease-in-out;
 
 .container {
-  display: flex;
-  align-items: center;
-
   & > * {
     &:first-child {
       margin-right: 8px;

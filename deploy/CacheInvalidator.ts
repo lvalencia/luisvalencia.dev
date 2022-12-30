@@ -1,5 +1,4 @@
 import { CloudFront } from "aws-sdk";
-import { resolve } from "path";
 import { DeploymentConfiguration } from "./config";
 import { DefaultLogger, Logger } from "./logger";
 import { fromMaybe, prettyJSON } from "./utils";
@@ -11,17 +10,20 @@ type CreateInvalidationParams = CloudFront.Types.CreateInvalidationRequest;
 type CreateInvalidationResult = CloudFront.Types.CreateInvalidationResult;
 
 interface CacheClient {
-  createInvalidation(params: CreateInvalidationParams, callback?: (err: Error, data: CreateInvalidationResult) => void): unknown;
+  createInvalidation(
+    params: CreateInvalidationParams,
+    callback?: (err: Error, data: CreateInvalidationResult) => void
+  ): unknown;
 }
 
 interface CacheClientConstructor {
-  new(options?: CacheClientOptions): CacheClient;
+  new (options?: CacheClientOptions): CacheClient;
 }
 
 interface CacheInvalidatorArgs {
-  configuration: CacheConfiguration,
+  configuration: CacheConfiguration;
   cacheClientConstructor?: CacheClientConstructor;
-  cacheClientVersion?: SupportedClientAPIs,
+  cacheClientVersion?: SupportedClientAPIs;
   logger?: Logger;
 }
 
@@ -53,15 +55,11 @@ export class CacheInvalidator implements Invalidator {
   private readonly client: CacheClient;
   private readonly logger: Logger;
   constructor(args: CacheInvalidatorArgs) {
-
     const {
-      configuration: {
-        credentials,
-        region
-      },
+      configuration: { credentials, region },
       cacheClientConstructor,
       cacheClientVersion,
-      logger
+      logger,
     } = args;
 
     this.logger = fromMaybe<Logger>({
@@ -76,7 +74,7 @@ export class CacheInvalidator implements Invalidator {
 
     const clientConstructor = fromMaybe({
       maybe: cacheClientConstructor,
-      fallback: CloudFront
+      fallback: CloudFront,
     });
 
     this.client = new clientConstructor({
@@ -87,41 +85,44 @@ export class CacheInvalidator implements Invalidator {
   }
 
   public async invalidate(args?: InvalidateArgs): Promise<void> {
-    const {
-      paths: maybePaths,
-      distributionId: maybeDistributionId
-    } = args || {};
+    const { paths: maybePaths, distributionId: maybeDistributionId } =
+      args || {};
 
     const distributionId = fromMaybe({
       maybe: maybeDistributionId,
-      fallback: DEFAULT_DISTRIBUTION_ID
+      fallback: DEFAULT_DISTRIBUTION_ID,
     });
 
     const paths = fromMaybe({
       maybe: maybePaths,
-      fallback: [
-        "/*"
-      ]
+      fallback: ["/*"],
     });
 
-    const invalidationResult = await this.invalidateCache(distributionId, paths);
+    const invalidationResult = await this.invalidateCache(
+      distributionId,
+      paths
+    );
     if (invalidationResult.status === "SUCCESS") {
       this.logger.log(`${prettyJSON(invalidationResult.data.Invalidation)}`);
     }
   }
 
-  private async invalidateCache(distributionId: string, paths: string[]): Promise<InvalidationResult> {
+  private async invalidateCache(
+    distributionId: string,
+    paths: string[]
+  ): Promise<InvalidationResult> {
     return new Promise((resolve) => {
-      this.client.createInvalidation({
-        DistributionId: distributionId,
-        InvalidationBatch: {
-          CallerReference: this.callReference,
-          Paths: {
-            Quantity: paths.length,
-            Items: paths,
-          }
-        }
-      },
+      this.client.createInvalidation(
+        {
+          DistributionId: distributionId,
+          InvalidationBatch: {
+            CallerReference: this.callReference,
+            Paths: {
+              Quantity: paths.length,
+              Items: paths,
+            },
+          },
+        },
         (error, data) => {
           if (error) {
             this.logger.error(`Invlidation error: ${error}`);
@@ -138,11 +139,11 @@ export class CacheInvalidator implements Invalidator {
             });
           }
         }
-      )
+      );
     });
   }
 
   private get callReference() {
-      return `${new Date().toISOString()}-${this.constructor.name}`;
+    return `${new Date().toISOString()}-${this.constructor.name}`;
   }
 }
