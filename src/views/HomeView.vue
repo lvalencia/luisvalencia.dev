@@ -58,6 +58,7 @@ h1 {
     margin-top: 0em;
   }
 }
+
 h2 {
   span:last-child {
     margin-left: 8px;
@@ -81,7 +82,7 @@ h2 {
     "message": "Bajo Construcción",
     "_state": "Condición",
     "_status": "Abriendo Nuevos Caminos",
-    "state": "@:_state: @:_status"
+    "state": "{state}: {status}"
   },
   "ca": {
     "occupation": "Enginyer de Software",
@@ -89,7 +90,7 @@ h2 {
     "message": "En Construcció",
     "_state": "Estat",
     "_status": "Desenvolupant el Lloc",
-    "state": "@:_state: @:_status"
+    "state": "{state}: {status}"
   }
 }
 </i18n>

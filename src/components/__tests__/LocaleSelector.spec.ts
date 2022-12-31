@@ -9,6 +9,7 @@ describe("LocaleSelector", () => {
   beforeEach(() => {
     wrapper = mount(LocaleSelector, {
       global: {
+        stubs: ["FontAwesomeIcon"],
         plugins: [
           createI18n({
             legacy: false,
