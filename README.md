@@ -1,6 +1,8 @@
-# Site Portfolio 
+# LuisValencia.dev
 
 This repo is the [luisvalencia.dev](https://luisvalencia.dev/) website
+
+**Note**: The site is currently being developed. It's an exercise in experimenting with Vue + TS + Vite
 
 ## Development
 
