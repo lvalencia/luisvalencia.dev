@@ -43,6 +43,7 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/mixins.scss";
+@import "@/assets/color.scss";
 
 .wrapper {
   position: relative;
@@ -54,12 +55,20 @@ select {
   @include appearance;
   border: none;
   padding-right: 24px;
+  color: $secondary-variant;
 }
+
+$arrow-height: 1em;
+$arrow-displacement: calc($arrow-height / 2 * -1);
+$arrow-center: 50%;
 
 .arrow {
   position: absolute;
   z-index: -1;
   right: 0;
-  top: 0;
+  bottom: 0;
+  height: $arrow-height;
+  top: $arrow-center;
+  margin-top: $arrow-displacement;
 }
 </style>
