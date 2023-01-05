@@ -30,7 +30,7 @@ nav > * + * {
 {
   "en": {
     "home": "Home",
-    "lab": "Lab"
+    "lab": "Laboratory"
   },
   "es": {
     "home": "Inicio",

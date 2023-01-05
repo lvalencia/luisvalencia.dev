@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import ProfileImage from "@/components/ProfileImage.vue";
 
 const { t } = useI18n({
   useScope: "local",
@@ -28,6 +29,7 @@ export default {
       <wbr />
       <span class="italicized regular">{{ t("location") }}</span>
     </h2>
+    <ProfileImage />
     <p>
       <font-awesome-icon
         class="construction-icon"
