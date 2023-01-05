@@ -45,7 +45,7 @@ export default {
     },
   },
   beforeMount() {
-    interval = setInterval(() => {
+    interval = window.setInterval(() => {
       _visibleIndex.value = (_visibleIndex.value + 1) % this.numberOfImages;
     }, period);
   },
