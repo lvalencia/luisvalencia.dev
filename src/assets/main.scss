@@ -1,20 +1,13 @@
 @import './color.scss';
 @import './fonts.scss';
+@import './mixins.scss';
 
 .grid-container {
   display: grid;
-
-  &.show:hover {
-    background-color: $grid-area;
-  }
-}
-
-.grid-item {
-  &.show {
-    border: 1px solid $grid-line;
-
+  &.show * {
+    @include sizeless-border($grid-line);
     &:hover {
-      background-color: $grid-cell;
+      background-color: $grid-area;
     }
   }
 }
