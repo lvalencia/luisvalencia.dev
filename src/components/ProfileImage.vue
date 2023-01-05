@@ -1,6 +1,6 @@
 <script lang="ts">
-import { range } from "@/utils/array";
-import { Time } from "@/utils/time";
+import { range } from "@/helpers/array";
+import { Time } from "@/helpers/time";
 import { ref } from "vue";
 
 interface MakeImageIteratorArgs {
