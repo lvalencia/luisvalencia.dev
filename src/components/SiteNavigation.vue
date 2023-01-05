@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import { useI18n } from "vue-i18n";
+import router from "@/router";
 
 const { t } = useI18n({
   useScope: "local",
@@ -9,8 +10,13 @@ const { t } = useI18n({
 
 <template>
   <nav>
-    <RouterLink to="/">{{ t("home") }}</RouterLink>
-    <RouterLink to="/about">{{ t("explore") }}</RouterLink>
+    <RouterLink
+      v-for="route in router.getRoutes()"
+      :key="`route-${String(route.name)}`"
+      :to="route.path"
+    >
+      {{ t(String(route.name)) }}
+    </RouterLink>
   </nav>
 </template>
 
@@ -24,15 +30,15 @@ nav > * + * {
 {
   "en": {
     "home": "Home",
-    "explore": "Explore"
+    "lab": "Lab"
   },
   "es": {
     "home": "Inicio",
-    "explore": "Explora"
+    "lab": "Laboratorio"
   },
   "ca": {
     "home": "Inici",
-    "explore": "Explora"
+    "lab": "Laboratori"
   }
 }
 </i18n>

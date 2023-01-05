@@ -7,6 +7,9 @@ import router from "./router";
 import "./assets/main.scss";
 
 import { createI18n } from "vue-i18n";
+import en from "./locales/en.json";
+import es from "./locales/es.json";
+import ca from "./locales/ca.json";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -26,9 +29,9 @@ const i18n = createI18n<[MessageSchema], SuppportedLocales>({
   locale: "en",
   fallbackLocale: "en",
   messages: {
-    en: {},
-    es: {},
-    ca: {},
+    en,
+    es,
+    ca,
   },
 });
 
