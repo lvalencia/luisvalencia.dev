@@ -16,17 +16,15 @@ function makeImages({ prefix, size, extension }: MakeImageIteratorArgs) {
     startAt: 1,
     size,
   }).map((index) => {
-    return new URL(
+    const url = new URL(
       `../${imagesDirectoryRelativePath}/${prefix}_${index}.${extension}`,
       import.meta.url
-    ).href;
+    );
+    return url.href;
   });
 }
 
 let interval: number = -1;
-let period = new Time({
-  seconds: 2,
-}).inMilliseconds();
 let _visibleIndex = ref(0);
 
 export default {
@@ -43,11 +41,17 @@ export default {
       type: String,
       default: "jpeg",
     },
+    period: {
+      type: Number,
+      default: new Time({
+        seconds: 2,
+      }).inMilliseconds()
+    }
   },
   beforeMount() {
     interval = window.setInterval(() => {
       _visibleIndex.value = (_visibleIndex.value + 1) % this.numberOfImages;
-    }, period);
+    }, this.period);
   },
   beforeUnmount() {
     clearInterval(interval);
@@ -71,12 +75,8 @@ export default {
 
 <template>
   <div class="wrapper">
-    <img
-      v-for="(image, index) of images"
-      :key="`iamge-${image}`"
-      :src="image"
-      :class="{ visible: index === visibleIndex }"
-    />
+    <img v-for="(image, index) of images" :key="`iamge-${image}`" :src="image"
+      :class="{ visible: index === visibleIndex }" />
   </div>
 </template>
 

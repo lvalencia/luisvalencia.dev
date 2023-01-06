@@ -1,23 +1,56 @@
-import { beforeEach, describe, it, expect } from "vitest";
-import { mount, VueWrapper } from "@vue/test-utils";
+import { describe, it, expect } from "vitest";
+import { mount } from "@vue/test-utils";
 import ProfileImage from "@/components/ProfileImage.vue";
 
-describe("ProfileImage", () => {
-  let wrapper: VueWrapper;
 
-  beforeEach(() => {
-    wrapper = mount(ProfileImage, {
-    });
+const delay = (ms: number) => { 
+  return new Promise(res => setTimeout(res, ms));
+}
+
+describe("ProfileImage", () => {
+  const serverPrefix = "http://localhost:3000";
+  it("constructs the image urls", () => {
+    const wrapper = mount(ProfileImage, {});
+    expect(wrapper.vm.images[0]).equals(
+      `${serverPrefix}/assets/images/profile_1.jpeg`
+    );
   });
-  describe("props", () => {
-    it("defaults to 'profile' prefix", () => {
-        expect(wrapper.props().imagePrefix).toBe("profile")
+  it("constructs the image urls with specified properites", () => {
+    const wrapper = mount(ProfileImage, {
+      props: {
+        imagePrefix: "hello",
+        fileExtention: "png",
+        numberOfImages: 1,
+      },
     });
-    it("defaults to 10 images", () => {
-        expect(wrapper.props().numberOfImages).toBe(10)
+    expect(wrapper.vm.images[0]).equals(
+      `${serverPrefix}/assets/images/hello_1.png`
+    );
+  });
+  it("constructs the specified number of images", () => {
+    const numberOfImages = 1;
+    const wrapper = mount(ProfileImage, {
+      props: {
+        numberOfImages,
+      },
     });
-    it("defaults to jpeg extension", () => {
-        expect(wrapper.props().fileExtention).toBe("jpeg")
+    expect(wrapper.vm.images.length).equals(numberOfImages);
+  });
+  it("has a visible image", () => {
+    const wrapper = mount(ProfileImage, {});
+    const visibleImage = wrapper.find("img.visible");
+    expect(visibleImage.exists()).toBe(true);
+  });
+  it("rotates the visbile image", async () => {
+    const delayInMillis = 10;
+    const wrapper = mount(ProfileImage, {
+      props: {
+        period: delayInMillis
+      }
     });
+    const initialVisibleImage = wrapper.find("img.visible");
+    await delay(delayInMillis + 1);
+    const nextVisibleImage = wrapper.find("img.visible");
+    expect(initialVisibleImage.attributes().src).not.equals(nextVisibleImage.attributes().src);
   });
 });
