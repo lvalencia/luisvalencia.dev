@@ -2,10 +2,9 @@ import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import ProfileImage from "@/components/ProfileImage.vue";
 
-
-const delay = (ms: number) => { 
-  return new Promise(res => setTimeout(res, ms));
-}
+const delay = (ms: number) => {
+  return new Promise((res) => setTimeout(res, ms));
+};
 
 describe("ProfileImage", () => {
   const serverPrefix = "http://localhost:3000";
@@ -45,12 +44,14 @@ describe("ProfileImage", () => {
     const delayInMillis = 10;
     const wrapper = mount(ProfileImage, {
       props: {
-        period: delayInMillis
-      }
+        period: delayInMillis,
+      },
     });
     const initialVisibleImage = wrapper.find("img.visible");
     await delay(delayInMillis + 1);
     const nextVisibleImage = wrapper.find("img.visible");
-    expect(initialVisibleImage.attributes().src).not.equals(nextVisibleImage.attributes().src);
+    expect(initialVisibleImage.attributes().src).not.equals(
+      nextVisibleImage.attributes().src
+    );
   });
 });

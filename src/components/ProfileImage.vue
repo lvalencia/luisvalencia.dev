@@ -45,8 +45,8 @@ export default {
       type: Number,
       default: new Time({
         seconds: 2,
-      }).inMilliseconds()
-    }
+      }).inMilliseconds(),
+    },
   },
   beforeMount() {
     interval = window.setInterval(() => {
@@ -75,8 +75,12 @@ export default {
 
 <template>
   <div class="wrapper">
-    <img v-for="(image, index) of images" :key="`iamge-${image}`" :src="image"
-      :class="{ visible: index === visibleIndex }" />
+    <img
+      v-for="(image, index) of images"
+      :key="`iamge-${image}`"
+      :src="image"
+      :class="{ visible: index === visibleIndex }"
+    />
   </div>
 </template>
 

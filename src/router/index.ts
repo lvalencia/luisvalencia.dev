@@ -8,11 +8,19 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      meta: {
+        appearsOnTopNavigation: true,
+        i18nKey: "home",
+      },
     },
     {
       path: "/experiments",
-      name: "lab",
+      name: "experiments",
       component: () => import("../views/ExperimentsView.vue"),
+      meta: {
+        appearsOnTopNavigation: true,
+        i18nKey: "lab",
+      },
     },
   ],
 });

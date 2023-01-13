@@ -15,12 +15,13 @@ export function pick(object: object, ...properties: string[]): any {
 
 export function groupBy(objects: object[], key: string): any {
   return objects.reduce((grouped, object: any) => {
-    grouped[object[key]] = fromMaybe({
-      maybe: grouped[object[key]],
-      fallback: [],
-    });
-
-    grouped[object[key]].push(object);
+    if (hasOwnProperty(object, key)) {
+      grouped[object[key]] = fromMaybe({
+        maybe: grouped[object[key]],
+        fallback: [],
+      });
+      grouped[object[key]].push(object);
+    }
     return grouped;
   }, {} as any);
 }
