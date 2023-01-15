@@ -5,7 +5,6 @@ describe("maybe utils", () => {
   describe("#isSomething", () => {
     it("indicates false", () => {
       expect(isSomething(undefined)).toBeFalsy();
-      expect(isSomething(null)).toBeFalsy();
     });
     it("indicates true", () => {
       expect(isSomething(0)).toBeTruthy();
@@ -26,17 +25,10 @@ describe("maybe utils", () => {
     });
     it("returns fallback value", () => {
       const fallback = 10;
-      let result = fromMaybe({
+      const result = fromMaybe({
         maybe: undefined,
         fallback,
       });
-      expect(result).equals(fallback);
-
-      result = fromMaybe({
-        maybe: null,
-        fallback,
-      });
-
       expect(result).equals(fallback);
     });
   });

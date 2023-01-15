@@ -1,7 +1,7 @@
-export type Maybe<T> = T | undefined | null;
+export type Maybe<T> = T | undefined;
 
 export function isSomething<T>(maybe: Maybe<T>): maybe is T {
-  return maybe !== undefined && maybe !== null;
+  return maybe !== undefined;
 }
 
 interface FromMaybeArgs<T> {
