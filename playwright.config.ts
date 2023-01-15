@@ -63,7 +63,6 @@ const config: PlaywrightTestConfig = {
         ...devices["Desktop Safari"],
       },
     },
-
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

@@ -78,7 +78,7 @@ describe("Home Page", () => {
       expect(locale).toBe("en");
     });
 
-    test("toggling locale to es translates content to spanish", async ({
+    test("toggling locale to es translates content to Spanish", async ({
       page,
     }) => {
       await page.goto("/");
@@ -91,11 +91,14 @@ describe("Home Page", () => {
       const locale = await localeSelector.inputValue();
       expect(locale).toBe(spanishLocale);
 
-      await expect(page.getByText("Ingeniero")).toBeVisible();
-      await expect(page.getByText("Sur de")).toBeVisible();
+      const occupation = page.getByTestId("occupation");
+      await expect(occupation).toHaveText("Ingeniero de Software");
+
+      const location = page.getByTestId("location");
+      await expect(location).toHaveText("Sur de California");
     });
 
-    test("toggling locale to en translates content to english", async ({
+    test("toggling locale to en translates content to English", async ({
       page,
     }) => {
       await page.goto("/");
@@ -107,11 +110,31 @@ describe("Home Page", () => {
       await localeSelector.selectOption(spanishLocale);
       await localeSelector.selectOption(englishLocale);
 
-      const locale = await localeSelector.inputValue();
-      expect(locale).toBe(englishLocale);
+      const occupation = page.getByTestId("occupation");
+      await expect(occupation).toHaveText("Software Engineer");
 
-      await expect(page.getByText("Engineer")).toBeVisible();
-      await expect(page.getByText("Southern")).toBeVisible();
+      const location = page.getByTestId("location");
+      await expect(location).toHaveText("Southern California");
+    });
+
+    test("toggling locale to ca translates content to Catalan", async ({
+      page,
+    }) => {
+      await page.goto("/");
+
+      const catalanLocale = "ca";
+
+      const localeSelector = page.getByTestId("locale-select");
+      await localeSelector.selectOption(catalanLocale);
+
+      const locale = await localeSelector.inputValue();
+      expect(locale).toBe(catalanLocale);
+
+      const occupation = page.getByTestId("occupation");
+      await expect(occupation).toHaveText("Enginyer de Software");
+
+      const location = page.getByTestId("location");
+      await expect(location).toHaveText("Sud de Califòrnia");
     });
   });
 });

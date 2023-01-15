@@ -248,9 +248,11 @@ export default {
 
     <h1>Luis Valencia</h1>
     <h2>
-      <span>{{ t("occupation") }}</span>
+      <span data-testid="occupation">{{ t("occupation") }}</span>
       <wbr />
-      <span class="italicized regular">{{ t("location") }}</span>
+      <span class="italicized regular" data-testid="location">
+        {{ t("location") }}
+      </span>
     </h2>
     <ProfileImage />
     <AboutSnippet
