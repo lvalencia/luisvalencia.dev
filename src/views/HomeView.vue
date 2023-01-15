@@ -270,6 +270,10 @@ export default {
         <template #break>
           <wbr />
         </template>
+        <template #emphasis>
+          <br />
+          <i>{{  t("_emphasis") }}</i>
+        </template>
       </i18n-t>
     </AboutSnippet>
     <AboutSnippet
@@ -336,13 +340,13 @@ a + svg {
     "_status": "Developing the Site",
     "state": "{state}: {status}",
     "_luna": "Amazon Luna",
-    "_patents": "patent holder",
+    "_patents": "inventor",
     "_read": "voracious reader",
     "_family": "husband and father",
     "about": "I'm a Sr. Software Engineer at {luna}. {break} I am also a {patentHolder}, {familyMan}, and {reader}.",
     "_vui": "Polling with a Natural Language Interface",
     "_manager": "Greg Roberts",
-    "_patents_title": "Patents",
+    "_patents_title": "Inventor",
     "patents": "I currently hold a patent for {vui}; an idea that started as a brainstorm session between my then Software Manager {manager} and I for interactive podcasts. We ended up levarging the technology on a massive real-time trivia game in Alexa that we implemented with what now has become a great group of friends and collegues. {break} Additionally, I also have a patent pending for a generic video game representation format for our Cloud platform. {break}",
     "_family_title": "Husband and Father",
     "family": "I'm happily married to Jen. We are parents to two wonderful children.",
@@ -375,13 +379,13 @@ a + svg {
     "state": "{state}: {status}",
     "_luna": "Amazon Luna",
     "_patents": "inventor",
-    "_read": "aficiónado de libros",
+    "_read": "aficiónado a la lectura",
     "_family": "marido y padre",
     "about": "Soy Ingeniero de Software (Senior) en {luna}. {break} Tambien soy {patentHolder}, {familyMan}, y {reader}.",
     "_vui": "Votación usando una Interfaz de Lenguaje Natural",
     "_manager": "Greg Roberts",
     "_patents_title": "Inventor",
-    "patents": "Actualmente, tengo un patente de {vui}. La idea empezó en una sesión entre mi Gerente de Ingeniería ({manager}) y yo, en la cual queriamos averiguar como crear la tecnología para un podcast interactivo. Terminamos usando para un juego de trivia masivo que creamos en Alexa con colegas los cuales ahora serian considerados amigos. {break} Tambien tengo otro patente pendiene para un formato generico que representa video juegos en nuestra plataforma Cloud. {break}",
+    "patents": "Actualmente, tengo un patente de {vui}. La idea empezó en una sesión entre mi Gerente de Ingeniería ({manager}) y yo, en la cual queriamos averiguar como crear la tecnología para un podcast interactivo. Terminamos usando la tecnología para un juego de trivia masivo que creamos en Alexa con colegas los cuales ahora serian considerados amigos. {break} Tambien tengo otro patente pendiene para un formato generico para representar cualquier video juego en nuestra plataforma Cloud. {break}",
     "_family_title": "Marido y Padre",
     "family": "Estoy felizmente casado a mi esposa Jennifer. Juntos tenemos dos niñas hermosas.",
     "_groundness": "The Practice of Groundedness",
@@ -395,7 +399,7 @@ a + svg {
     "_tao": "Tao The Ching",
     "_psilocybin": "Psilocybin Mushrooms of the World: An Identification Guide",
     "_mushrooms": "Growing Gourmet and Medicinal Mushrooms",
-    "_read_title": "Aficiónado de Libros",
+    "_read_title": "Aficiónado a La Lectura",
     "read": "En el ultimo año he leído:{break} {links}",
     "_science": "The Art of Doing Science and Engineering",
     "_social": "Superhuman Social Skills: A Guide to Being Likeable, Winning Friends, and Building Your Social Circle",
@@ -415,11 +419,12 @@ a + svg {
     "_patents": "inventor",
     "_read": "aficionat de llibres",
     "_family": "marit i pare",
-    "about": "Sóc un novell encara en Català, perdonin la traducció fatal. Sóc Enginyer de Software (Sènior) a {luna}. {break} També sóc {patentHolder}, {familyMan}, i {reader}.",
+    "_emphasis": "També un novell en Català; perdonin la traducció fatal.",
+    "about": "Sóc Enginyer de Software (Sènior) a {luna}. {break} També sóc {patentHolder}, {familyMan}, i {reader}. {emphasis}",
     "_vui": "Votació usant una Interfície de Llenguatge Natural",
     "_manager": "Greg Roberts",
     "_patents_title": "Patents",
-    "patents": "Actualment, tinc un patent de {vui}. La idea va començar en una sessió entre el meu Gerent d'Enginyeria ({manager}) i jo, en què volíem esbrinar com crear la tecnologia per a un podcast interactiu. Acabem usant la tecnologia per a un joc de trivia massiu a Alexa el qual creem amb companys que ara serien considerats amics. {break} També tinc un altre patent pendiene per a un format genèric que representa videojocs a la nostra plataforma Cloud. {break}",
+    "patents": "Actualment, tinc un patent de {vui}. La idea va començar en una sessió entre el meu Gerent d'Enginyeria ({manager}) i jo, en què volíem esbrinar com crear la tecnologia per a un podcast interactiu. Acabem usant la tecnologia per a un joc de trivia massiu a Alexa el qual creem amb companys que ara serien considerats amics. {break} També tinc un altre patent pendiene per a un format genèric que representa qualsevol videojoc a la nostra plataforma Cloud. {break}",
     "_family_title": "Marit i Pare",
     "family": "Estic feliçment casat a la meva dona Jennifer. Junts tenim dues nenes moltas belles.",
     "_groundness": "The Practice of Groundedness",
