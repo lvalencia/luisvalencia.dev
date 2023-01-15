@@ -211,6 +211,12 @@ const readingSnippet: Snippet = {
       external: true,
       recommended: true,
     },
+    {
+      id: "skeptic",
+      href: "https://www.amazon.com/Skeptics-Guide-Future-Yesterdays-Tomorrow/dp/1538709546",
+      text: "_skeptic",
+      external: true,
+    },
   ],
 };
 
@@ -274,7 +280,7 @@ export default {
         </template>
         <template #emphasis>
           <br />
-          <i>{{  t("_emphasis") }}</i>
+          <i>{{ t("_emphasis") }}</i>
         </template>
       </i18n-t>
     </AboutSnippet>
@@ -370,6 +376,7 @@ a + svg {
     "_mental_models_2": "The Great Mental Models Volume 2: Physics, Chemistry and Biology",
     "_mycelium": "Mycelium Running: How Mushrooms Can Help Save the World",
     "_thinking": "What Is Called Thinking?",
+    "_skeptic": "The Skeptics' Guide to the Future: What Yesterday's Science and Science Fiction Tell Us About the World of Tomorrow",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -408,6 +415,7 @@ a + svg {
     "_mental_models_2": "The Great Mental Models Volume 2: Physics, Chemistry and Biology",
     "_mycelium": "Mycelium Running: How Mushrooms Can Help Save the World",
     "_thinking": "What Is Called Thinking?",
+    "_skeptic": "The Skeptics' Guide to the Future: What Yesterday's Science and Science Fiction Tell Us About the World of Tomorrow",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -447,6 +455,7 @@ a + svg {
     "_mental_models_2": "The Great Mental Models Volume 2: Physics, Chemistry and Biology",
     "_mycelium": "Mycelium Running: How Mushrooms Can Help Save the World",
     "_thinking": "What Is Called Thinking?",
+    "_skeptic": "The Skeptics' Guide to the Future: What Yesterday's Science and Science Fiction Tell Us About the World of Tomorrow",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }

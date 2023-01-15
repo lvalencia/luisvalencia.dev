@@ -1,6 +1,7 @@
 import { CacheInvalidator, Invalidator } from "./CacheInvalidator";
 import { DeploymentConfiguration } from "./config";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
+import { FileSelector, NonUploadedFilesSelector } from "./fileSelector";
 import {
   FileUploader,
   Uploader,
@@ -13,6 +14,7 @@ import { fromMaybe, groupBy, prettyJSON, ValidFilePath } from "./utils";
 interface CodeDeployerArgs {
   configuration: DeploymentConfiguration;
   logger?: Logger;
+  fileSelector?: FileSelector;
   uploader?: Uploader;
   invalidator?: Invalidator;
   directoryReader?: FileSystemReader;
@@ -20,13 +22,14 @@ interface CodeDeployerArgs {
 
 export class CodeDeployer {
   private readonly sourceFolder: ValidFilePath;
-  private readonly directoryReader: FileSystemReader;
+  private readonly fileSelector: FileSelector;
   private readonly uploader: Uploader;
   private readonly invalidator: Invalidator;
   private readonly logger: Logger;
 
   constructor(args: CodeDeployerArgs) {
     const {
+      fileSelector,
       uploader,
       invalidator,
       directoryReader,
@@ -41,9 +44,20 @@ export class CodeDeployer {
       fallback: DefaultLogger,
     });
 
-    this.directoryReader = fromMaybe({
+    const fileDirectoryReader = fromMaybe({
       maybe: directoryReader,
       fallback: new DirectoryReader(),
+    });
+
+    this.fileSelector = fromMaybe({
+      maybe: fileSelector,
+      fallback: new NonUploadedFilesSelector({
+        credentials,
+        region,
+        logger,
+        sourceFolder,
+        directoryReader: fileDirectoryReader,
+      }),
     });
 
     this.uploader = fromMaybe({
@@ -68,7 +82,8 @@ export class CodeDeployer {
   }
 
   public async deploy(): Promise<void> {
-    const filesToUpload = this.directoryReader.read(this.sourceFolder);
+    const filesToUpload = await this.fileSelector.selectFiles();
+
     this.logger.log(
       `Uploading the following files: ${prettyJSON(filesToUpload)}`
     );
