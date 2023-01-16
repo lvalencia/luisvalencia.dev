@@ -5,6 +5,6 @@ export interface Poller {
 }
 
 export enum PollingStrategy {
-  NoPolling,
-  PollingWithTimeout,
+  NoPolling = "NO_POLLING",
+  PollingWithTimeout = "POLLING_WITH_TIMEOUT",
 }
