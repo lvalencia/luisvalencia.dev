@@ -1,4 +1,4 @@
-import { CacheInvalidator, Invalidator } from "./CacheInvalidator";
+import { CacheInvalidator, Invalidator } from "./cacheInvalidator";
 import { DeploymentConfiguration } from "./config";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
 import { FileSelector, NonUploadedFilesSelector } from "./fileSelector";
