@@ -1,5 +1,6 @@
 import { DefaultLogger, Logger } from "../logger";
 import { fromMaybe, Time, PromiseCallback } from "../utils";
+import { Poller } from "./shared";
 
 type Timer = NodeJS.Timer;
 
@@ -12,10 +13,6 @@ interface IntervalPollerArgs {
 const SECOND_IN_MILLIS = 1_000;
 const DEFAULT_INTERVAL_IN_MILLIS = SECOND_IN_MILLIS;
 const DEFAULT_TIMEOUT_IN_MILLIS = 5 * SECOND_IN_MILLIS;
-
-export interface Poller {
-  poll<T>(callback: PromiseCallback<T>): Promise<T>;
-}
 
 export class IntervalPoller implements Poller {
   private readonly logger: Logger;
@@ -48,6 +45,9 @@ export class IntervalPoller implements Poller {
   }
 
   public poll<T>(callback: PromiseCallback<T>): Promise<T> {
+    this.logger.info(
+      `Polling with interval ${this.interval.inMilliseconds()}ms and timeout ${this.timeout.inMilliseconds()}ms`
+    );
     return new Promise<T>((resolve, reject) => {
       this.intervalId = setInterval(() => {
         callback(resolve);

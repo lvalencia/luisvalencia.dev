@@ -8,6 +8,7 @@ import {
   Maybe,
   ValidFilePath,
 } from "./utils";
+import { PollingStrategy } from "./poller";
 
 export type SupportedRegions = "us-east-1";
 
@@ -15,6 +16,7 @@ export interface DeploymentConfiguration {
   credentials: Credentials;
   region: SupportedRegions;
   sourceFolder: ValidFilePath;
+  invalidationPollingStrategy: PollingStrategy;
 }
 
 interface ConfigArgs {
@@ -65,6 +67,7 @@ export class Config {
       credentials: this.credentials(),
       region: this.region(),
       sourceFolder: this.sourceFolder(),
+      invalidationPollingStrategy: this.invalidationPollingStrategy(),
     };
   }
 
@@ -87,5 +90,11 @@ export class Config {
 
   private sourceFolder(): ValidFilePath {
     return this.distributionDirectory;
+  }
+
+  private invalidationPollingStrategy(): PollingStrategy {
+    return process.env.POLL
+      ? PollingStrategy.PollingWithTimeout
+      : PollingStrategy.NoPolling;
   }
 }

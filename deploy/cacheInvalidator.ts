@@ -1,7 +1,8 @@
 import { CloudFront } from "aws-sdk";
 import { DeploymentConfiguration } from "./config";
 import { DefaultLogger, Logger } from "./logger";
-import { IntervalPoller, Poller } from "./poller";
+import { Poller, PollingStrategy } from "./poller";
+import { PollerFactory } from "./poller/factory";
 import { fromMaybe, prettyJSON, PromiseCallback, Time } from "./utils";
 
 type CacheConfiguration = Omit<DeploymentConfiguration, "sourceFolder">;
@@ -40,6 +41,9 @@ interface CacheInvalidatorArgs {
 type SupportedClientAPIs = "2020-05-31";
 const DEFAULT_CLOUDFRONT_API_VERSION: SupportedClientAPIs = "2020-05-31";
 const DEFAULT_DISTRIBUTION_ID: string = "E1WGW8BYIPS2K1";
+const CLOUDFRONT_P99_INVALIDATION_WAIT_TIME = new Time({
+  seconds: 100,
+});
 
 interface CreateInvalidationSuccess {
   status: "SUCCESS";
@@ -82,7 +86,7 @@ export class CacheInvalidator implements Invalidator {
   private readonly logger: Logger;
   constructor(args: CacheInvalidatorArgs) {
     const {
-      configuration: { credentials, region },
+      configuration: { credentials, region, invalidationPollingStrategy },
       poller,
       cacheClientConstructor,
       cacheClientVersion,
@@ -112,15 +116,7 @@ export class CacheInvalidator implements Invalidator {
 
     this.poller = fromMaybe({
       maybe: poller,
-      fallback: new IntervalPoller({
-        logger: this.logger,
-        interval: new Time({
-          seconds: 6,
-        }),
-        timeout: new Time({
-          seconds: 60,
-        }),
-      }),
+      fallback: this.fallbackPoller(invalidationPollingStrategy),
     });
   }
 
@@ -149,11 +145,7 @@ export class CacheInvalidator implements Invalidator {
 
       const { Id: id } = invalidation;
 
-      this.logger.log(
-        `Starting polling for "Completed" status for Validaition "${id}" in Distribution "${distributionId}"`
-      );
       await this.poller.poll(this.getInvalidation(id, distributionId));
-      this.logger.log("Polling complete.");
     }
   }
 
@@ -231,6 +223,23 @@ export class CacheInvalidator implements Invalidator {
         }
       );
     };
+  }
+
+  private fallbackPoller(pollingStrategy: PollingStrategy): Poller {
+    const StrategyToPollerArgsMapping: Record<PollingStrategy, any> = {
+      [PollingStrategy.NoPolling]: undefined,
+      [PollingStrategy.PollingWithTimeout]: {
+        logger: this.logger,
+        interval: new Time({
+          seconds: 10,
+        }),
+        timeout: CLOUDFRONT_P99_INVALIDATION_WAIT_TIME,
+      },
+    };
+    return PollerFactory.create(
+      pollingStrategy,
+      StrategyToPollerArgsMapping[pollingStrategy]
+    );
   }
 
   private get callReference() {

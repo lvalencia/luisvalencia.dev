@@ -13,7 +13,7 @@ const configuration = new Config({
 
 logger.log(
   `Deploying with configuration: ${prettyJSON(
-    pick(configuration, "region", "sourceFolder")
+    pick(configuration, "region", "sourceFolder", "invalidationPollingStrategy")
   )}`
 );
 

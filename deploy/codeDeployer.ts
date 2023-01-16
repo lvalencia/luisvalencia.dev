@@ -33,7 +33,12 @@ export class CodeDeployer {
       uploader,
       invalidator,
       directoryReader,
-      configuration: { credentials, region, sourceFolder },
+      configuration: {
+        credentials,
+        region,
+        sourceFolder,
+        invalidationPollingStrategy,
+      },
       logger,
     } = args;
 
@@ -75,6 +80,7 @@ export class CodeDeployer {
         configuration: {
           credentials,
           region,
+          invalidationPollingStrategy,
         },
         logger,
       }),
