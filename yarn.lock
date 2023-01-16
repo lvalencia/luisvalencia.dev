@@ -3244,9 +3244,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luvle-portfolio@workspace:.":
+"luisvalencia.dev@workspace:.":
   version: 0.0.0-use.local
-  resolution: "luvle-portfolio@workspace:."
+  resolution: "luisvalencia.dev@workspace:."
   dependencies:
     "@fortawesome/fontawesome-svg-core": ^6.2.1
     "@fortawesome/free-brands-svg-icons": ^6.2.1

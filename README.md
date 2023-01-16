@@ -1,8 +1,8 @@
-# LuisValencia.dev
+# LuisValencia.Dev
 
 This repo is the [luisvalencia.dev](https://luisvalencia.dev/) website
 
-**Note**: The site is currently being developed. It's an exercise in experimenting with Vue + TS + Vite
+**Note**: The site is currently being developed. It's an exercise in experimenting with Vue + Vite
 
 ## Development
 
@@ -99,7 +99,6 @@ that use a pinia store.
 
 To test a Pinia store check out [their cookbook](https://pinia.vuejs.org/cookbook/testing.html#unit-testing-a-store)
 
-
 #### E2E
 
 ##### Framework
@@ -171,3 +170,36 @@ To install it run:
 ```
 
 you should be able to run the unit tests now
+
+## Releasing
+
+### Configuring Prod Credentials
+
+The `./deploy` code depends on your aws credentials being properly configured for the profile `luisvalencia.dev`.
+
+Configure `~/.aws/config` to set the region to `us-east-1`
+
+e.g.
+```
+[luisvalencia.dev]
+region = us-east-1
+```
+
+Configure `~/.aws/credentials` with the credentials for the aws account you're deploying to
+
+e.g.
+```
+[luisvalencia.dev]
+aws_access_key_id = ACCESS_KEY_ID
+aws_secret_access_key = SECRET_ACCESS_KEY
+```
+
+### Pushing to Prod
+
+To push the site into production run the following command:
+
+```
+yarn release
+```
+
+This will clean, build, test, and deploy the code to AWS

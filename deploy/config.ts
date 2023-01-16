@@ -21,7 +21,7 @@ interface ConfigArgs {
   environmentConfiguration: any;
 }
 
-const DEFAULT_AWS_PROFILE = "luvle-portfolio";
+const DEFAULT_AWS_PROFILE = "luisvalencia.dev";
 const DEFAULT_AWS_REGION: SupportedRegions = "us-east-1";
 const DEFAULT_DISTRIBUTION_DIRECTORY = join(cwd(), "dist");
 
