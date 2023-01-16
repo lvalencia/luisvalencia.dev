@@ -112,5 +112,7 @@ export class CodeDeployer {
     );
 
     await this.invalidator.invalidate();
+
+    this.logger.log("Deployment complete.");
   }
 }
