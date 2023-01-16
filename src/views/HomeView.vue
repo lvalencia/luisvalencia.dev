@@ -173,6 +173,12 @@ const readSnippet: Snippet = {
       external: true,
       recommended: true,
     },
+    {
+      id: "social",
+      href: "https://www.amazon.com/Superhuman-Social-Skills-Likeable-Building-ebook/dp/B015QA1250",
+      text: "_social",
+      external: true,
+    },
   ],
 };
 
@@ -185,12 +191,6 @@ const readingSnippet: Snippet = {
       text: "_science",
       external: true,
       recommended: true,
-    },
-    {
-      id: "social",
-      href: "https://www.amazon.com/Superhuman-Social-Skills-Likeable-Building-ebook/dp/B015QA1250",
-      text: "_social",
-      external: true,
     },
     {
       id: "mental",
