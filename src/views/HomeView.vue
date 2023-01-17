@@ -21,27 +21,53 @@ function externalTargetOrNothing(isExternal: Maybe<boolean>): Maybe<string> {
 import { useGrid } from "../stores/useGrid";
 import { mapState } from "pinia";
 import MaybeComponent from "@/components/MaybeComponent.vue";
+import { toISO8601, type ISO8601 } from "@/helpers/date";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-interface SnippetLink {
+interface BaseSnippetMeta {
+  external?: boolean;
+}
+
+interface SnippetMeta extends BaseSnippetMeta {}
+
+interface BookSnippetMeta extends BaseSnippetMeta {
+  recommended?: boolean;
+  finished?: ISO8601;
+}
+
+interface BaseSnippetLink {
   id: string;
   href: string;
   text: string;
-  external?: boolean;
-  recommended?: boolean;
 }
 
-interface Snippet {
+interface SnippetLink extends BaseSnippetLink {
+  meta: SnippetMeta;
+}
+
+interface BookSnippetLink extends BaseSnippetLink {
+  meta: BookSnippetMeta;
+}
+
+interface BaseSnippet {
   keypath: string;
-  links: SnippetLink[];
   title?: string;
   titleId?: string;
   content?: string;
   contentId?: string;
 }
 
+interface Snippet extends BaseSnippet {
+  links: SnippetLink[];
+}
+
+interface BookSnippet extends BaseSnippet {
+  links: BookSnippetLink[];
+}
+
 interface HomeViewData {
   generalSnippets: Snippet[];
-  bookSnippets: Snippet[];
+  bookSnippets: BookSnippet[];
 }
 
 const aboutSnippet: Snippet = {
@@ -51,22 +77,33 @@ const aboutSnippet: Snippet = {
       id: "luna",
       href: "https://luna.amazon.com/",
       text: "_luna",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "patentHolder",
       href: "#patents",
       text: "_patents",
+      meta: {
+        external: true,
+      },
     },
     {
       id: "reader",
       href: "#read",
       text: "_read",
+      meta: {
+        external: true,
+      },
     },
     {
       id: "familyMan",
       href: "#family",
       text: "_family",
+      meta: {
+        external: true,
+      },
     },
   ],
 };
@@ -87,18 +124,22 @@ const patentsSnippet: Snippet = {
       id: "vui",
       href: "https://patents.google.com/patent/US11250857B1/en",
       text: "_vui",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "manager",
       href: "https://www.linkedin.com/in/greghroberts/",
       text: "_manager",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
   ],
 };
 
-const readSnippet: Snippet = {
+const readSnippet: BookSnippet = {
   keypath: "read",
   title: "_read_title",
   titleId: "read",
@@ -107,115 +148,154 @@ const readSnippet: Snippet = {
       id: "groundness",
       href: "https://www.amazon.com/Practice-Groundedness-Transformative-Feeds-Not-Crushes-Your/dp/0593329899",
       text: "_groundness",
-      external: true,
-      recommended: true,
+      meta: {
+        external: true,
+        recommended: true,
+        finished: toISO8601("2021-12-10T08:00:00.000Z"),
+      },
     },
     {
       id: "mentalModels",
       href: "https://fs.blog/tgmm/#volume_one",
       text: "_mental_models_1",
-      external: true,
+      meta: {
+        external: true,
+        finished: toISO8601("2022-05-17T07:00:00.000Z"),
+      },
     },
     {
       id: "witcher",
       href: "https://www.amazon.com/Last-Wish-Introducing-Witcher/dp/0316029181",
       text: "_witcher",
-      external: true,
+      meta: {
+        external: true,
+        finished: toISO8601("2022-05-17T07:00:00.000Z"),
+      },
     },
     {
       id: "kitchen",
       href: "https://www.amazon.com/Kitchen-Confidential-Updated-Adventures-Underbelly/dp/0060899220",
       text: "_kitchen",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "ultralearning",
       href: "https://www.amazon.com/Ultralearning-Master-Outsmart-Competition-Accelerate/dp/006285268X",
       text: "_ultralearning",
-      external: true,
-      recommended: true,
+      meta: {
+        external: true,
+        recommended: true,
+        finished: toISO8601("2020-07-07T07:00:00.000Z"),
+      },
     },
     {
       id: "strategic",
       href: "https://www.amazon.com/Strategic-Thinking-Complex-Problem-Solving/dp/0190463902",
       text: "_strategic",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "worrying",
       href: "https://www.amazon.com/How-Stop-Worrying-Start-Living/dp/0671733354",
       text: "_worrying",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "consolations",
       href: "https://www.amazon.com/Consolations-Nourishment-Underlying-Meaning-Everyday/dp/1786897636",
       text: "_consolations",
-      external: true,
-      recommended: true,
+      meta: {
+        external: true,
+        recommended: true,
+      },
     },
     {
       id: "tao",
       href: "https://www.amazon.com/Tao-Te-Ching-Lao-Tzu/dp/B09YQF2SZ8/",
       text: "_tao",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "psilocybin",
       href: "https://www.amazon.com/Psilocybin-Mushrooms-World-Identification-Guide/dp/0898158397",
       text: "_psilocybin",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "mushrooms",
       href: "https://www.amazon.com/Growing-Gourmet-Medicinal-Mushrooms-Stamets/dp/1580081754",
       text: "_mushrooms",
-      external: true,
-      recommended: true,
+      meta: {
+        external: true,
+        recommended: true,
+      },
     },
     {
       id: "social",
       href: "https://www.amazon.com/Superhuman-Social-Skills-Likeable-Building-ebook/dp/B015QA1250",
       text: "_social",
-      external: true,
+      meta: {
+        external: true,
+        finished: toISO8601("2023-01-15T08:00:00.000Z"),
+      },
     },
   ],
 };
 
-const readingSnippet: Snippet = {
+const readingSnippet: BookSnippet = {
   keypath: "reading",
   links: [
     {
       id: "science",
       href: "https://press.stripe.com/the-art-of-doing-science-and-engineering",
       text: "_science",
-      external: true,
-      recommended: true,
+      meta: {
+        external: true,
+        recommended: true,
+      },
     },
     {
       id: "mental",
       href: "https://fs.blog/tgmm/#volume_two",
       text: "_mental_models_2",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "mycelium",
       href: "https://www.amazon.com/Mycelium-Running-Mushrooms-Help-World/dp/1580085792",
       text: "_mycelium",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
     {
       id: "thinking",
       href: "https://www.amazon.com/Called-Thinking-Harper-Perennial-Thought/dp/006090528X",
       text: "_thinking",
-      external: true,
-      recommended: true,
+      meta: {
+        external: true,
+        recommended: true,
+      },
     },
     {
       id: "skeptic",
       href: "https://www.amazon.com/Skeptics-Guide-Future-Yesterdays-Tomorrow/dp/1538709546",
       text: "_skeptic",
-      external: true,
+      meta: {
+        external: true,
+      },
     },
   ],
 };
@@ -271,7 +351,10 @@ export default {
     >
       <i18n-t :keypath="snippet.keypath" tag="p">
         <template v-for="link in snippet.links" :key="link.id" #[link.id]>
-          <a :href="link.href" :target="externalTargetOrNothing(link.external)">
+          <a
+            :href="link.href"
+            :target="externalTargetOrNothing(link.meta.external)"
+          >
             {{ t(link.text) }}
           </a>
         </template>
@@ -299,8 +382,13 @@ export default {
         <template #links>
           <ul>
             <li v-for="link in snippet.links" :key="link.id">
-              <a :href="link.href">{{ t(link.text) }}</a>
-              <MaybeComponent :render-if="link.recommended">
+              <a
+                :href="link.href"
+                :target="externalTargetOrNothing(link.meta.external)"
+              >
+                {{ t(link.text) }}
+              </a>
+              <MaybeComponent :render-if="link.meta.recommended">
                 <font-awesome-icon icon="fa-solid fa-asterisk" />
               </MaybeComponent>
             </li>

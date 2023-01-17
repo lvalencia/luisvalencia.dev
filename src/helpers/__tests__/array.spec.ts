@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { range } from "../array";
 
 describe("array utils", () => {
-  describe("range", () => {
+  describe("#range", () => {
     const size = 10;
     it("creates an array of the specified size", () => {
       let array = range({ size });
