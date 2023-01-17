@@ -536,6 +536,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/pluginutils@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@rollup/pluginutils@npm:5.0.2"
+  dependencies:
+    "@types/estree": ^1.0.0
+    estree-walker: ^2.0.2
+    picomatch: ^2.3.1
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: edea15e543bebc7dcac3b0ac8bc7b8e8e6dbd46e2864dbe5dd28072de1fbd5b0e10d545a610c0edaa178e8a7ac432e2a2a52e547ece1308471412caba47db8ce
+  languageName: node
+  linkType: hard
+
 "@rushstack/eslint-patch@npm:^1.1.4":
   version: 1.2.0
   resolution: "@rushstack/eslint-patch@npm:1.2.0"
@@ -591,6 +607,13 @@ __metadata:
   version: 4.3.4
   resolution: "@types/chai@npm:4.3.4"
   checksum: 571184967beb03bf64c4392a13a7d44e72da9af5a1e83077ff81c39cf59c0fda2a5c78d2005084601cf8f3d11726608574d8b5b4a0e3e9736792807afd926cd0
+  languageName: node
+  linkType: hard
+
+"@types/estree@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@types/estree@npm:1.0.0"
+  checksum: 910d97fb7092c6738d30a7430ae4786a38542023c6302b95d46f49420b797f21619cdde11fa92b338366268795884111c2eb10356e4bd2c8ad5b92941e9e6443
   languageName: node
   linkType: hard
 
@@ -3297,6 +3320,7 @@ __metadata:
     ts-node: ^10.9.1
     typescript: 4.8.3
     vite: ^4.0.0
+    vite-plugin-glsl: ^1.1.0
     vite-plugin-inject-preload: ^1.1.2
     vitest: ^0.25.3
     vue: ^3.2.45
@@ -4830,6 +4854,17 @@ __metadata:
     spdx-correct: ^3.0.0
     spdx-expression-parse: ^3.0.0
   checksum: 35703ac889d419cf2aceef63daeadbe4e77227c39ab6287eeb6c1b36a746b364f50ba22e88591f5d017bc54685d8137bc2d328d0a896e4d3fd22093c0f32a9ad
+  languageName: node
+  linkType: hard
+
+"vite-plugin-glsl@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "vite-plugin-glsl@npm:1.1.0"
+  dependencies:
+    "@rollup/pluginutils": ^5.0.2
+  peerDependencies:
+    vite: ^3.0.0 || ^4.0.0
+  checksum: 1a2be868aca5bb32f3dfb4d130201b7fc9ae65dc21a5787548d6206b5b8ba7e5215c6f5eacec2efa9489bfa1f510a13139607e2d9de8db02fa576b4bedcd03f2
   languageName: node
   linkType: hard
 
