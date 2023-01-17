@@ -39,6 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@rushstack/eslint-patch", "npm:1.2.0"],\
             ["@types/jsdom", "npm:20.0.1"],\
             ["@types/node", "npm:18.11.11"],\
+            ["@types/three", "npm:0.148.0"],\
             ["@vitejs/plugin-vue", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:3.2.0"],\
             ["@vue/compiler-dom", "npm:3.2.45"],\
             ["@vue/eslint-config-prettier", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:7.0.0"],\
@@ -56,6 +57,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.8.0"],\
             ["rimraf", "npm:3.0.2"],\
             ["sass", "npm:1.57.1"],\
+            ["three", "npm:0.148.0"],\
             ["ts-node", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=aae4e6"],\
             ["vite", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:4.0.0"],\
@@ -846,11 +848,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/three", [\
+        ["npm:0.148.0", {\
+          "packageLocation": "./.yarn/cache/@types-three-npm-0.148.0-51142bc75e-c5747a8cc3.zip/node_modules/@types/three/",\
+          "packageDependencies": [\
+            ["@types/three", "npm:0.148.0"],\
+            ["@types/webxr", "npm:0.5.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/tough-cookie", [\
         ["npm:4.0.2", {\
           "packageLocation": "./.yarn/cache/@types-tough-cookie-npm-4.0.2-9e61f877e6-e055556ffd.zip/node_modules/@types/tough-cookie/",\
           "packageDependencies": [\
             ["@types/tough-cookie", "npm:4.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/webxr", [\
+        ["npm:0.5.0", {\
+          "packageLocation": "./.yarn/cache/@types-webxr-npm-0.5.0-aaa17ad1c6-891af0e96a.zip/node_modules/@types/webxr/",\
+          "packageDependencies": [\
+            ["@types/webxr", "npm:0.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3934,6 +3955,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@rushstack/eslint-patch", "npm:1.2.0"],\
             ["@types/jsdom", "npm:20.0.1"],\
             ["@types/node", "npm:18.11.11"],\
+            ["@types/three", "npm:0.148.0"],\
             ["@vitejs/plugin-vue", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:3.2.0"],\
             ["@vue/compiler-dom", "npm:3.2.45"],\
             ["@vue/eslint-config-prettier", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:7.0.0"],\
@@ -3951,6 +3973,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.8.0"],\
             ["rimraf", "npm:3.0.2"],\
             ["sass", "npm:1.57.1"],\
+            ["three", "npm:0.148.0"],\
             ["ts-node", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=aae4e6"],\
             ["vite", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:4.0.0"],\
@@ -5333,6 +5356,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/text-table-npm-0.2.0-d92a778b59-b6937a38c8.zip/node_modules/text-table/",\
           "packageDependencies": [\
             ["text-table", "npm:0.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["three", [\
+        ["npm:0.148.0", {\
+          "packageLocation": "./.yarn/cache/three-npm-0.148.0-c0c409314a-3f6359585c.zip/node_modules/three/",\
+          "packageDependencies": [\
+            ["three", "npm:0.148.0"]\
           ],\
           "linkType": "HARD"\
         }]\
