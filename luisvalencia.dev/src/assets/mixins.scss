@@ -1,0 +1,19 @@
+@mixin appearance($value: none) {
+    -webkit-appearance: $value;
+    -moz-appearance: $value;
+    -ms-appearance: $value;
+    -o-appearance: $value;
+    appearance: $value;
+}
+
+@mixin box-sizing($value: border-box) {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@mixin sizeless-border($color) {
+    -webkit-box-shadow:inset 0px 0px 0px 1px $color;
+    -moz-box-shadow:inset 0px 0px 0px 1px $color;
+    box-shadow:inset 0px 0px 0px 1px $color;
+}

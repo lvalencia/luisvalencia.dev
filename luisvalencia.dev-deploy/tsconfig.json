@@ -1,0 +1,11 @@
+{
+  "extends": "@tsconfig/recommended",
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["node"]
+  },
+}

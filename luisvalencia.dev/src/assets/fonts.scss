@@ -1,0 +1,35 @@
+/*PlayfairDisplayFont*/
+/*Normal*/
+@font-face {
+    font-family: PlayfairDisplay;
+    src: local('PlayfairDisplay-Black'), url('@/assets/fonts/PlayfairDisplay-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
+/*Italic*/
+@font-face {
+    font-family: PlayfairDisplay-Italic;
+    src: local('PlayfairDisplay-Italic'), url('@/assets/fonts/PlayfairDisplay-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+/*SmallCaps*/
+@font-face {
+    font-family: PlayfairDisplay-Smallcaps;
+    src: local('PlayfairDisplaySC-Regular'), url('@/assets/fonts/PlayfairDisplaySC-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+/*RalewayFont*/
+@font-face {
+    font-family: Raleway;
+    src: local('Raleway-Medium'), url('@/assets/fonts/Raleway-Medium.ttf') format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Raleway;
+    src: local('Raleway-Regular'), url('@/assets/fonts/Raleway-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
