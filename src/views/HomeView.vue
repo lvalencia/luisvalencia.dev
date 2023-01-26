@@ -8,8 +8,11 @@ const { t } = useI18n({
   useScope: "local",
 });
 
-function translationOrNothing(str: Maybe<string>): Maybe<string> {
-  return str ? t(str) : undefined;
+function translationOrNothing(
+  str: Maybe<string>,
+  args?: Maybe<any>
+): Maybe<string> {
+  return str ? t(str, args) : undefined;
 }
 
 function externalTargetOrNothing(isExternal: Maybe<boolean>): Maybe<string> {
@@ -21,54 +24,11 @@ function externalTargetOrNothing(isExternal: Maybe<boolean>): Maybe<string> {
 import { useGrid } from "../stores/useGrid";
 import { mapState } from "pinia";
 import MaybeComponent from "@/components/MaybeComponent.vue";
-import { toISO8601, type ISO8601 } from "@/helpers/date";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-interface BaseSnippetMeta {
-  external?: boolean;
-}
-
-interface SnippetMeta extends BaseSnippetMeta {}
-
-interface BookSnippetMeta extends BaseSnippetMeta {
-  recommended?: boolean;
-  finished?: ISO8601;
-}
-
-interface BaseSnippetLink {
-  id: string;
-  href: string;
-  text: string;
-}
-
-interface SnippetLink extends BaseSnippetLink {
-  meta: SnippetMeta;
-}
-
-interface BookSnippetLink extends BaseSnippetLink {
-  meta: BookSnippetMeta;
-}
-
-interface BaseSnippet {
-  keypath: string;
-  title?: string;
-  titleId?: string;
-  content?: string;
-  contentId?: string;
-}
-
-interface Snippet extends BaseSnippet {
-  links: SnippetLink[];
-}
-
-interface BookSnippet extends BaseSnippet {
-  links: BookSnippetLink[];
-}
-
-interface HomeViewData {
-  generalSnippets: Snippet[];
-  bookSnippets: BookSnippet[];
-}
+import type { Snippet, BookSnippet, BookSnippetLink } from "./home/snippets";
+import { incompleteBooks, completedBooksByYear } from "./home/bookSnippetLinks";
+import { fromMaybe } from "@/helpers/maybe";
+import { map, sortBy } from "underscore";
 
 const aboutSnippet: Snippet = {
   keypath: "about",
@@ -139,172 +99,36 @@ const patentsSnippet: Snippet = {
   ],
 };
 
-const readSnippet: BookSnippet = {
-  keypath: "read",
+type BookSnippetsWithYear = BookSnippet & { year?: string };
+
+const readSnippets = sortBy(
+  map(completedBooksByYear, (books: BookSnippetLink[], year) => {
+    return {
+      keypath: "read",
+      links: books,
+      year,
+    } as BookSnippetsWithYear;
+  }),
+  (bookSnippetWithYear) => bookSnippetWithYear.year
+).reverse();
+
+export const readingSnippet: BookSnippetsWithYear = {
+  keypath: "reading",
   title: "_read_title",
   titleId: "read",
-  links: [
-    {
-      id: "groundness",
-      href: "https://www.amazon.com/Practice-Groundedness-Transformative-Feeds-Not-Crushes-Your/dp/0593329899",
-      text: "_groundness",
-      meta: {
-        external: true,
-        recommended: true,
-        finished: toISO8601("2021-12-10T08:00:00.000Z"),
-      },
-    },
-    {
-      id: "mentalModels",
-      href: "https://fs.blog/tgmm/#volume_one",
-      text: "_mental_models_1",
-      meta: {
-        external: true,
-        finished: toISO8601("2022-05-17T07:00:00.000Z"),
-      },
-    },
-    {
-      id: "witcher",
-      href: "https://www.amazon.com/Last-Wish-Introducing-Witcher/dp/0316029181",
-      text: "_witcher",
-      meta: {
-        external: true,
-        finished: toISO8601("2022-05-17T07:00:00.000Z"),
-      },
-    },
-    {
-      id: "kitchen",
-      href: "https://www.amazon.com/Kitchen-Confidential-Updated-Adventures-Underbelly/dp/0060899220",
-      text: "_kitchen",
-      meta: {
-        external: true,
-      },
-    },
-    {
-      id: "ultralearning",
-      href: "https://www.amazon.com/Ultralearning-Master-Outsmart-Competition-Accelerate/dp/006285268X",
-      text: "_ultralearning",
-      meta: {
-        external: true,
-        recommended: true,
-        finished: toISO8601("2020-07-07T07:00:00.000Z"),
-      },
-    },
-    {
-      id: "strategic",
-      href: "https://www.amazon.com/Strategic-Thinking-Complex-Problem-Solving/dp/0190463902",
-      text: "_strategic",
-      meta: {
-        external: true,
-      },
-    },
-    {
-      id: "worrying",
-      href: "https://www.amazon.com/How-Stop-Worrying-Start-Living/dp/0671733354",
-      text: "_worrying",
-      meta: {
-        external: true,
-      },
-    },
-    {
-      id: "consolations",
-      href: "https://www.amazon.com/Consolations-Nourishment-Underlying-Meaning-Everyday/dp/1786897636",
-      text: "_consolations",
-      meta: {
-        external: true,
-        recommended: true,
-      },
-    },
-    {
-      id: "tao",
-      href: "https://www.amazon.com/Tao-Te-Ching-Lao-Tzu/dp/B09YQF2SZ8/",
-      text: "_tao",
-      meta: {
-        external: true,
-      },
-    },
-    {
-      id: "psilocybin",
-      href: "https://www.amazon.com/Psilocybin-Mushrooms-World-Identification-Guide/dp/0898158397",
-      text: "_psilocybin",
-      meta: {
-        external: true,
-      },
-    },
-    {
-      id: "mushrooms",
-      href: "https://www.amazon.com/Growing-Gourmet-Medicinal-Mushrooms-Stamets/dp/1580081754",
-      text: "_mushrooms",
-      meta: {
-        external: true,
-        recommended: true,
-      },
-    },
-    {
-      id: "social",
-      href: "https://www.amazon.com/Superhuman-Social-Skills-Likeable-Building-ebook/dp/B015QA1250",
-      text: "_social",
-      meta: {
-        external: true,
-        finished: toISO8601("2023-01-15T08:00:00.000Z"),
-      },
-    },
-  ],
+  links: incompleteBooks,
 };
 
-const readingSnippet: BookSnippet = {
-  keypath: "reading",
-  links: [
-    {
-      id: "science",
-      href: "https://press.stripe.com/the-art-of-doing-science-and-engineering",
-      text: "_science",
-      meta: {
-        external: true,
-        recommended: true,
-      },
-    },
-    {
-      id: "mental",
-      href: "https://fs.blog/tgmm/#volume_two",
-      text: "_mental_models_2",
-      meta: {
-        external: true,
-      },
-    },
-    {
-      id: "mycelium",
-      href: "https://www.amazon.com/Mycelium-Running-Mushrooms-Help-World/dp/1580085792",
-      text: "_mycelium",
-      meta: {
-        external: true,
-      },
-    },
-    {
-      id: "thinking",
-      href: "https://www.amazon.com/Called-Thinking-Harper-Perennial-Thought/dp/006090528X",
-      text: "_thinking",
-      meta: {
-        external: true,
-        recommended: true,
-      },
-    },
-    {
-      id: "skeptic",
-      href: "https://www.amazon.com/Skeptics-Guide-Future-Yesterdays-Tomorrow/dp/1538709546",
-      text: "_skeptic",
-      meta: {
-        external: true,
-      },
-    },
-  ],
-};
+interface HomeViewData {
+  generalSnippets: Snippet[];
+  bookSnippets: BookSnippetsWithYear[];
+}
 
 export default {
   data(): HomeViewData {
     return {
       generalSnippets: [aboutSnippet, patentsSnippet, familySnippet],
-      bookSnippets: [readSnippet, readingSnippet],
+      bookSnippets: [readingSnippet, ...readSnippets],
     };
   },
   computed: {
@@ -376,6 +200,14 @@ export default {
       :contentId="snippet.contentId"
     >
       <i18n-t :keypath="snippet.keypath" tag="p">
+        <template #year>
+          {{
+            fromMaybe({
+              maybe: snippet.year,
+              fallback: t("_read_year_fallback"),
+            })
+          }}
+        </template>
         <template #break>
           <wbr />
         </template>
@@ -459,7 +291,8 @@ a + svg {
     "_psilocybin": "Psilocybin Mushrooms of the World: An Identification Guide",
     "_mushrooms": "Growing Gourmet and Medicinal Mushrooms",
     "_read_title": "Voracious Reader",
-    "read": "In the last year I've read:{break} {links}",
+    "_read_year_fallback": "the last year",
+    "read": "In {year} year I've read:{break} {links}",
     "_science": "The Art of Doing Science and Engineering",
     "_social": "Superhuman Social Skills: A Guide to Being Likeable, Winning Friends, and Building Your Social Circle",
     "_mental_models_2": "The Great Mental Models Volume 2: Physics, Chemistry and Biology",
@@ -499,7 +332,8 @@ a + svg {
     "_psilocybin": "Psilocybin Mushrooms of the World: An Identification Guide",
     "_mushrooms": "Growing Gourmet and Medicinal Mushrooms",
     "_read_title": "Aficiónado a La Lectura",
-    "read": "En el ultimo año he leído:{break} {links}",
+    "_read_year_fallback": "el ultimo año",
+    "read": "En {year} leí:{break} {links}",
     "_science": "The Art of Doing Science and Engineering",
     "_social": "Superhuman Social Skills: A Guide to Being Likeable, Winning Friends, and Building Your Social Circle",
     "_mental_models_2": "The Great Mental Models Volume 2: Physics, Chemistry and Biology",
@@ -539,7 +373,8 @@ a + svg {
     "_psilocybin": "Psilocybin Mushrooms of the World: An Identification Guide",
     "_mushrooms": "Growing Gourmet and Medicinal Mushrooms",
     "_read_title": "Aficionat de Llibres",
-    "read": "L'últim any he llegit:{break} {links}",
+    "_read_year_fallback": "L'últim any",
+    "read": "{year} vaig llegir:{break} {links}",
     "_science": "The Art of Doing Science and Engineering",
     "_social": "Superhuman Social Skills: A Guide to Being Likeable, Winning Friends, and Building Your Social Circle",
     "_mental_models_2": "The Great Mental Models Volume 2: Physics, Chemistry and Biology",

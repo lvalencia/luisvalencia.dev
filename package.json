@@ -33,6 +33,7 @@
     "@intlify/unplugin-vue-i18n": "^0.8.1",
     "pinia": "^2.0.26",
     "three": "^0.148.0",
+    "underscore": "^1.13.6",
     "vue": "^3.2.45",
     "vue-i18n": "9",
     "vue-router": "^4.1.6"
@@ -44,6 +45,7 @@
     "@types/jsdom": "^20.0.1",
     "@types/node": "^18.11.9",
     "@types/three": "^0.148.0",
+    "@types/underscore": "^1.11.4",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vue/compiler-dom": "^3.2.45",
     "@vue/eslint-config-prettier": "^7.0.0",

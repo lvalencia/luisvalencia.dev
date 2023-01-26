@@ -9,7 +9,8 @@ import {
   UploadResultSuccess,
 } from "./fileUploader";
 import { DefaultLogger, Logger } from "./logger";
-import { fromMaybe, groupBy, prettyJSON, ValidFilePath } from "./utils";
+import { fromMaybe, prettyJSON, ValidFilePath } from "./utils";
+import { groupBy } from "underscore";
 
 interface CodeDeployerArgs {
   configuration: DeploymentConfiguration;
@@ -94,11 +95,14 @@ export class CodeDeployer {
       `Uploading the following files: ${prettyJSON(filesToUpload)}`
     );
 
-    let results = await this.uploader.upload(filesToUpload, this.sourceFolder);
-    results = groupBy(results, "status");
+    const results = await this.uploader.upload(
+      filesToUpload,
+      this.sourceFolder
+    );
+    const groupedResults = groupBy(results, (result) => result.status);
 
     const successes = fromMaybe<UploadResultSuccess[]>({
-      maybe: results["SUCCESS"],
+      maybe: groupedResults["SUCCESS"] as UploadResultSuccess[],
       fallback: [],
     });
     this.logger.log(
@@ -108,7 +112,7 @@ export class CodeDeployer {
     );
 
     const failures = fromMaybe<UploadResultError[]>({
-      maybe: results["ERROR"],
+      maybe: groupedResults["ERROR"] as UploadResultError[],
       fallback: [],
     });
     this.logger.log(

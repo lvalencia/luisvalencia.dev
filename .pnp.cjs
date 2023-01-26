@@ -40,6 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jsdom", "npm:20.0.1"],\
             ["@types/node", "npm:18.11.11"],\
             ["@types/three", "npm:0.148.0"],\
+            ["@types/underscore", "npm:1.11.4"],\
             ["@vitejs/plugin-vue", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:3.2.0"],\
             ["@vue/compiler-dom", "npm:3.2.45"],\
             ["@vue/eslint-config-prettier", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:7.0.0"],\
@@ -60,6 +61,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["three", "npm:0.148.0"],\
             ["ts-node", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=aae4e6"],\
+            ["underscore", "npm:1.13.6"],\
             ["vite", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:4.0.0"],\
             ["vite-plugin-inject-preload", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:1.1.2"],\
             ["vitest", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:0.25.5"],\
@@ -863,6 +865,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-tough-cookie-npm-4.0.2-9e61f877e6-e055556ffd.zip/node_modules/@types/tough-cookie/",\
           "packageDependencies": [\
             ["@types/tough-cookie", "npm:4.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/underscore", [\
+        ["npm:1.11.4", {\
+          "packageLocation": "./.yarn/cache/@types-underscore-npm-1.11.4-20333ba8c0-db9f8486bc.zip/node_modules/@types/underscore/",\
+          "packageDependencies": [\
+            ["@types/underscore", "npm:1.11.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3956,6 +3967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jsdom", "npm:20.0.1"],\
             ["@types/node", "npm:18.11.11"],\
             ["@types/three", "npm:0.148.0"],\
+            ["@types/underscore", "npm:1.11.4"],\
             ["@vitejs/plugin-vue", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:3.2.0"],\
             ["@vue/compiler-dom", "npm:3.2.45"],\
             ["@vue/eslint-config-prettier", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:7.0.0"],\
@@ -3976,6 +3988,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["three", "npm:0.148.0"],\
             ["ts-node", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=aae4e6"],\
+            ["underscore", "npm:1.13.6"],\
             ["vite", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:4.0.0"],\
             ["vite-plugin-inject-preload", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:1.1.2"],\
             ["vitest", "virtual:744bacde7d5c0a11cf19c72e446c5f152b852d65413268c2435d2307d4ea022291501e559ad86d62a3445c0363938b505d0b07c903493cf5ec28d06936468adf#npm:0.25.5"],\
@@ -5583,6 +5596,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["has-bigints", "npm:1.0.2"],\
             ["has-symbols", "npm:1.0.3"],\
             ["which-boxed-primitive", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["underscore", [\
+        ["npm:1.13.6", {\
+          "packageLocation": "./.yarn/cache/underscore-npm-1.13.6-3ebe9d92fb-d5cedd14a9.zip/node_modules/underscore/",\
+          "packageDependencies": [\
+            ["underscore", "npm:1.13.6"]\
           ],\
           "linkType": "HARD"\
         }]\
