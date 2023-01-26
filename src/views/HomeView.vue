@@ -45,25 +45,19 @@ const aboutSnippet: Snippet = {
       id: "patentHolder",
       href: "#patents",
       text: "_patents",
-      meta: {
-        external: true,
-      },
+      meta: {},
     },
     {
       id: "reader",
       href: "#read",
       text: "_read",
-      meta: {
-        external: true,
-      },
+      meta: {},
     },
     {
       id: "familyMan",
       href: "#family",
       text: "_family",
-      meta: {
-        external: true,
-      },
+      meta: {},
     },
   ],
 };

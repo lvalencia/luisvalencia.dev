@@ -10,6 +10,21 @@ describe("Home Page", () => {
       await page.goto("/");
       await expect(page.locator("h1")).toHaveText("Luis Valencia");
     });
+    test("internal links do not target a new page", async ({ page }) => {
+      await page.goto("/");
+      const internalLinks = await page.locator("a[href^='#']");
+      const internalLinkTargets = await Promise.all(
+        (
+          await internalLinks.elementHandles()
+        ).map(async (elementHandle) => {
+          return await elementHandle.getAttribute("target");
+        })
+      );
+
+      expect(
+        internalLinkTargets.every((linkTarget) => linkTarget === null)
+      ).toBe(true);
+    });
   });
 
   describe("grid", () => {
