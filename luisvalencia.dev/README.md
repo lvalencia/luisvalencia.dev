@@ -112,7 +112,7 @@ This project uses [Playwright](https://playwright.dev/docs/writing-tests) for au
 If you see an error that looks like this
 
 ```
-    browserType.launch: Executable doesn't exist at /Users/lvalencia/Library/Caches/ms-playwright/chromium-1033/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+    browserType.launch: Executable doesn't exist at /Library/Caches/ms-playwright/chromium-1033/chrome-mac/Chromium.app/Contents/MacOS/Chromium
     ╔═════════════════════════════════════════════════════════════════════════╗
     ║ Looks like Playwright Test or Playwright was just installed or updated. ║
     ║ Please run the following command to download new browsers:              ║
