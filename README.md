@@ -2,8 +2,6 @@
 
 This repo is the monorepo for [luisvalencia.dev](https://luisvalencia.dev/) website
 
-**Note**: The site is currently being developed. It's an exercise in experimenting with Vue + Vite
-
 # Packages
 
 The following packages comprise this repo
@@ -14,11 +12,11 @@ The [luisvalencia.dev](https://luisvalencia.dev/) website
 
 ## @luvle/code-deploy
 
-The deployment module that pushes a built vite site AWS. Default deploymenet target is `@luvle/luisvalencia.dev`
+The deployment module that pushes a built vite site AWS. Default deployment target is `@luvle/luisvalencia.dev`
 
 ## @luvle/utils
 
-The utils module that houses shared common utils across packages
+The utils module that houses shared common utility functions and abstractions across packages
 
 # Toubleshooting 
 
@@ -37,7 +35,7 @@ Required by: local-pkg@npm:0.4.3 (via .yarn/cache/local-pkg-npm-0.4.3-de61dda1fd
 It's a problem with how yarn is resolving the dependency at the top level when in PnP mode.
 This can be resolved by [declaring the resoltuion in the .yarnrc.yml](https://github.com/styled-components/styled-components/issues/3082#issuecomment-606641463).
 
-e.g. the following
+e.g. the following would resolve the problem seen above:
 
 ```
 packageExtensions:
@@ -45,7 +43,5 @@ packageExtensions:
     dependencies:
       "jsdom": "*"
 ```
-
-would resolve the problem seen above.
 
 **Note**: You would need to re-run `yarn install` prior to running the command that caused the issue.

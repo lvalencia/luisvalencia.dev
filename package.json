@@ -11,14 +11,19 @@
     "luvle-utils"
   ],
   "scripts": {
-    "release": "yarn workspace @luvle/luisvalencia.dev release && yarn workspace @luvle/code-deploy deploy",
-    "release:poll": "yarn workspace @luvle/luisvalencia.dev release && yarn workspace @luvle/code-deploy deploy:poll"
+    "deploy:site": "yarn workspace @luvle/code-deploy deploy",
+    "deploy:site:poll": "yarn workspace @luvle/code-deploy deploy:poll",
+    "release:site": "yarn workspace @luvle/luisvalencia.dev release",
+    "release:utils": "yarn workspace @luvle/utils release",
+    "release": "run-s release:utils release:site deploy:site",
+    "release:poll": "run-s release:utils release:site deploy:site:poll"
   },
   "installConfig": {
     "pnp": true
   },
   "packageManager": "yarn@3.3.1",
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.9.5"
   }
 }
