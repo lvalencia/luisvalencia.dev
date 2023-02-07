@@ -1,4 +1,4 @@
-import type { ISO8601 } from "@/helpers/date";
+import type { ISO8601 } from "@luvle/utils";
 
 interface BaseSnippetMeta {
   external?: boolean;

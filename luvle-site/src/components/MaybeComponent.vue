@@ -1,5 +1,5 @@
 <script lang="ts">
-import { isSomething, type Maybe } from "@/helpers/maybe";
+import { isSomething, type Maybe } from "@luvle/utils";
 
 export default {
   props: {

@@ -468,6 +468,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.2.1
     "@fortawesome/vue-fontawesome": latest-3
     "@intlify/unplugin-vue-i18n": ^0.8.1
+    "@luvle/utils": 0.1.0
     "@pinia/testing": ^0.0.14
     "@playwright/test": ^1.28.1
     "@rushstack/eslint-patch": ^1.1.4
@@ -512,7 +513,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@luvle/utils@workspace:luvle-utils":
+"@luvle/utils@0.1.0, @luvle/utils@workspace:luvle-utils":
   version: 0.0.0-use.local
   resolution: "@luvle/utils@workspace:luvle-utils"
   dependencies:
@@ -523,6 +524,8 @@ __metadata:
     "@types/sinon": ^10.0.13
     chai: ^4.3.7
     mocha: ^10.2.0
+    npm-run-all: ^4.1.5
+    rimraf: ^4.1.2
     sinon: ^15.0.1
     ts-mocha: ^10.0.0
     tsconfig-paths: ^4.1.2
@@ -4481,6 +4484,15 @@ __metadata:
   bin:
     rimraf: bin.js
   checksum: 87f4164e396f0171b0a3386cc1877a817f572148ee13a7e113b238e48e8a9f2f31d009a92ec38a591ff1567d9662c6b67fd8818a2dbbaed74bc26a87a2a4a9a0
+  languageName: node
+  linkType: hard
+
+"rimraf@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "rimraf@npm:4.1.2"
+  bin:
+    rimraf: dist/cjs/src/bin.js
+  checksum: 480b8147fd9bcbef3ac118f88a7b1169c3872977a3411a0c84df838bfc30e175a394c0db6f9619fc8b8a886a18c6d779d5e74f380a0075ecc710afaf81b3f50c
   languageName: node
   linkType: hard
 

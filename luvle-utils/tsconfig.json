@@ -1,6 +1,15 @@
 {
   "extends": "@tsconfig/recommended",
+  "include": [
+    "index.ts", 
+    "src/**/*", 
+  ],
+  "exclude": [
+    "test/**/*", 
+  ],
   "compilerOptions": {
+    "outDir": "dist",
+    "module": "ES2015",
     "composite": true,
     "baseUrl": ".",
     "paths": {

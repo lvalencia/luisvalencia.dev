@@ -2,7 +2,7 @@
 import { useI18n } from "vue-i18n";
 import ProfileImage from "@/components/ProfileImage.vue";
 import AboutSnippet from "@/components/AboutSnippet.vue";
-import type { Maybe } from "@/helpers/maybe";
+import type { Maybe } from "@luvle/utils";
 
 const { t } = useI18n({
   useScope: "local",
@@ -27,7 +27,7 @@ import MaybeComponent from "@/components/MaybeComponent.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import type { Snippet, BookSnippet, BookSnippetLink } from "./home/snippets";
 import { incompleteBooks, completedBooksByYear } from "./home/bookSnippetLinks";
-import { fromMaybe } from "@/helpers/maybe";
+import { fromMaybe } from "@luvle/utils";
 import { map, sortBy } from "underscore";
 
 const aboutSnippet: Snippet = {

@@ -2,7 +2,7 @@
 import { RouterLink, type RouteRecordNormalized } from "vue-router";
 import { useI18n } from "vue-i18n";
 import router from "@/router";
-import { fromMaybe } from "@/helpers/maybe";
+import { fromMaybe } from "@luvle/utils";
 
 const { t } = useI18n({
   useScope: "local",
