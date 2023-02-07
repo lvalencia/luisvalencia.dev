@@ -442,9 +442,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@luvle/luisvalencia.dev-deploy@workspace:luisvalencia.dev-deploy":
+"@luvle/code-deploy@workspace:luvle-deploy":
   version: 0.0.0-use.local
-  resolution: "@luvle/luisvalencia.dev-deploy@workspace:luisvalencia.dev-deploy"
+  resolution: "@luvle/code-deploy@workspace:luvle-deploy"
   dependencies:
     "@tsconfig/recommended": ^1.0.2
     "@types/mime-types": ^2.1.1
@@ -458,9 +458,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@luvle/luisvalencia.dev@workspace:luisvalencia.dev":
+"@luvle/luisvalencia.dev@workspace:luvle-site":
   version: 0.0.0-use.local
-  resolution: "@luvle/luisvalencia.dev@workspace:luisvalencia.dev"
+  resolution: "@luvle/luisvalencia.dev@workspace:luvle-site"
   dependencies:
     "@fortawesome/fontawesome-svg-core": ^6.2.1
     "@fortawesome/free-brands-svg-icons": ^6.2.1

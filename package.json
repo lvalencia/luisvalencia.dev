@@ -6,9 +6,13 @@
   },
   "private": true,
   "workspaces": [
-    "luisvalencia.dev",
-    "luisvalencia.dev-deploy"
+    "luvle-site",
+    "luvle-deploy"
   ],
+  "scripts": {
+    "release": "yarn workspace @luvle/luisvalencia.dev release && yarn workspace @luvle/code-deploy deploy",
+    "release:poll": "yarn workspace @luvle/luisvalencia.dev release && yarn workspace @luvle/code-deploy deploy:poll"
+  },
   "installConfig": {
     "pnp": true
   },

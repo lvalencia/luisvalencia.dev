@@ -25,7 +25,7 @@ interface ConfigArgs {
 
 const DEFAULT_AWS_PROFILE = "luisvalencia.dev";
 const DEFAULT_AWS_REGION: SupportedRegions = "us-east-1";
-const DEFAULT_DISTRIBUTION_DIRECTORY = join(cwd(), "..", "luisvalencia.dev", "dist");
+const DEFAULT_DISTRIBUTION_DIRECTORY = join(cwd(), "..", "luvle-site", "dist");
 
 export class Config {
   private readonly awsProfile: string;

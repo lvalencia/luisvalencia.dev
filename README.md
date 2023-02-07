@@ -12,9 +12,9 @@ The following packages comprise this repo
 
 The [luisvalencia.dev](https://luisvalencia.dev/) website
 
-## @luvle/luisvalencia.dev-deploy
+## @luvle/code-deploy
 
-The deployment module that pushes a built vite site AWS
+The deployment module that pushes a built vite site AWS. Default configuration targets `@luvle/luisvalencia.dev`
 
 # Toubleshooting 
 
