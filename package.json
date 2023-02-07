@@ -7,7 +7,8 @@
   "private": true,
   "workspaces": [
     "luvle-site",
-    "luvle-deploy"
+    "luvle-deploy",
+    "luvle-utils"
   ],
   "scripts": {
     "release": "yarn workspace @luvle/luisvalencia.dev release && yarn workspace @luvle/code-deploy deploy",
@@ -16,5 +17,8 @@
   "installConfig": {
     "pnp": true
   },
-  "packageManager": "yarn@3.3.1"
+  "packageManager": "yarn@3.3.1",
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
 }
