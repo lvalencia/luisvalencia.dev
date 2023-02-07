@@ -1,4 +1,4 @@
-# LuisValencia.Dev MonoRepo
+# LuisValencia.Dev 
 
 This repo is the monorepo for [luisvalencia.dev](https://luisvalencia.dev/) website
 
@@ -14,7 +14,11 @@ The [luisvalencia.dev](https://luisvalencia.dev/) website
 
 ## @luvle/code-deploy
 
-The deployment module that pushes a built vite site AWS. Default configuration targets `@luvle/luisvalencia.dev`
+The deployment module that pushes a built vite site AWS. Default deploymenet target is `@luvle/luisvalencia.dev`
+
+## @luvle/utils
+
+The utils module that houses shared common utils across packages
 
 # Toubleshooting 
 
