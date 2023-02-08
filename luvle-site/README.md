@@ -124,7 +124,7 @@ If you see an error that looks like this
 ```
 
 It means the browsers Playwright uses to automate E2E testing are not installed on the machine. 
-To install them, from the project root run:
+To install them, from this project run:
 
 ```
 yarn playwright install
