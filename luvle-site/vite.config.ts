@@ -7,18 +7,6 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  optimizeDeps: {
-    include: [
-      "@luvle/utils",
-    ],
-  },
-  build: {
-    commonjsOptions: {
-      include: [
-        /luvle-utils/,
-      ] 
-    },
-  },
   plugins: [
     vue(),
     VitePluginInjectPreload({
@@ -39,6 +27,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  optimizeDeps: {
+    include: ["@luvle/utils"],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/luvle-utils/],
     },
   },
 });
