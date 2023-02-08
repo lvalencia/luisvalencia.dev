@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "clean": "rimraf ./dist",
-    "test": "ts-mocha -p ./tsconfig.json --paths ./test/**/*.spec.ts",
+    "test": "ts-mocha --package ./tsconfig.json --paths ./test/**/*.spec.ts",
     "prepare": "run-s build",
     "release": "run-s build test"
   },
