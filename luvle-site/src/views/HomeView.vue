@@ -286,7 +286,7 @@ a + svg {
     "_mushrooms": "Growing Gourmet and Medicinal Mushrooms",
     "_read_title": "Voracious Reader",
     "_read_year_fallback": "the last year",
-    "read": "In {year} year I've read:{break} {links}",
+    "read": "In {year} I read:{break} {links}",
     "_science": "The Art of Doing Science and Engineering",
     "_social": "Superhuman Social Skills: A Guide to Being Likeable, Winning Friends, and Building Your Social Circle",
     "_mental_models_2": "The Great Mental Models Volume 2: Physics, Chemistry and Biology",
