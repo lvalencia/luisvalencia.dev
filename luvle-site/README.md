@@ -2,7 +2,13 @@
 
 This repo is the [luisvalencia.dev](https://luisvalencia.dev/) website
 
-**Note**: The site is currently being developed. It's an exercise in experimenting with Vue + Vite
+## Technologies
+
+* [Vue](https://vuejs.org/) - An approachable, performant and versatile framework for building web user interfaces.
+* [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling.
+* [Pinia](https://pinia.vuejs.org/) - Intuitive, type safe and flexible Store for Vue.
+* [Vitest](https://vitest.dev/) - A blazing fast unit test framework powered by Vite.
+* [Playwright](https://playwright.dev/) - Framework for Web Testing and Automation.
 
 ## Development
 
@@ -126,7 +132,7 @@ If you see an error that looks like this
 It means the browsers Playwright uses to automate E2E testing are not installed on the machine. 
 To install them, from this project run:
 
-```
+```sh
 yarn playwright install
 ```
 
@@ -165,7 +171,7 @@ or
 It means the peer dependency for vue-demi isn't installed on the machine
 To install it run:
 
-```
+```sh
  yarn add -D vue-demi
 ```
 
@@ -196,10 +202,10 @@ aws_secret_access_key = SECRET_ACCESS_KEY
 
 ### Pushing to Prod
 
-To push the site into production run the following command:
+To push the site into production run the following command from the project root:
 
-```
+```sh
 yarn release
 ```
 
-This will clean, build, test, and deploy the code to AWS
+This will clean, build, test, and deploy the code to AWS. For more information see the project README.md

@@ -1,6 +1,6 @@
 # LuisValencia.Dev 
 
-This repo is the monorepo for [luisvalencia.dev](https://luisvalencia.dev/) website
+[LuisValencia.Dev](https://luisvalencia.dev/) is my personal developer website. 
 
 # Packages
 
@@ -8,7 +8,7 @@ The following packages comprise this repo
 
 ## @luvle/luisvalencia.dev
 
-The [luisvalencia.dev](https://luisvalencia.dev/) website
+The vite vue [luisvalencia.dev](https://luisvalencia.dev/) website
 
 ## @luvle/code-deploy
 
@@ -17,6 +17,30 @@ The deployment module that pushes a built vite site AWS. Default deployment targ
 ## @luvle/utils
 
 The utils module that houses shared common utility functions and abstractions across packages
+
+# Development
+
+The aim of this codebase is to offer the flexibility of having all the code relating to the site collocated in one place, while allowing for the 
+ability to create strong boundaries and clear responsibitlies in the code via modules.
+
+For this reason, this codebase in structured as a monorepo and uses [yarn workspaces](https://yarnpkg.com/features/workspaces#gatsby-focus-wrapper) to manage all its packages.
+
+Additionally, this codebase uses a [Plug and Play (pnp)](https://yarnpkg.com/features/pnp) strategy for its dependencies. Materially, this simply means that to start
+developing you just pull the codebase and start working in the package that you need to modify. No need to run `yarn install` because the dependencies are packaged 
+with the codebase.
+
+To start developing in a particular package, read the package's README.md.
+
+# Release
+
+To build and release this site run the following command:
+
+```sh
+yarn release
+```
+
+This will run the release scripts for `@luvle/utils` and `@luvle/luisvalencia.dev` sequentually and run `@luvle/code-deploy` to deploy the site.
+The release scripts for each package will in the very least build and test the package to validate its functinoality.
 
 # Toubleshooting 
 
