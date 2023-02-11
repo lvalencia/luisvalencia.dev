@@ -3,8 +3,12 @@ import { join } from "path";
 import { SupportedRegions } from "./config";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
 import { DefaultLogger, Logger } from "./logger";
-import { fromMaybe, isValidFilePath, ValidFilePath } from "./utils";
-import { difference } from "./utils/array";
+import { 
+  fromMaybe, 
+  difference,
+  isValidFilePath, 
+  ValidFilePath
+} from "@luvle/utils";
 
 type ListObjectParams = S3.Types.ListObjectsRequest;
 type ListObjectsResultData = S3.Types.ListObjectsOutput;

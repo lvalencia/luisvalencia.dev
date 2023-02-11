@@ -9,7 +9,8 @@ import {
   UploadResultSuccess,
 } from "./fileUploader";
 import { DefaultLogger, Logger } from "./logger";
-import { fromMaybe, prettyJSON, ValidFilePath } from "./utils";
+import { fromMaybe, ValidFilePath } from "@luvle/utils";
+import { prettyJSON } from "./helpers";
 import { groupBy } from "underscore";
 
 interface CodeDeployerArgs {

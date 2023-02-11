@@ -1,4 +1,4 @@
-import { fromMaybe } from "../utils";
+import { fromMaybe } from "@luvle/utils";
 import { Formatter } from "./shared";
 
 enum TimestampFormat {

@@ -1,7 +1,7 @@
 import { S3, Credentials } from "aws-sdk";
 import { createReadStream, PathLike, ReadStream } from "fs";
 import { DefaultLogger, Logger } from "./logger";
-import { fromMaybe, ValidFilePath } from "./utils";
+import { fromMaybe, ValidFilePath } from "@luvle/utils";
 import { lookup } from "mime-types";
 import { SupportedRegions } from "./config";
 

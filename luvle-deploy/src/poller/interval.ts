@@ -1,5 +1,5 @@
+import { fromMaybe, Time, PromiseCallback } from "@luvle/utils";
 import { DefaultLogger, Logger } from "../logger";
-import { fromMaybe, Time, PromiseCallback } from "../utils";
 import { Poller } from "./shared";
 
 type Timer = NodeJS.Timer;

@@ -1,4 +1,4 @@
-import { PromiseCallback } from "../utils";
+import { PromiseCallback } from "@luvle/utils";
 
 export interface Poller {
   poll<T>(callback: PromiseCallback<T>): Promise<T>;

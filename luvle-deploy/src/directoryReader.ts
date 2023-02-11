@@ -1,4 +1,4 @@
-import { fromMaybe, isValidFilePath, ValidFilePath } from "./utils";
+import { fromMaybe, isValidFilePath, ValidFilePath } from "@luvle/utils";
 import { Dirent, readdirSync } from "fs";
 import { join } from "path";
 

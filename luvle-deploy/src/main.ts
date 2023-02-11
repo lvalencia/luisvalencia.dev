@@ -1,7 +1,7 @@
 import { CodeDeployer } from "./codeDeployer";
 import { Config } from "./config";
 import { DeploymentLogger } from "./logger";
-import { prettyJSON } from "./utils";
+import { prettyJSON } from "./helpers";
 import { pick } from "underscore";
 
 const logger = new DeploymentLogger();

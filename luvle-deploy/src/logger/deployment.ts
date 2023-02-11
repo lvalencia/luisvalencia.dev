@@ -4,7 +4,7 @@ import {
   ReducerFormatter,
   TimestampFormatter,
 } from "../formatter";
-import { fromMaybe } from "../utils";
+import { fromMaybe } from "@luvle/utils";
 import { DefaultLogger, Logger } from "./shared";
 
 export type LoggerOperations = keyof Logger;

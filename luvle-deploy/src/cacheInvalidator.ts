@@ -3,7 +3,8 @@ import { DeploymentConfiguration } from "./config";
 import { DefaultLogger, Logger } from "./logger";
 import { Poller, PollingStrategy } from "./poller";
 import { PollerFactory } from "./poller/factory";
-import { fromMaybe, prettyJSON, PromiseCallback, Time } from "./utils";
+import { fromMaybe, PromiseCallback, Time } from "@luvle/utils";
+import { prettyJSON } from "./helpers";
 
 type CacheConfiguration = Omit<DeploymentConfiguration, "sourceFolder">;
 

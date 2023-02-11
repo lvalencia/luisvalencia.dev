@@ -606,12 +606,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./luvle-deploy/",\
           "packageDependencies": [\
             ["@luvle/code-deploy", "workspace:luvle-deploy"],\
+            ["@luvle/utils", "workspace:luvle-utils"],\
             ["@tsconfig/recommended", "npm:1.0.2"],\
+            ["@types/chai", "npm:4.3.4"],\
             ["@types/mime-types", "npm:2.1.1"],\
+            ["@types/mocha", "npm:10.0.1"],\
             ["@types/node", "npm:18.11.18"],\
+            ["@types/sinon", "npm:10.0.13"],\
             ["@types/underscore", "npm:1.11.4"],\
             ["aws-sdk", "npm:2.1302.0"],\
+            ["chai", "npm:4.3.7"],\
             ["mime-types", "npm:2.1.35"],\
+            ["mocha", "npm:10.2.0"],\
+            ["sinon", "npm:15.0.1"],\
             ["ts-node", "virtual:1a084bad2586a3b38a33e4ffdeeb82a490b99ef5fdf9df9ac1d290def44e28a1faf4b16251026dd00e5841b87856b8938902adda7e655ebd60d170c992624adb#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"],\
             ["underscore", "npm:1.13.6"]\
