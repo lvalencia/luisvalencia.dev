@@ -618,7 +618,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chai", "npm:4.3.7"],\
             ["mime-types", "npm:2.1.35"],\
             ["mocha", "npm:10.2.0"],\
+            ["npm-run-all", "npm:4.1.5"],\
             ["sinon", "npm:15.0.1"],\
+            ["ts-mocha", "virtual:142dee9201097cbeb4fc017bd680fc6e2db43fd4ca351745209c55cf8cb1ae8d62fe83dc9bbdd6b4e9cf304623abd952f0dcd98a8a5bba239d7a98dd8fd2cc98#npm:10.0.0"],\
             ["ts-node", "virtual:1a084bad2586a3b38a33e4ffdeeb82a490b99ef5fdf9df9ac1d290def44e28a1faf4b16251026dd00e5841b87856b8938902adda7e655ebd60d170c992624adb#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"],\
             ["underscore", "npm:1.13.6"]\

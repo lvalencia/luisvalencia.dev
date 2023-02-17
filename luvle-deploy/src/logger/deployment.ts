@@ -7,7 +7,7 @@ import {
 import { fromMaybe } from "@luvle/utils";
 import { DefaultLogger, Logger } from "./shared";
 
-export type LoggerOperations = keyof Logger;
+export type LoggerOperation = keyof Logger;
 
 interface DeploymentLoggerArgs {
   logger?: Logger;
@@ -30,9 +30,8 @@ export class DeploymentLogger implements Logger {
       maybe: formatter,
       fallback: new ReducerFormatter({
         formatters: [
-          new PrefixFormatter(),
           new PrefixFormatter({
-            prefix: " - ",
+            prefix: "Deploy - "
           }),
           new TimestampFormatter(),
         ],
@@ -59,8 +58,8 @@ export class DeploymentLogger implements Logger {
     this.write("error", ...data);
   }
 
-  private write(action: LoggerOperations, ...data: any[]): void {
-    const output = this.formatter.format(` ${data}`);
+  private write(action: LoggerOperation, ...data: any[]): void {
+    const output = this.formatter.format(`${data}`);
     this.logger[action](output);
   }
 }

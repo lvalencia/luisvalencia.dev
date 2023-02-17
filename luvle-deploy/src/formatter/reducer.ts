@@ -1,6 +1,6 @@
 import { fromMaybe } from "@luvle/utils";
+import { identity } from "underscore";
 import { Formatter } from "./shared";
-import { identity } from "../helpers";
 
 type OrderingFunction = (arr: any[]) => any[];
 

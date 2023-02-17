@@ -7,7 +7,7 @@
     "build": "tsc -p ./tsconfig.json",
     "clean": "rimraf ./dist",
     "test": "ts-mocha --package ./tsconfig.json --paths ./test/**/*.spec.ts",
-    "prepare": "run-s build",
+    "prepare": "run-s build && rimraf ./dist/test",
     "release": "run-s build test"
   },
   "devDependencies": {

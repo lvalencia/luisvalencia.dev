@@ -30,7 +30,7 @@ export class TimestampFormatter implements Formatter {
   }
 
   public format(...data: any[]): string {
-    return `${this.timestamp}${data}`;
+    return `${this.timestamp} ${data}`;
   }
 
   private get timestamp(): string {

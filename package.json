@@ -13,9 +13,10 @@
   "scripts": {
     "deploy:site": "yarn workspace @luvle/code-deploy deploy",
     "deploy:site:poll": "yarn workspace @luvle/code-deploy deploy:poll",
+    "release:deploy": "yarn workspace @luvle/code-deploy release",
     "release:site": "yarn workspace @luvle/luisvalencia.dev release",
     "release:utils": "yarn workspace @luvle/utils release",
-    "release": "run-s release:utils release:site deploy:site",
+    "release": "run-s release:utils release:site release:deploy",
     "release:poll": "run-s release:utils release:site deploy:site:poll"
   },
   "installConfig": {

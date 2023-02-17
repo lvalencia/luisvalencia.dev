@@ -5,7 +5,7 @@ interface PrefixFormatterArgs {
   prefix?: string;
 }
 
-const DEFAULT_FORMAT_PREFIX = "Deploy";
+const DEFAULT_FORMAT_PREFIX = "";
 
 export class PrefixFormatter implements Formatter {
   private prefix: string;
