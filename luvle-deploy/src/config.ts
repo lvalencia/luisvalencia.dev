@@ -31,6 +31,7 @@ export class Config {
   private readonly awsProfile: string;
   private readonly awsRegion: SupportedRegions;
   private readonly distributionDirectory: ValidFilePath;
+  private readonly pollingStrategy: PollingStrategy;
   private awsCredentials: Maybe<Credentials>;
 
   constructor(args: ConfigArgs) {
@@ -38,6 +39,7 @@ export class Config {
       AWS_PROFILE: awsProfile,
       AWS_REGION: awsRegion,
       DISTRIBUTION_DIRECTORY: distributionDirectory,
+      POLL: poll,
     } = args.environmentConfiguration;
 
     this.awsProfile = fromMaybe({
@@ -49,6 +51,15 @@ export class Config {
       maybe: awsRegion,
       fallback: DEFAULT_AWS_REGION,
     });
+
+    const shouldPoll = fromMaybe({
+      maybe: poll,
+      fallback: false,
+    });
+
+    this.pollingStrategy = shouldPoll
+      ? PollingStrategy.PollingWithTimeout
+      : PollingStrategy.NoPolling;
 
     const distributionPath = fromMaybe({
       maybe: distributionDirectory,
@@ -93,8 +104,6 @@ export class Config {
   }
 
   private invalidationPollingStrategy(): PollingStrategy {
-    return process.env.POLL
-      ? PollingStrategy.PollingWithTimeout
-      : PollingStrategy.NoPolling;
+    return this.pollingStrategy;
   }
 }
