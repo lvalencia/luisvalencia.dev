@@ -1,5 +1,5 @@
 import { CloudFront } from "aws-sdk";
-import { DeploymentConfiguration } from "./config";
+import { DeploymentConfiguration } from "./config/deployment";
 import { DefaultLogger, Logger } from "./logger";
 import { Poller, PollingStrategy } from "./poller";
 import { PollerFactory } from "./poller/factory";
@@ -47,12 +47,12 @@ const CLOUDFRONT_P99_INVALIDATION_WAIT_TIME = new Time({
 });
 
 interface CreateInvalidationSuccess {
-  status: "SUCCESS";
+  status: "Success";
   data: CreateInvalidationResultData;
 }
 
 interface CreateInvlidationError {
-  status: "ERROR";
+  status: "Error";
   data: Error;
 }
 
@@ -61,12 +61,12 @@ type CreateInvalidationResult =
   | CreateInvlidationError;
 
 interface GetInvalidationSuccess {
-  status: "SUCCESS";
+  status: "Success";
   data: GetInvalidationResultData;
 }
 
 interface GetInvalidationError {
-  status: "ERROR";
+  status: "Error";
   data: Error;
 }
 
@@ -140,7 +140,7 @@ export class CacheInvalidator implements Invalidator {
       paths
     );
 
-    if (invalidationResult.status === "SUCCESS") {
+    if (invalidationResult.status === "Success") {
       const invalidation = invalidationResult.data.Invalidation!;
       this.logger.log(`${prettyJSON(invalidation)}`);
 
@@ -170,14 +170,14 @@ export class CacheInvalidator implements Invalidator {
           if (error) {
             this.logger.error(`Invlidation error: ${error}`);
             resolve({
-              status: "ERROR",
+              status: "Error",
               data: error,
             });
           }
           if (data) {
             this.logger.info(`Invalidation success: ${data.Location}`);
             resolve({
-              status: "SUCCESS",
+              status: "Success",
               data,
             });
           }
@@ -203,7 +203,7 @@ export class CacheInvalidator implements Invalidator {
           if (error) {
             this.logger.error(`GetInvlidation error: ${error}`);
             resolve({
-              status: "ERROR",
+              status: "Error",
               data: error,
             });
           }
@@ -217,7 +217,7 @@ export class CacheInvalidator implements Invalidator {
           if (data.Invalidation?.Status === "Completed") {
             this.logger.log("Invalidaiton Completed");
             resolve({
-              status: "SUCCESS",
+              status: "Success",
               data,
             });
           }

@@ -4,4 +4,5 @@ export * from "./src/filesystem";
 export * from "./src/functions";
 export * from "./src/maybe";
 export * from "./src/object";
+export * from "./src/string";
 export * from "./src/time";

@@ -1,5 +1,5 @@
 import { CacheInvalidator, Invalidator } from "./cacheInvalidator";
-import { DeploymentConfiguration } from "./config";
+import { DeploymentConfiguration } from "./config/deployment";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
 import { FileSelector, NonUploadedFilesSelector } from "./fileSelector";
 import {
@@ -103,7 +103,7 @@ export class CodeDeployer {
     const groupedResults = groupBy(results, (result) => result.status);
 
     const successes = fromMaybe<UploadResultSuccess[]>({
-      maybe: groupedResults["SUCCESS"] as UploadResultSuccess[],
+      maybe: groupedResults["Success"] as UploadResultSuccess[],
       fallback: [],
     });
     this.logger.log(
@@ -113,7 +113,7 @@ export class CodeDeployer {
     );
 
     const failures = fromMaybe<UploadResultError[]>({
-      maybe: groupedResults["ERROR"] as UploadResultError[],
+      maybe: groupedResults["Error"] as UploadResultError[],
       fallback: [],
     });
     this.logger.log(

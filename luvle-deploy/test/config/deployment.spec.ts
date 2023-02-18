@@ -1,10 +1,10 @@
-import { Config } from "@/src/config";
+import { DeploymentConfig } from "@/src/config/deployment";
 import { expect } from 'chai';
 import { cwd } from "process";
 import { join } from "path";
 import { PollingStrategy } from "@/src/poller";
 
-describe("Config", () => {
+describe("DeploymentConfig", () => {
   describe("#config", () => {
     it("returns the default values", () => {
       const { 
@@ -12,7 +12,7 @@ describe("Config", () => {
         region,
         sourceFolder,
         invalidationPollingStrategy
-      } = new Config({
+      } = new DeploymentConfig({
         environmentConfiguration: {}
       }).config();
 
@@ -38,7 +38,7 @@ describe("Config", () => {
         region,
         sourceFolder,
         invalidationPollingStrategy
-      } = new Config({
+      } = new DeploymentConfig({
         environmentConfiguration,
       }).config();
       

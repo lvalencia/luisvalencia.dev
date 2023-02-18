@@ -3,7 +3,7 @@ import { createReadStream, PathLike, ReadStream } from "fs";
 import { DefaultLogger, Logger } from "./logger";
 import { fromMaybe, ValidFilePath } from "@luvle/utils";
 import { lookup } from "mime-types";
-import { SupportedRegions } from "./config";
+import { SupportedRegions } from "./config/deployment";
 
 type UploadParams = S3.Types.PutObjectRequest;
 type UploadResultData = S3.ManagedUpload.SendData;
@@ -38,11 +38,11 @@ interface FileUploaderArgs {
 }
 
 export interface UploadResultSuccess {
-  status: "SUCCESS";
+  status: "Success";
   data: UploadResultData;
 }
 export interface UploadResultError {
-  status: "ERROR";
+  status: "Error";
   data: Error;
 }
 
@@ -150,14 +150,14 @@ export class FileUploader implements Uploader {
           if (error) {
             this.logger.error(`Upload error: ${error}`);
             resolve({
-              status: "ERROR",
+              status: "Error",
               data: error,
             });
           }
           if (data) {
             this.logger.info(`Upload success: ${data.Location}`);
             resolve({
-              status: "SUCCESS",
+              status: "Success",
               data,
             });
           }

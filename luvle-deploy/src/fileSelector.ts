@@ -1,6 +1,6 @@
 import { S3, Credentials } from "aws-sdk";
 import { join } from "path";
-import { SupportedRegions } from "./config";
+import { SupportedRegions } from "./config/deployment";
 import { DirectoryReader, FileSystemReader } from "./directoryReader";
 import { DefaultLogger, Logger } from "./logger";
 import { 
@@ -29,11 +29,11 @@ interface StorageClientConstructor {
 type SupportedClientAPIs = "2006-03-01";
 
 export interface ListObjectsResultSuccess {
-  status: "SUCCESS";
+  status: "Success";
   data: ListObjectsResultData;
 }
 export interface ListObjectsResultError {
-  status: "ERROR";
+  status: "Error";
   data: Error;
 }
 
@@ -114,10 +114,10 @@ export class NonUploadedFilesSelector implements FileSelector {
   public async selectFiles(): Promise<ValidFilePath[]> {
     let result = await this.queryUploadedFiles();
 
-    if (result.status === "ERROR") {
+    if (result.status === "Error") {
       this.logger.log(`Failed to list objects ${result.data}`);
       result = {
-        status: "SUCCESS",
+        status: "Success",
         data: {
           Contents: [],
         },
@@ -156,7 +156,7 @@ export class NonUploadedFilesSelector implements FileSelector {
           if (error) {
             this.logger.error(`ListObjects error: ${error}`);
             resolve({
-              status: "ERROR",
+              status: "Error",
               data: error,
             });
           }
@@ -165,7 +165,7 @@ export class NonUploadedFilesSelector implements FileSelector {
               `ListObjects success: Found ${data.Contents?.length} Objects`
             );
             resolve({
-              status: "SUCCESS",
+              status: "Success",
               data,
             });
           }

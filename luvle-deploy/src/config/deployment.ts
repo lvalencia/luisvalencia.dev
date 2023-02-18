@@ -8,7 +8,7 @@ import {
   isValidFilePath,
   ValidFilePath,
 } from "@luvle/utils";
-import { PollingStrategy } from "./poller";
+import { PollingStrategy } from "../poller";
 
 export type SupportedRegions = "us-east-1";
 
@@ -19,7 +19,7 @@ export interface DeploymentConfiguration {
   invalidationPollingStrategy: PollingStrategy;
 }
 
-interface ConfigArgs {
+interface DeploymentConfigArgs {
   environmentConfiguration: any;
 }
 
@@ -27,14 +27,14 @@ const DEFAULT_AWS_PROFILE = "luisvalencia.dev";
 const DEFAULT_AWS_REGION: SupportedRegions = "us-east-1";
 const DEFAULT_DISTRIBUTION_DIRECTORY = join(cwd(), "..", "luvle-site", "dist");
 
-export class Config {
+export class DeploymentConfig {
   private readonly awsProfile: string;
   private readonly awsRegion: SupportedRegions;
   private readonly distributionDirectory: ValidFilePath;
   private readonly pollingStrategy: PollingStrategy;
   private awsCredentials: Maybe<Credentials>;
 
-  constructor(args: ConfigArgs) {
+  constructor(args: DeploymentConfigArgs) {
     const {
       AWS_PROFILE: awsProfile,
       AWS_REGION: awsRegion,
