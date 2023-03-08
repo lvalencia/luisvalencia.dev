@@ -29,7 +29,7 @@ export class DeploymentConfigValidator {
   constructor(args: DeploymentConfigValidaatorArgs) {
     const {
       configuration: {
-        credentials
+        credentials,
       }
     } = args;
 
