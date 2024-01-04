@@ -122,6 +122,7 @@ const bookSnippetLinks: BookSnippetLink[] = [
     meta: {
       external: true,
       recommended: true,
+      finished: toISO8601("2023-01-15T08:00:00.000Z"),
     },
   },
   {
@@ -130,6 +131,7 @@ const bookSnippetLinks: BookSnippetLink[] = [
     text: "_mental_models_2",
     meta: {
       external: true,
+      finished: toISO8601("2023-01-15T08:00:00.000Z"),
     },
   },
   {
@@ -155,6 +157,7 @@ const bookSnippetLinks: BookSnippetLink[] = [
     text: "_skeptic",
     meta: {
       external: true,
+      finished: toISO8601("2023-01-15T08:00:00.000Z"),
     },
   },
 ];
