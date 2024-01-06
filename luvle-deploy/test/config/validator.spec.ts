@@ -53,24 +53,24 @@ describe("DeploymentConfigValidtor", () => {
       expect(errors.length).to.equal(1);
       expect(errors[0]).to.match(/aws_access_key_id/);
     });
-  });
 
-  it("returns a valid state", () => {
-    const validator = new DeploymentConfigValidator({
-      configuration: {
-        credentials: {
-          accessKeyId,
-          secretAccessKey
-        } as Credentials
-      } as DeploymentConfiguration
+    it("returns a valid state", () => {
+      const validator = new DeploymentConfigValidator({
+        configuration: {
+          credentials: {
+            accessKeyId,
+            secretAccessKey
+          } as Credentials
+        } as DeploymentConfiguration
+      });
+  
+      const {
+        status,
+        data 
+      } = validator.validate();
+  
+      expect(status).to.equal(DeploymentConfigValidationResultStatus.Valid);
+      expect(data.length).to.equal(0);
     });
-
-    const {
-      status,
-      data 
-    } = validator.validate();
-
-    expect(status).to.equal(DeploymentConfigValidationResultStatus.Valid);
-    expect(data.length).to.equal(0);
   });
 });
