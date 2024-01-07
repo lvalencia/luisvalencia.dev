@@ -1404,7 +1404,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@vue/shared", "npm:3.2.45"],\
             ["estree-walker", "npm:2.0.2"],\
             ["magic-string", "npm:0.25.9"],\
-            ["postcss", "npm:8.4.21"],\
+            ["postcss", "npm:8.4.33"],\
             ["source-map", "npm:0.6.1"]\
           ],\
           "linkType": "HARD"\
@@ -1421,7 +1421,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@vue/shared", "npm:3.2.47"],\
             ["estree-walker", "npm:2.0.2"],\
             ["magic-string", "npm:0.25.9"],\
-            ["postcss", "npm:8.4.21"],\
+            ["postcss", "npm:8.4.33"],\
             ["source-map", "npm:0.6.1"]\
           ],\
           "linkType": "HARD"\
@@ -4614,10 +4614,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:3.3.4", {\
-          "packageLocation": "./.yarn/cache/nanoid-npm-3.3.4-3d250377d6-2fddd6dee9.zip/node_modules/nanoid/",\
+        ["npm:3.3.7", {\
+          "packageLocation": "./.yarn/cache/nanoid-npm-3.3.7-98824ba130-d36c427e53.zip/node_modules/nanoid/",\
           "packageDependencies": [\
-            ["nanoid", "npm:3.3.4"]\
+            ["nanoid", "npm:3.3.7"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5069,11 +5069,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["postcss", [\
-        ["npm:8.4.21", {\
-          "packageLocation": "./.yarn/cache/postcss-npm-8.4.21-9ad76bf58d-e39ac60ccd.zip/node_modules/postcss/",\
+        ["npm:8.4.33", {\
+          "packageLocation": "./.yarn/cache/postcss-npm-8.4.33-6ba8157009-6f98b2af4b.zip/node_modules/postcss/",\
           "packageDependencies": [\
-            ["postcss", "npm:8.4.21"],\
-            ["nanoid", "npm:3.3.4"],\
+            ["postcss", "npm:8.4.33"],\
+            ["nanoid", "npm:3.3.7"],\
             ["picocolors", "npm:1.0.0"],\
             ["source-map-js", "npm:1.0.2"]\
           ],\
@@ -6346,7 +6346,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["esbuild", "npm:0.16.17"],\
             ["fsevents", "patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"],\
             ["less", null],\
-            ["postcss", "npm:8.4.21"],\
+            ["postcss", "npm:8.4.33"],\
             ["resolve", "patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"],\
             ["rollup", "npm:3.10.1"],\
             ["sass", null],\
@@ -6382,7 +6382,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["esbuild", "npm:0.16.17"],\
             ["fsevents", "patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"],\
             ["less", null],\
-            ["postcss", "npm:8.4.21"],\
+            ["postcss", "npm:8.4.33"],\
             ["resolve", "patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"],\
             ["rollup", "npm:3.10.1"],\
             ["sass", "npm:1.57.1"],\
