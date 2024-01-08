@@ -14,12 +14,12 @@ const router = createRouter({
       },
     },
     {
-      path: "/experiments",
-      name: "experiments",
-      component: () => import("../views/ExperimentsView.vue"),
+      path: "/games",
+      name: "games",
+      component: () => import("../views/GamesView.vue"),
       meta: {
         appearsOnTopNavigation: true,
-        i18nKey: "lab",
+        i18nKey: "games",
       },
     },
   ],

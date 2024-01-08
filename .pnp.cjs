@@ -799,7 +799,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@rushstack/eslint-patch", "npm:1.2.0"],\
             ["@types/jsdom", "npm:20.0.1"],\
             ["@types/node", "npm:18.11.18"],\
-            ["@types/three", "npm:0.148.1"],\
+            ["@types/three", "npm:0.160.0"],\
             ["@types/underscore", "npm:1.11.4"],\
             ["@vitejs/plugin-vue", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.2.0"],\
             ["@vue/compiler-dom", "npm:3.2.45"],\
@@ -816,7 +816,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.8.3"],\
             ["rimraf", "npm:3.0.2"],\
             ["sass", "npm:1.57.1"],\
-            ["three", "npm:0.148.0"],\
+            ["three", "npm:0.160.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"],\
             ["underscore", "npm:1.13.6"],\
             ["vite", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:4.5.1"],\
@@ -1170,12 +1170,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@types/three", [\
-        ["npm:0.148.1", {\
-          "packageLocation": "./.yarn/cache/@types-three-npm-0.148.1-6a6ec4c8d4-166eb03b80.zip/node_modules/@types/three/",\
+      ["@types/stats.js", [\
+        ["npm:0.17.3", {\
+          "packageLocation": "./.yarn/cache/@types-stats.js-npm-0.17.3-72645350c6-4f84a012f6.zip/node_modules/@types/stats.js/",\
           "packageDependencies": [\
-            ["@types/three", "npm:0.148.1"],\
-            ["@types/webxr", "npm:0.5.1"]\
+            ["@types/stats.js", "npm:0.17.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/three", [\
+        ["npm:0.160.0", {\
+          "packageLocation": "./.yarn/cache/@types-three-npm-0.160.0-e7f9e2774b-feec3c36b5.zip/node_modules/@types/three/",\
+          "packageDependencies": [\
+            ["@types/three", "npm:0.160.0"],\
+            ["@types/stats.js", "npm:0.17.3"],\
+            ["@types/webxr", "npm:0.5.1"],\
+            ["fflate", "npm:0.6.10"],\
+            ["meshoptimizer", "npm:0.18.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3310,6 +3322,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["fflate", [\
+        ["npm:0.6.10", {\
+          "packageLocation": "./.yarn/cache/fflate-npm-0.6.10-b727a5dabe-96384bc409.zip/node_modules/fflate/",\
+          "packageDependencies": [\
+            ["fflate", "npm:0.6.10"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["file-entry-cache", [\
         ["npm:6.0.1", {\
           "packageLocation": "./.yarn/cache/file-entry-cache-npm-6.0.1-31965cf0af-f49701feaa.zip/node_modules/file-entry-cache/",\
@@ -4564,6 +4585,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/merge2-npm-1.4.1-a2507bd06c-7268db63ed.zip/node_modules/merge2/",\
           "packageDependencies": [\
             ["merge2", "npm:1.4.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["meshoptimizer", [\
+        ["npm:0.18.1", {\
+          "packageLocation": "./.yarn/cache/meshoptimizer-npm-0.18.1-ce62c2344d-101dbed8ab.zip/node_modules/meshoptimizer/",\
+          "packageDependencies": [\
+            ["meshoptimizer", "npm:0.18.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6045,10 +6075,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["three", [\
-        ["npm:0.148.0", {\
-          "packageLocation": "./.yarn/cache/three-npm-0.148.0-c0c409314a-3f6359585c.zip/node_modules/three/",\
+        ["npm:0.160.0", {\
+          "packageLocation": "./.yarn/cache/three-npm-0.160.0-970ca82042-ae9aadbcdf.zip/node_modules/three/",\
           "packageDependencies": [\
-            ["three", "npm:0.148.0"]\
+            ["three", "npm:0.160.0"]\
           ],\
           "linkType": "HARD"\
         }]\

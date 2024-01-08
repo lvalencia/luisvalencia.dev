@@ -67,15 +67,15 @@ nav > * + * {
 {
   "en": {
     "home": "Home",
-    "lab": "Laboratory"
+    "games": "Games"
   },
   "es": {
     "home": "Inicio",
-    "lab": "Laboratorio"
+    "games": "Juegos"
   },
   "ca": {
     "home": "Inici",
-    "lab": "Laboratori"
+    "games": "Jocs"
   }
 }
 </i18n>
