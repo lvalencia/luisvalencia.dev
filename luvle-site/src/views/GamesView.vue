@@ -1,7 +1,24 @@
 <script lang="ts">
 import { isSomething } from "@luvle/utils";
 import type { Maybe } from "@luvle/utils";
-import { Scene, PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh, Color } from 'three';
+import {
+  AmbientLight,
+  DirectionalLight,
+  Scene,
+  PerspectiveCamera,
+  WebGLRenderer,
+  BoxGeometry,
+  MeshStandardMaterial,
+  Mesh,
+  Color,
+  EdgesGeometry,
+  LineSegments,
+  LineBasicMaterial,
+  PointLight,
+  PCFSoftShadowMap,
+  Raycaster,
+  Vector2
+} from 'three';
 
 interface IsSomethingOrThrowArgs<T> {
   maybe: Maybe<T>;
@@ -18,10 +35,12 @@ interface AdjustViewArgs {
   canvas: HTMLCanvasElement;
   renderer: WebGLRenderer;
   camera: PerspectiveCamera;
-
 }
 
+// Helper Functions
 function adjustView({ canvas, renderer, camera }: AdjustViewArgs) {
+  camera.updateMatrixWorld();
+
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
   if (width !== canvas.width || height !== canvas.height) {
@@ -31,15 +50,66 @@ function adjustView({ canvas, renderer, camera }: AdjustViewArgs) {
   }
 }
 
+function getRandomIntInclusive(lower: number, upper: number): number {
+  const min = Math.ceil(lower);
+  const max = Math.floor(upper);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getCubeState(value: number): CubeState {
+  switch (value) {
+    case 1:
+      return CubeState.NOT_PRESSED;
+    case 2:
+      return CubeState.SHOULD_PRESS;
+    case 3:
+      return CubeState.DONT_PRESS;
+    default:
+      throw new Error('Invalid value: Expected a number between 1 and 3');
+  }
+}
+
+enum CubeState {
+  NOT_PRESSED = 0x0099ff,
+  SHOULD_PRESS = 0x66ff66,
+  DONT_PRESS = 0xff6666,
+  PRESSED = 0xefefef,
+}
+
 const sceneId = "scene";
 
+interface GameViewData {
+  canvas: HTMLCanvasElement;
+  camera: PerspectiveCamera;
+  raycaster: Raycaster;
+  scene: Scene;
+  mouse: Vector2;
+  cubes: Mesh[];
+}
+
+// Replae with Vue Global State Construct?
+const globalState = {
+  shouldIdleBreathe: true
+};
+
 export default {
+  data(): GameViewData {
+    return {
+      canvas: {} as HTMLCanvasElement,
+      camera: {} as PerspectiveCamera,
+      raycaster: new Raycaster(),
+      mouse: new Vector2(),
+      scene: {} as Scene,
+      cubes: [],
+    };
+  },
   mounted() {
-    const canvas = document.getElementById(sceneId) as HTMLCanvasElement;
+    this.canvas = document.getElementById(sceneId) as HTMLCanvasElement;
     isSomethingOrThrow({
-      maybe: canvas,
+      maybe: this.canvas,
       error: `Canvas element ${sceneId} not found`
     });
+    const canvas = this.canvas;
 
     const context = canvas.getContext('webgl2')!;
     isSomethingOrThrow({
@@ -48,12 +118,19 @@ export default {
     });
 
     const renderer = new WebGLRenderer({ context, canvas });
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    // Add Shadows
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = PCFSoftShadowMap;
+    renderer.setPixelRatio(window.devicePixelRatio);
 
     const scene = new Scene();
-    scene.background = new Color(0x000000);
+    this.scene = scene;
+    scene.background = new Color(0xf0f0f0);
+
+    // Camera
     const cameraFOV = 75;
-    const cameraAspect = window.innerWidth / window.innerHeight;
+    const cameraAspect = canvas.clientWidth / canvas.clientHeight;
     const cameraNearClipping = 0.1;
     const cameraFarClipping = 100;
     const camera = new PerspectiveCamera(
@@ -62,26 +139,152 @@ export default {
       cameraNearClipping,
       cameraFarClipping
     );
-    camera.position.set(0, 0, 75);
-    camera.lookAt(0, 0, 0);
+    this.camera = camera;
+
+    // Constants for the setup
+    const angle = 70; // angle in degrees
+    const radians = (angle / 180) * Math.PI; // convert angle to radians
+    const distance = 4; // how far the camera should be from the point it's looking at
+
+    const x = 0;
+    const y = distance * Math.sin(radians);
+    const z = distance * Math.cos(radians);
+
+    // Look from above looking down
+    camera.position.set(x, y, z);
+    camera.lookAt(scene.position); // Pointing the camera toward the center of the scene
+    camera.updateProjectionMatrix();
+
+    // Lighting 
+    const ambientLight = new AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const directionalLight = new DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(5, 5, 5);
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
+
+    const pointLight = new PointLight(0xffffff, 1, 100);
+    pointLight.position.set(0, 5, 5);
+    scene.add(pointLight);
 
     const geometry = new BoxGeometry(1, 1, 1);
-    const material = new MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new Mesh(geometry, material);
-    scene.add(cube);
 
-    camera.position.z = 5;
+    // Create Cubes
+    const cubes: Mesh[] = [];
+    this.cubes = cubes;
+    const rows = [3, 4, 3];
 
-    function animate() {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+    const offset = Math.max(...rows) / 2 - 0.5; // Centering offset for the cubes
+    const cubeSize = geometry.parameters.width;
+    const cubeGap = 0.2;
+    const cubeSpacing = (cubeSize + cubeGap);
+
+    rows.forEach((numCubes, rowIndex) => {
+      for (let i = 0; i < numCubes; i++) {
+
+        const material = new MeshStandardMaterial({ color: getCubeState(getRandomIntInclusive(1, 3)) });
+        const cube = new Mesh(geometry, material.clone());
+
+        // Position of the Cubes
+        const positionX = i * cubeSpacing - ((numCubes - 1) * cubeSpacing) / 2;
+        const positionZ = rowIndex * cubeSpacing - (rows.length - 1) * cubeSpacing / 2; // offset for z to center the rows
+
+        cube.position.set(positionX, 0, positionZ);
+
+        // Add some Jitter
+        // Random rotation
+        cube.rotation.x = Math.random() * 0.2 - 0.1; // Slight rotation about X-axis
+        cube.rotation.y = Math.random() * 0.2 - 0.1; // Slight rotation about Y-axis
+
+        // Random position offset
+        cube.position.x += Math.random() * 0.2 - 0.1;
+        cube.position.z += Math.random() * 0.2 - 0.1;
+
+        // Allow Shadows
+        cube.receiveShadow = true;
+        cube.castShadow = true;
+
+        // Add some Edges
+        const edges = new EdgesGeometry(geometry);
+        const line = new LineSegments(edges, new LineBasicMaterial({ color: 0xffffff }));
+        cube.add(line); // Add the edges as a child of the cube
+
+        cube.userData = {
+          breathingFrequency: getRandomIntInclusive(1, 5) / 3200
+        };
+
+        // Add to our List
+        cubes.push(cube);
+      }
+    });
+
+    cubes.forEach(cube => {
+      scene.add(cube);
+    });
+
+    // Interaction
+    this.canvas.addEventListener('click', this.onCanvasClick);
+
+    function animate(time: DOMHighResTimeStamp) {
+      // Animations
+      if (globalState.shouldIdleBreathe) {
+        // levitating
+        cubes.forEach((cube) => {
+          cube.position.y = 0.2 * Math.sin(time * cube.userData.breathingFrequency);
+        });
+      } else {
+        // Snap down
+        cubes.forEach((cube) => {
+          cube.position.y = 0;
+        });
+      }
 
       adjustView({ canvas, renderer, camera });
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
 
-    animate();
+    requestAnimationFrame(animate);
+  },
+  beforeUnmount() {
+    this.canvas.removeEventListener('click', this.onCanvasClick);
+  },
+  methods: {
+    onCanvasClick(event: MouseEvent) {
+      globalState.shouldIdleBreathe = false;
+      const rect = this.canvas.getBoundingClientRect();
+
+      // Position relative to canvas
+      const canvasRelativeX = event.clientX - rect.left;
+      const canvasRelativeY = event.clientY - rect.top;
+      const canvasWidth = rect.width;
+      const canvasHeight = rect.height;
+
+      // Normalize
+      // Normalized Device Coordinates [-1,1]
+      const ndcUnit = 1;
+      const lengthOfNDCSquare = 2; // length from -1 to 1
+      const inversion = -1;
+
+      const normalizedX = (canvasRelativeX / canvasWidth) * lengthOfNDCSquare - ndcUnit;
+      const normalizedY = inversion * (canvasRelativeY / canvasHeight) * lengthOfNDCSquare + ndcUnit;
+
+      // set Coordinates
+      this.mouse.x = normalizedX;
+      this.mouse.y = normalizedY;
+
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+
+      const intersects = this.raycaster.intersectObjects(this.scene.children, false);
+
+      if (intersects.length > 0) {
+        const intersected = intersects[0].object;
+        if (intersected instanceof Mesh) {
+          intersected.material.color.set(CubeState.PRESSED);
+        }
+      }
+    }
   }
 }
 </script>
@@ -94,8 +297,17 @@ export default {
 </template>
 
 <style scoped lang="scss">
+div.games {
+  max-height: 720px;
+  max-width: 1280px;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+
 canvas#scene {
-  height: 720px;
-  width: 1280px;
+  width: 100%;
+  height: 100%;
 }
 </style>
