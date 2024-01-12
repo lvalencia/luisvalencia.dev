@@ -19,6 +19,7 @@ import {
   Raycaster,
   Vector2
 } from 'three';
+import { times } from "underscore";
 
 interface IsSomethingOrThrowArgs<T> {
   maybe: Maybe<T>;
@@ -90,6 +91,35 @@ interface GameViewData {
     shouldIdleBreathe: boolean;
     points: number;
   }
+}
+
+let rattlingDuration = 150; // In Milliis
+let rattleIntensity = 0.1;
+let scaleIncrease = 1.2; // Maximum scale increase
+
+function rattleAnimation(time: DOMHighResTimeStamp, cube: Mesh) {
+  if (cube.userData.pressedAt == 0) return;
+  const startTime = cube.userData.pressedAt;
+
+  const elapsedTime = time - startTime;
+  if (elapsedTime > rattlingDuration) {
+    // Stop the animation after the duration has passed
+    cube.userData.pressedAt == 0
+    const { x, y, z } = cube.userData.position;
+    cube.position.set(x, y, z);
+    cube.scale.set(1, 1, 1); // Reset scale after animation
+    return;
+  }
+
+  // Rattle effect - Slightly randomize position
+  cube.position.x += (Math.random() - 0.5) * rattleIntensity;
+  cube.position.y += (Math.random() - 0.5) * rattleIntensity;
+  cube.position.z += (Math.random() - 0.5) * rattleIntensity;
+
+  // Grow effect - Gradually increase scale
+  const progress = elapsedTime / rattlingDuration;
+  const scale = 1 + progress * (scaleIncrease - 1); // Linearly interpolate scale
+  cube.scale.set(scale, scale, scale);
 }
 
 export default {
@@ -223,7 +253,8 @@ export default {
             y: 0,
             z: positionZ
           },
-          cubeState
+          cubeState,
+          pressedAt: 0
         };
 
         // Add to our List
@@ -255,6 +286,7 @@ export default {
           cube.position.y = 0;
         });
       }
+      cubes.forEach(cube => rattleAnimation(time, cube));
 
       adjustView({ canvas, renderer, camera });
       renderer.render(scene, camera);
@@ -307,7 +339,7 @@ export default {
             this.addPoints();
           case CubeState.PRESSED:
           case CubeState.NOT_PRESSED:
-            // pressAnimation(intersected);
+            intersected.userData.pressedAt = performance.now();
             if (intersected instanceof Mesh) {
               intersected.material.color.set(CubeState.PRESSED);
             }
@@ -321,10 +353,10 @@ export default {
       };
 
       switch (key) {
-        case Keys.Space: 
+        case Keys.Space:
           const didWin = this.cubes.filter((cube) => cube.userData.cubeState === CubeState.SHOULD_PRESS).length === 0;
-          if (didWin){
-              this.winAnimation();
+          if (didWin) {
+            this.winAnimation();
           } else {
             this.loseAnimation();
           }
@@ -359,12 +391,18 @@ export default {
       this.gameData.shouldIdleBreathe = true;
     },
     loseAnimation() {
+      const animationDuration = 1500;
+      rattlingDuration = animationDuration;
+      rattleIntensity = 0.05;
+      scaleIncrease = 1;
+
       this.canvas.removeEventListener('click', this.onCanvasClick);
-        this.canvas.removeEventListener('keydown', this.handleInput);
+      this.canvas.removeEventListener('keydown', this.handleInput);
 
       this.gameData.points = 0;
       // Set all cubes to not pressed
       this.cubes.forEach((cube) => {
+        cube.userData.pressedAt = performance.now();
         if ('color' in cube.material) {
           (cube.material as MeshStandardMaterial).color.set(CubeState.NOT_PRESSED);
         }
@@ -375,7 +413,7 @@ export default {
 
         this.cubes.forEach((cube) => {
           if ('color' in cube.material) {
-          // Toggle between red and bright red
+            // Toggle between red and bright red
             const newColor = (cube.material as MeshStandardMaterial).color.getHex() === CubeState.DONT_PRESS ? CubeState.NOT_PRESSED : CubeState.DONT_PRESS;
             (cube.material as MeshStandardMaterial).color.set(newColor);
           }
@@ -389,13 +427,24 @@ export default {
         this.initCubes();
         this.canvas.addEventListener('click', this.onCanvasClick);
         this.canvas.addEventListener('keydown', this.handleInput);
-      }, 2000); // Run the flashing for 2 seconds
+        rattlingDuration = 150;
+        rattleIntensity = 0.1;
+        scaleIncrease = 1.2;
+
+      }, animationDuration); // Run the flashing for 2 seconds
     },
     winAnimation() {
+      const animationDuration = 1500;
+      rattlingDuration = animationDuration;
+      rattleIntensity = 0.05;
+      scaleIncrease = 1;
+
       this.canvas.removeEventListener('click', this.onCanvasClick);
       this.canvas.removeEventListener('keydown', this.handleInput);
 
       this.cubes.forEach((cube) => {
+        cube.userData.pressedAt = performance.now();
+
         if ('color' in cube.material) {
           (cube.material as MeshStandardMaterial).color.set(CubeState.NOT_PRESSED);
         }
@@ -406,7 +455,7 @@ export default {
 
         this.cubes.forEach((cube) => {
           if ('color' in cube.material) {
-          // Toggle between red and bright red
+            // Toggle between red and bright red
             const newColor = (cube.material as MeshStandardMaterial).color.getHex() === CubeState.SHOULD_PRESS ? CubeState.NOT_PRESSED : CubeState.SHOULD_PRESS;
             (cube.material as MeshStandardMaterial).color.set(newColor);
           }
@@ -420,8 +469,12 @@ export default {
         this.initCubes();
         this.canvas.addEventListener('click', this.onCanvasClick);
         this.canvas.addEventListener('keydown', this.handleInput);
-      }, 2000); // Run the flashing for 2 seconds 
-    }
+        rattlingDuration = 150;
+        rattleIntensity = 0.1;
+        scaleIncrease = 1.2;
+
+      }, animationDuration); // Run the flashing for 2 seconds 
+    },
   }
 }
 </script>
