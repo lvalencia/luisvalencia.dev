@@ -85,12 +85,12 @@ interface GameViewData {
   scene: Scene;
   mouse: Vector2;
   cubes: Mesh[];
+  lastAcceleration: { x: number | null, y: number | null, z: number | null };
+  gameData: {
+    shouldIdleBreathe: boolean;
+    points: number;
+  }
 }
-
-// Replae with Vue Global State Construct?
-const globalState = {
-  shouldIdleBreathe: true
-};
 
 export default {
   data(): GameViewData {
@@ -101,6 +101,11 @@ export default {
       mouse: new Vector2(),
       scene: {} as Scene,
       cubes: [],
+      lastAcceleration: { x: null, y: null, z: null },
+      gameData: {
+        shouldIdleBreathe: true,
+        points: 0
+      }
     };
   },
   mounted() {
@@ -183,7 +188,8 @@ export default {
     rows.forEach((numCubes, rowIndex) => {
       for (let i = 0; i < numCubes; i++) {
 
-        const material = new MeshStandardMaterial({ color: getCubeState(getRandomIntInclusive(1, 3)) });
+        const cubeState = getCubeState(getRandomIntInclusive(1, 3));
+        const material = new MeshStandardMaterial({ color: cubeState });
         const cube = new Mesh(geometry, material.clone());
 
         // Position of the Cubes
@@ -211,7 +217,13 @@ export default {
         cube.add(line); // Add the edges as a child of the cube
 
         cube.userData = {
-          breathingFrequency: getRandomIntInclusive(1, 5) / 3200
+          breathingFrequency: getRandomIntInclusive(1, 5) / 3200,
+          position: {
+            x: positionX,
+            y: 0,
+            z: positionZ
+          },
+          cubeState
         };
 
         // Add to our List
@@ -223,12 +235,16 @@ export default {
       scene.add(cube);
     });
 
+
     // Interaction
     this.canvas.addEventListener('click', this.onCanvasClick);
+    this.canvas.addEventListener('keydown', this.handleInput);
+
+    const gameData = this.gameData;
 
     function animate(time: DOMHighResTimeStamp) {
       // Animations
-      if (globalState.shouldIdleBreathe) {
+      if (gameData.shouldIdleBreathe) {
         // levitating
         cubes.forEach((cube) => {
           cube.position.y = 0.2 * Math.sin(time * cube.userData.breathingFrequency);
@@ -252,7 +268,7 @@ export default {
   },
   methods: {
     onCanvasClick(event: MouseEvent) {
-      globalState.shouldIdleBreathe = false;
+      this.gameData.shouldIdleBreathe = false;
       const rect = this.canvas.getBoundingClientRect();
 
       // Position relative to canvas
@@ -280,10 +296,131 @@ export default {
 
       if (intersects.length > 0) {
         const intersected = intersects[0].object;
-        if (intersected instanceof Mesh) {
-          intersected.material.color.set(CubeState.PRESSED);
+        const cubeState = intersected.userData.cubeState;
+
+        switch (cubeState) {
+          case CubeState.DONT_PRESS:
+            this.loseAnimation();
+            break;
+          case CubeState.SHOULD_PRESS:
+            intersected.userData.cubeState = CubeState.PRESSED;
+            this.addPoints();
+          case CubeState.PRESSED:
+          case CubeState.NOT_PRESSED:
+            // pressAnimation(intersected);
+            if (intersected instanceof Mesh) {
+              intersected.material.color.set(CubeState.PRESSED);
+            }
+            break;
         }
       }
+    },
+    handleInput({ key }: KeyboardEvent) {
+      const Keys = {
+        Space: ' '
+      };
+
+      switch (key) {
+        case Keys.Space: 
+          const didWin = this.cubes.filter((cube) => cube.userData.cubeState === CubeState.SHOULD_PRESS).length === 0;
+          if (didWin){
+              this.winAnimation();
+          } else {
+            this.loseAnimation();
+          }
+          break;
+      }
+    },
+    addPoints() {
+      this.gameData.points += 50;
+    },
+    initCubes() {
+      this.cubes.forEach((cube) => {
+        const cubeState = getCubeState(getRandomIntInclusive(1, 3));
+        // Re-Do the color of the
+        if ('color' in cube.material) {
+          (cube.material as MeshStandardMaterial).color.set(cubeState);
+        }
+        // Re-Do the position of the cubes
+        const { x, y, z } = cube.userData.position;
+        cube.position.set(x, y, z);
+        // Add some Jitter
+        // Random rotation
+        cube.rotation.x = Math.random() * 0.2 - 0.1; // Slight rotation about X-axis
+        cube.rotation.y = Math.random() * 0.2 - 0.1; // Slight rotation about Y-axis
+
+        // Random position offset
+        cube.position.x += Math.random() * 0.2 - 0.1;
+        cube.position.z += Math.random() * 0.2 - 0.1;
+
+        cube.userData.cubeState = cubeState;
+
+      });
+      this.gameData.shouldIdleBreathe = true;
+    },
+    loseAnimation() {
+      this.canvas.removeEventListener('click', this.onCanvasClick);
+        this.canvas.removeEventListener('keydown', this.handleInput);
+
+      this.gameData.points = 0;
+      // Set all cubes to not pressed
+      this.cubes.forEach((cube) => {
+        if ('color' in cube.material) {
+          (cube.material as MeshStandardMaterial).color.set(CubeState.NOT_PRESSED);
+        }
+      });
+
+      // Start flashing
+      const flashInterval = setInterval(() => {
+
+        this.cubes.forEach((cube) => {
+          if ('color' in cube.material) {
+          // Toggle between red and bright red
+            const newColor = (cube.material as MeshStandardMaterial).color.getHex() === CubeState.DONT_PRESS ? CubeState.NOT_PRESSED : CubeState.DONT_PRESS;
+            (cube.material as MeshStandardMaterial).color.set(newColor);
+          }
+        });
+      }, 250); // Flash every 250 milliseconds
+
+      // Stop flashing after 2 seconds and reset colors
+      setTimeout(() => {
+        clearInterval(flashInterval);
+        // Once the animation is done, re-initialize the cubes
+        this.initCubes();
+        this.canvas.addEventListener('click', this.onCanvasClick);
+        this.canvas.addEventListener('keydown', this.handleInput);
+      }, 2000); // Run the flashing for 2 seconds
+    },
+    winAnimation() {
+      this.canvas.removeEventListener('click', this.onCanvasClick);
+      this.canvas.removeEventListener('keydown', this.handleInput);
+
+      this.cubes.forEach((cube) => {
+        if ('color' in cube.material) {
+          (cube.material as MeshStandardMaterial).color.set(CubeState.NOT_PRESSED);
+        }
+      });
+
+      // Start flashing
+      const flashInterval = setInterval(() => {
+
+        this.cubes.forEach((cube) => {
+          if ('color' in cube.material) {
+          // Toggle between red and bright red
+            const newColor = (cube.material as MeshStandardMaterial).color.getHex() === CubeState.SHOULD_PRESS ? CubeState.NOT_PRESSED : CubeState.SHOULD_PRESS;
+            (cube.material as MeshStandardMaterial).color.set(newColor);
+          }
+        });
+      }, 250); // Flash every 250 milliseconds
+
+      // Stop flashing after 2 seconds and reset colors
+      setTimeout(() => {
+        clearInterval(flashInterval);
+        // Once the animation is done, re-initialize the cubes
+        this.initCubes();
+        this.canvas.addEventListener('click', this.onCanvasClick);
+        this.canvas.addEventListener('keydown', this.handleInput);
+      }, 2000); // Run the flashing for 2 seconds 
     }
   }
 }
@@ -292,7 +429,7 @@ export default {
 <template>
   <div class="games">
     <h1>Games</h1>
-    <canvas id="scene"></canvas>
+    <canvas id="scene" tabindex="0"></canvas>
   </div>
 </template>
 
@@ -309,5 +446,6 @@ div.games {
 canvas#scene {
   width: 100%;
   height: 100%;
+  outline: none;
 }
 </style>
