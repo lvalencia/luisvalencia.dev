@@ -1,6 +1,15 @@
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
+const { t } = useI18n({
+  useScope: "local",
+});
+</script>
+
 <script lang="ts">
 import { isSomething } from "@luvle/utils";
 import type { Maybe } from "@luvle/utils";
+import { initializeCanvas } from "./games/canvas";
+import { initializeScene } from "./games/cube-up/scene";
 import {
   AmbientLight,
   DirectionalLight,
@@ -19,7 +28,6 @@ import {
   Raycaster,
   Vector2
 } from 'three';
-import { times } from "underscore";
 
 interface IsSomethingOrThrowArgs<T> {
   maybe: Maybe<T>;
@@ -86,7 +94,6 @@ interface GameViewData {
   scene: Scene;
   mouse: Vector2;
   cubes: Mesh[];
-  lastAcceleration: { x: number | null, y: number | null, z: number | null };
   gameData: {
     shouldIdleBreathe: boolean;
     points: number;
@@ -131,7 +138,6 @@ export default {
       mouse: new Vector2(),
       scene: {} as Scene,
       cubes: [],
-      lastAcceleration: { x: null, y: null, z: null },
       gameData: {
         shouldIdleBreathe: true,
         points: 0
@@ -139,69 +145,23 @@ export default {
     };
   },
   mounted() {
-    this.canvas = document.getElementById(sceneId) as HTMLCanvasElement;
-    isSomethingOrThrow({
-      maybe: this.canvas,
-      error: `Canvas element ${sceneId} not found`
+    const {
+      canvas,
+      context,
+      renderer
+    } = initializeCanvas({
+      id: "scene"
     });
-    const canvas = this.canvas;
+    this.canvas = canvas;
 
-    const context = canvas.getContext('webgl2')!;
-    isSomethingOrThrow({
-      maybe: context,
-      error: "WebGL2 context could not be created"
+    const {
+      camera,
+      scene 
+    } = initializeScene({
+      canvas
     });
-
-    const renderer = new WebGLRenderer({ context, canvas });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-    // Add Shadows
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = PCFSoftShadowMap;
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    const scene = new Scene();
     this.scene = scene;
-    scene.background = new Color(0xf0f0f0);
-
-    // Camera
-    const cameraFOV = 75;
-    const cameraAspect = canvas.clientWidth / canvas.clientHeight;
-    const cameraNearClipping = 0.1;
-    const cameraFarClipping = 100;
-    const camera = new PerspectiveCamera(
-      cameraFOV,
-      cameraAspect,
-      cameraNearClipping,
-      cameraFarClipping
-    );
     this.camera = camera;
-
-    // Constants for the setup
-    const angle = 70; // angle in degrees
-    const radians = (angle / 180) * Math.PI; // convert angle to radians
-    const distance = 4; // how far the camera should be from the point it's looking at
-
-    const x = 0;
-    const y = distance * Math.sin(radians);
-    const z = distance * Math.cos(radians);
-
-    // Look from above looking down
-    camera.position.set(x, y, z);
-    camera.lookAt(scene.position); // Pointing the camera toward the center of the scene
-    camera.updateProjectionMatrix();
-
-    // Lighting 
-    const ambientLight = new AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    const directionalLight = new DirectionalLight(0xffffff, 0.5);
-    directionalLight.position.set(5, 5, 5);
-    directionalLight.castShadow = true;
-    scene.add(directionalLight);
-
-    const pointLight = new PointLight(0xffffff, 1, 100);
-    pointLight.position.set(0, 5, 5);
-    scene.add(pointLight);
 
     const geometry = new BoxGeometry(1, 1, 1);
 
@@ -475,30 +435,47 @@ export default {
 
       }, animationDuration); // Run the flashing for 2 seconds 
     },
-  }
+  },
 }
 </script>
 
 <template>
   <div class="games">
-    <h1>Games</h1>
-    <canvas id="scene" tabindex="0"></canvas>
+    <h1>{{  t("title") }}</h1>
+    <div class="canvas-container">
+      <canvas id="scene" tabindex="0"></canvas>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-div.games {
+div.canvas-container {
   max-height: 720px;
   max-width: 1280px;
   aspect-ratio: 16 / 9;
   width: 100%;
   height: auto;
   margin: auto;
-}
 
-canvas#scene {
-  width: 100%;
-  height: 100%;
-  outline: none;
+  canvas {
+    width: 100%;
+    height: 100%;
+    outline: none;
+  }
 }
 </style>
+
+<i18n lang="json">
+  {
+    "en": {
+      "title": "Games"
+    },
+    "es": {
+      "title": "Juegos"
+    },
+    "ca": {
+      "title": "Jocs"
+    }
+  }
+  </i18n>
+  

@@ -16,7 +16,7 @@ function makeImages({ prefix, size, extension }: MakeImageIteratorArgs) {
     size,
   }).map((index) => {
     const url = new URL(
-      `../${imagesDirectoryRelativePath}/${prefix}_${index}.${extension}`,
+      `../../${imagesDirectoryRelativePath}/${prefix}_${index}.${extension}`,
       import.meta.url
     );
     return url.href;

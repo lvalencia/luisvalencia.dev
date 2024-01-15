@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import ProfileImage from "@/components/ProfileImage.vue";
+import ProfileImage from "@/components/home/ProfileImage.vue";
 
 const delay = (ms: number) => {
   return new Promise((res) => setTimeout(res, ms));

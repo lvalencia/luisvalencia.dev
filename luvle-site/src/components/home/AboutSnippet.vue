@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MaybeComponent from "./MaybeComponent.vue";
+import MaybeComponent from "../MaybeComponent.vue";
 </script>
 
 <script lang="ts">

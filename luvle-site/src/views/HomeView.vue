@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import ProfileImage from "@/components/ProfileImage.vue";
-import AboutSnippet from "@/components/AboutSnippet.vue";
+import ProfileImage from "@/components/home/ProfileImage.vue";
+import AboutSnippet from "@/components/home/AboutSnippet.vue";
+import MaybeComponent from "@/components/MaybeComponent.vue";
 import type { Maybe } from "@luvle/utils";
 
 const { t } = useI18n({
@@ -23,7 +24,6 @@ function externalTargetOrNothing(isExternal: Maybe<boolean>): Maybe<string> {
 <script lang="ts">
 import { useGrid } from "../stores/useGrid";
 import { mapState } from "pinia";
-import MaybeComponent from "@/components/MaybeComponent.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import type { Snippet, BookSnippet, BookSnippetLink } from "./home/snippets";
 import { incompleteBooks, completedBooksByYear } from "./home/bookSnippetLinks";
@@ -128,7 +128,6 @@ export default {
   computed: {
     ...mapState(useGrid, ["classObject"]),
   },
-  components: { MaybeComponent },
 };
 </script>
 
@@ -263,7 +262,7 @@ a + svg {
     "state": "{state}: {status}",
     "_current_job": "Amazon Kuiper",
     "_patents": "inventor",
-    "_read": "voracious reader",
+    "_read": "avid reader",
     "_family": "husband and father",
     "_emphasis": "",
     "about": "I'm a Sr. Software Engineer at {current_job}. {break} I am also a {patentHolder}, {familyMan}, and {reader}.",
@@ -284,7 +283,7 @@ a + svg {
     "_tao": "Tao The Ching",
     "_psilocybin": "Psilocybin Mushrooms of the World: An Identification Guide",
     "_mushrooms": "Growing Gourmet and Medicinal Mushrooms",
-    "_read_title": "Voracious Reader",
+    "_read_title": "Avid Reader",
     "_read_year_fallback": "the last year",
     "read": "In {year} I read:{break} {links}",
     "_science": "The Art of Doing Science and Engineering",

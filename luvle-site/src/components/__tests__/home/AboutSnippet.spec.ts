@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import AboutSnippet from "../AboutSnippet.vue";
+import AboutSnippet from "@/components/home/AboutSnippet.vue";
 
 describe("AboutSnippet", () => {
   const titleTag = "h3";
