@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {isSomething,fromMaybe} from '@/maybe';
+import {isSomething,fromMaybe,fromMaybeOrThrow} from '@/maybe';
 
 describe("maybe", () => {
   describe("#isSomething", () => {
@@ -29,7 +29,26 @@ describe("maybe", () => {
         maybe: undefined,
         fallback,
       });
-      expect(result).equals(fallback);
+      expect(result).equals(fallback); 
+    });
+  });
+  describe("#fromMaybeOrThrow", () => {
+    it("returns unwrapped maybe value", () => {
+      const something = 0;
+      const result = fromMaybeOrThrow({
+        maybe: something,
+        error: "it threw but shouldn't have"
+      });
+      expect(result).equals(something);
+    });
+    it("throws", () => {
+      const error = "error";
+      expect(() => {
+        fromMaybeOrThrow({
+          maybe: undefined,
+          error
+        });
+      }).to.throw(error);
     });
   });
 });
