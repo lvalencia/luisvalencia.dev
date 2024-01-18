@@ -79,6 +79,7 @@ interface ConfigureCameraArgs {
   camera: PerspectiveCamera; 
   scene: Scene;
 }
+
 function configureCamera({canvas, camera, scene}: ConfigureCameraArgs): void {
   const {
     fieldOfView,
@@ -106,6 +107,7 @@ interface SimplePosition {
   y: number;
   z: number;
 }
+
 interface CameraConfiguration {
   fieldOfView: number;
   aspectRatio: number;
@@ -113,6 +115,7 @@ interface CameraConfiguration {
   farClipping: number;
   position: SimplePosition;
 }
+
 function cameraConfiguration(canvas: HTMLCanvasElement): CameraConfiguration {
   /*
    * Camera position we want is an overhead view at

@@ -1,18 +1,18 @@
 import { fromMaybe, fromNullableOrThrow, isNonNull, type Maybe } from "@luvle/utils";
 import { PCFSoftShadowMap, WebGLRenderer } from "three";
 
-interface InitializeCanvasArgs {
+interface initializeWebGLArgs {
   id: string;
   preventStyleChanges?: Maybe<boolean>;
 }
 
-interface InitializedCanvas {
+interface InitializedWebGL {
   canvas: HTMLCanvasElement;
   context: WebGL2RenderingContext;
   renderer: WebGLRenderer;
 }
 
-export function initializeCanvas({id, preventStyleChanges}: InitializeCanvasArgs): InitializedCanvas {
+export function initializeWebGL({id, preventStyleChanges}: initializeWebGLArgs): InitializedWebGL {
   const canvas = fromNullableOrThrow({
     nullable: document.getElementById(id),
     error: `Canvas element ${id} not found`,
