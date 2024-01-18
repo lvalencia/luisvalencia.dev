@@ -1,4 +1,12 @@
-import { AmbientLight, Color, DirectionalLight, Light, PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import {
+  AmbientLight,
+  Color,
+  DirectionalLight,
+  Light,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+} from "three";
 
 interface AdjustViewArgs {
   canvas: HTMLCanvasElement;
@@ -27,7 +35,9 @@ interface InitializedScene {
   scene: Scene;
 }
 
-export function initializeScene({canvas}: InitializeSceneArgs): InitializedScene {
+export function initializeScene({
+  canvas,
+}: InitializeSceneArgs): InitializedScene {
   const camera = new PerspectiveCamera();
   const scene = new Scene();
 
@@ -40,15 +50,12 @@ export function initializeScene({canvas}: InitializeSceneArgs): InitializedScene
 
   return {
     camera,
-    scene
-  }
+    scene,
+  };
 }
 
 function configureScene(scene: Scene): void {
-  const {
-    background
-  } = sceneConfiguration();
-  const lightGrey = new Color(0xf0f0f0);
+  const { background } = sceneConfiguration();
 
   scene.background = background;
 
@@ -63,9 +70,9 @@ interface SceneConfiguration {
 function sceneConfiguration(): SceneConfiguration {
   const lightGrey = new Color(0xf0f0f0);
   return {
-    background: lightGrey
+    background: lightGrey,
   };
-};
+}
 
 function lights(): Light[] {
   const white = new Color(0xffffff);
@@ -84,29 +91,22 @@ function lights(): Light[] {
   directionalLight.position.set(x, y, z);
   directionalLight.castShadow = true;
 
-  return [
-    ambientLight,
-    directionalLight
-  ];
-};
+  return [ambientLight, directionalLight];
+}
 
 interface ConfigureCameraArgs {
   canvas: HTMLCanvasElement;
-  camera: PerspectiveCamera; 
+  camera: PerspectiveCamera;
   scene: Scene;
 }
 
-function configureCamera({canvas, camera, scene}: ConfigureCameraArgs): void {
+function configureCamera({ canvas, camera, scene }: ConfigureCameraArgs): void {
   const {
     fieldOfView,
     aspectRatio,
     nearClipping,
     farClipping,
-    position: {
-      x,
-      y,
-      z
-    }
+    position: { x, y, z },
   } = cameraConfiguration(canvas);
 
   camera.fov = fieldOfView;
@@ -146,7 +146,7 @@ function cameraConfiguration(canvas: HTMLCanvasElement): CameraConfiguration {
   const z = distance * Math.cos(angleInRadians);
 
   /*
-   * Camera aspect ratio should match the current 
+   * Camera aspect ratio should match the current
    * aspect ratio of the canvas
    */
   const aspectRatio = canvas.clientWidth / canvas.clientHeight;
@@ -159,7 +159,7 @@ function cameraConfiguration(canvas: HTMLCanvasElement): CameraConfiguration {
     position: {
       x,
       y,
-      z
-    }
+      z,
+    },
   };
 }

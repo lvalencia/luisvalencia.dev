@@ -5,11 +5,11 @@ interface CreateCubeArgs {
   rows: number[];
 }
 
-export function createCubes({rows}: CreateCubeArgs): Cube[] {
+export function createCubes({ rows }: CreateCubeArgs): Cube[] {
   const cubes: Cube[] = [];
 
   rows.forEach((cubesInRow, currentRowIndex) => {
-    for(let i = 0; i < cubesInRow; i++) {
+    for (let i = 0; i < cubesInRow; i++) {
       const cube = new Cube();
 
       setCubePosition({
@@ -17,7 +17,7 @@ export function createCubes({rows}: CreateCubeArgs): Cube[] {
         currentRow: currentRowIndex,
         positionInRow: i,
         cubesInRow,
-        totalNumberOfRows: rows.length
+        totalNumberOfRows: rows.length,
       });
 
       stylizeCube(cube);
@@ -31,33 +31,29 @@ export function createCubes({rows}: CreateCubeArgs): Cube[] {
 
 interface CubePoisitionArgs {
   cube: Cube;
-  currentRow:  number;
+  currentRow: number;
   positionInRow: number;
   cubesInRow: number;
   totalNumberOfRows: number;
 }
 
 function setCubePosition(args: CubePoisitionArgs): void {
-  const {
-    cube,
-    currentRow,
-    positionInRow,
-    cubesInRow,
-    totalNumberOfRows
-  } = args;
+  const { cube, currentRow, positionInRow, cubesInRow, totalNumberOfRows } =
+    args;
 
   const cubeSize = cube.cubeSize;
-  const cubeGap = (cubeSize / 5.0);
-  const cubeSpacing = (cubeSize + cubeGap);
+  const cubeGap = cubeSize / 5.0;
+  const cubeSpacing = cubeSize + cubeGap;
 
   const x = positionInRow * cubeSpacing - ((cubesInRow - 1) * cubeSpacing) / 2;
   const y = 0;
-  const z = currentRow * cubeSpacing - (totalNumberOfRows - 1) * cubeSpacing / 2; 
+  const z =
+    currentRow * cubeSpacing - ((totalNumberOfRows - 1) * cubeSpacing) / 2;
 
   cube.position = {
     x,
     y,
-    z
+    z,
   };
 }
 const jitterIntensity = 0.2;
@@ -74,7 +70,7 @@ function stylizeCube(cube: Cube): void {
 
   // Add Edges
   const edges = new Edge({
-    geometry: cube.getGeometry()
+    geometry: cube.getGeometry(),
   });
   cube.addEdges(edges);
 }

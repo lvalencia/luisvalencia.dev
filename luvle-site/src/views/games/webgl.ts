@@ -1,4 +1,9 @@
-import { fromMaybe, fromNullableOrThrow, isNonNull, type Maybe } from "@luvle/utils";
+import {
+  fromMaybe,
+  fromNullableOrThrow,
+  isNonNull,
+  type Maybe,
+} from "@luvle/utils";
 import { PCFSoftShadowMap, WebGLRenderer } from "three";
 
 interface initializeWebGLArgs {
@@ -12,34 +17,37 @@ interface InitializedWebGL {
   renderer: WebGLRenderer;
 }
 
-export function initializeWebGL({id, preventStyleChanges}: initializeWebGLArgs): InitializedWebGL {
+export function initializeWebGL({
+  id,
+  preventStyleChanges,
+}: initializeWebGLArgs): InitializedWebGL {
   const canvas = fromNullableOrThrow({
     nullable: document.getElementById(id),
     error: `Canvas element ${id} not found`,
   }) as HTMLCanvasElement;
 
   const context = fromNullableOrThrow({
-    nullable: canvas.getContext('webgl2'),
-    error: "WebGL2 context could not be created"
+    nullable: canvas.getContext("webgl2"),
+    error: "WebGL2 context could not be created",
   }) as WebGL2RenderingContext;
 
   const renderer = new WebGLRenderer({
     context: context,
-    canvas: canvas
+    canvas: canvas,
   });
 
   configureRenderer({
     canvas,
     renderer,
     options: {
-      preventStyleChanges
-    }
+      preventStyleChanges,
+    },
   });
 
   return {
-    canvas, 
+    canvas,
     context,
-    renderer
+    renderer,
   };
 }
 
@@ -47,39 +55,32 @@ interface ConfigureRendererArgs {
   canvas: HTMLCanvasElement;
   renderer: WebGLRenderer;
   options: {
-    preventStyleChanges: Maybe<boolean>
+    preventStyleChanges: Maybe<boolean>;
   };
 }
 
-function configureRenderer({canvas, renderer, options}: ConfigureRendererArgs): void {
+function configureRenderer({
+  canvas,
+  renderer,
+  options,
+}: ConfigureRendererArgs): void {
   if (!isNonNull(canvas)) {
     throw `Canvas is uninitialized`;
-  };
+  }
   if (!isNonNull(renderer)) {
     throw `Render is uninitialized`;
   }
-  
-  const {
-    preventStyleChanges 
-  } = options;
 
-  const {
-    clientWidth,
-    clientHeight
-  } = canvas;
+  const { preventStyleChanges } = options;
 
-  const shouldUpdateStyle = !(
-    fromMaybe({
-      maybe: preventStyleChanges,
-      fallback: true
-    })
-  );
+  const { clientWidth, clientHeight } = canvas;
 
-  renderer.setSize(
-    clientWidth,
-    clientHeight,
-    shouldUpdateStyle,
-  );
+  const shouldUpdateStyle = !fromMaybe({
+    maybe: preventStyleChanges,
+    fallback: true,
+  });
+
+  renderer.setSize(clientWidth, clientHeight, shouldUpdateStyle);
 
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = PCFSoftShadowMap;

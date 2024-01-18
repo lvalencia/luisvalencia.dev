@@ -8,12 +8,7 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./games/webgl";
 import { initializeScene, adjustView } from "./games/cube-up/scene";
-import {
-  Scene,
-  PerspectiveCamera,
-  Raycaster,
-  Vector2
-} from 'three';
+import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
 import { addToScene, CubeState } from "./games/cube-up/cube";
 import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import { createCubes } from "./games/cube-up/cubeFactory";
@@ -29,7 +24,7 @@ interface GameViewData {
   gameData: {
     shouldIdleBreathe: boolean;
     points: number;
-  }
+  };
 }
 
 export default {
@@ -44,30 +39,24 @@ export default {
       cubes: [],
       gameData: {
         shouldIdleBreathe: true,
-        points: 0
-      }
+        points: 0,
+      },
     };
   },
   mounted() {
-    const {
-      canvas,
-      renderer
-    } = initializeWebGL({
-      id: "scene"
+    const { canvas, renderer } = initializeWebGL({
+      id: "scene",
     });
     this.canvas = canvas;
 
-    const {
-      camera,
-      scene 
-    } = initializeScene({
-      canvas
+    const { camera, scene } = initializeScene({
+      canvas,
     });
     this.scene = scene;
     this.camera = camera;
 
     const cubes: Cube[] = createCubes({
-      rows: [3,4,3]
+      rows: [3, 4, 3],
     });
     this.cubes = cubes;
     cubes.forEach((cube) => {
@@ -75,8 +64,8 @@ export default {
     });
 
     // Interaction
-    this.canvas.addEventListener('click', this.onCanvasClick);
-    this.canvas.addEventListener('keydown', this.handleInput);
+    this.canvas.addEventListener("click", this.onCanvasClick);
+    this.canvas.addEventListener("keydown", this.handleInput);
 
     const gameData = this.gameData;
     function animate(time: DOMHighResTimeStamp) {
@@ -93,8 +82,8 @@ export default {
     requestAnimationFrame(animate);
   },
   beforeUnmount() {
-    this.canvas.removeEventListener('click', this.onCanvasClick);
-    this.canvas.removeEventListener('keydown', this.handleInput);
+    this.canvas.removeEventListener("click", this.onCanvasClick);
+    this.canvas.removeEventListener("keydown", this.handleInput);
   },
   methods: {
     onCanvasClick(event: MouseEvent) {
@@ -113,8 +102,11 @@ export default {
       const lengthOfNDCSquare = 2; // length from -1 to 1
       const inversion = -1;
 
-      const normalizedX = (canvasRelativeX / canvasWidth) * lengthOfNDCSquare - ndcUnit;
-      const normalizedY = inversion * (canvasRelativeY / canvasHeight) * lengthOfNDCSquare + ndcUnit;
+      const normalizedX =
+        (canvasRelativeX / canvasWidth) * lengthOfNDCSquare - ndcUnit;
+      const normalizedY =
+        inversion * (canvasRelativeY / canvasHeight) * lengthOfNDCSquare +
+        ndcUnit;
 
       // set Coordinates
       this.mouse.x = normalizedX;
@@ -122,7 +114,10 @@ export default {
 
       this.raycaster.setFromCamera(this.mouse, this.camera);
 
-      const intersects = this.raycaster.intersectObjects(this.scene.children, false);
+      const intersects = this.raycaster.intersectObjects(
+        this.scene.children,
+        false
+      );
 
       if (intersects.length > 0) {
         const intersected = intersects[0].object;
@@ -143,7 +138,7 @@ export default {
     },
     handleInput({ key }: KeyboardEvent) {
       const Keys = {
-        Space: ' '
+        Space: " ",
       };
 
       switch (key) {
@@ -166,21 +161,21 @@ export default {
       this.gameData.shouldIdleBreathe = true;
     },
     animateRoundEnd(values: ShakeValues, animation: () => void) {
-      this.canvas.removeEventListener('click', this.onCanvasClick);
-      this.canvas.removeEventListener('keydown', this.handleInput);
+      this.canvas.removeEventListener("click", this.onCanvasClick);
+      this.canvas.removeEventListener("keydown", this.handleInput);
 
       this.cubes.forEach((cube) => {
         cube.unpress();
         cube.setShakeValues(values);
       });
 
-      const flashInterval = setInterval(animation, 250); 
+      const flashInterval = setInterval(animation, 250);
 
       setTimeout(() => {
         clearInterval(flashInterval);
         this.initCubes();
-        this.canvas.addEventListener('click', this.onCanvasClick);
-        this.canvas.addEventListener('keydown', this.handleInput);
+        this.canvas.addEventListener("click", this.onCanvasClick);
+        this.canvas.addEventListener("keydown", this.handleInput);
       }, values.shakingDurationInMillis);
     },
     loseAnimation() {
@@ -188,12 +183,12 @@ export default {
         {
           shakingDurationInMillis: 1500,
           shakeIntensity: 0.05,
-          shakeScaleIncrease: 1
+          shakeScaleIncrease: 1,
         },
         () => {
           this.cubes.forEach((cube) => {
             cube.toggleLose();
-          }); 
+          });
         }
       );
     },
@@ -202,28 +197,30 @@ export default {
         {
           shakingDurationInMillis: 1500,
           shakeIntensity: 0.05,
-          shakeScaleIncrease: 1
+          shakeScaleIncrease: 1,
         },
         () => {
           this.cubes.forEach((cube) => {
             cube.toggleWin();
-          }); 
+          });
         }
       );
     },
   },
   computed: {
     didWin(): boolean {
-      const noMoreCubesThatWeNeedToPress = this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS).length === 0;
+      const noMoreCubesThatWeNeedToPress =
+        this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS)
+          .length === 0;
       return noMoreCubesThatWeNeedToPress;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
   <div class="games">
-    <h1>{{  t("title") }}</h1>
+    <h1>{{ t("title") }}</h1>
     <div class="canvas-container">
       <canvas :id="sceneId" tabindex="0"></canvas>
     </div>
@@ -248,16 +245,16 @@ div.canvas-container {
 </style>
 
 <i18n lang="json">
-  {
-    "en": {
-      "title": "Games"
-    },
-    "es": {
-      "title": "Juegos"
-    },
-    "ca": {
-      "title": "Jocs"
-    }
+{
+  "en": {
+    "title": "Games"
+  },
+  "es": {
+    "title": "Juegos"
+  },
+  "ca": {
+    "title": "Jocs"
   }
-  </i18n>
-  ./games/webgl
+}
+</i18n>
+./games/webgl

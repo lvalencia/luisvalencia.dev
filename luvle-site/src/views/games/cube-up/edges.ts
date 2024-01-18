@@ -1,5 +1,14 @@
 import { fromMaybe } from "@luvle/utils";
-import { Color, EdgesGeometry, LineBasicMaterial, LineSegments, Object3D, type BufferGeometry, type Line, type Material } from "three";
+import {
+  Color,
+  EdgesGeometry,
+  LineBasicMaterial,
+  LineSegments,
+  Object3D,
+  type BufferGeometry,
+  type Line,
+  type Material,
+} from "three";
 
 interface EdgeArgs {
   geometry: BufferGeometry;
@@ -17,36 +26,30 @@ export class Edge {
   private readonly line: Line;
 
   constructor(args: EdgeArgs) {
-    const {
-      geometry,
-      color,
-      edges,
-      material,
-      line
-    } = args;
+    const { geometry, color, edges, material, line } = args;
 
     this.geometry = geometry;
 
     this.edges = fromMaybe({
       maybe: edges,
-      fallback: new EdgesGeometry(geometry)
+      fallback: new EdgesGeometry(geometry),
     });
 
     this.color = fromMaybe({
       maybe: color,
-      fallback: new Color(0xffffff)
+      fallback: new Color(0xffffff),
     });
 
     this.material = fromMaybe({
       maybe: material,
       fallback: new LineBasicMaterial({
-        color: this.color
-      })
+        color: this.color,
+      }),
     });
 
     this.line = fromMaybe({
       maybe: line,
-      fallback: new LineSegments(this.edges, this.material)
+      fallback: new LineSegments(this.edges, this.material),
     });
   }
 

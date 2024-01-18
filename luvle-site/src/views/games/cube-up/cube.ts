@@ -1,17 +1,16 @@
 import { getRandomIntInclusive } from "@/helpers/random";
 import { fromMaybe } from "@luvle/utils";
-import { 
-  BoxGeometry, 
-  BufferGeometry, 
-  Euler, 
-  Mesh, 
-  MeshStandardMaterial, 
-  Object3D, 
-  Scene, 
-  Vector3, 
+import {
+  BoxGeometry,
+  BufferGeometry,
+  Euler,
+  Mesh,
+  MeshStandardMaterial,
+  Object3D,
+  Scene,
+  Vector3,
 } from "three";
 import type { Edge } from "./edges";
-
 
 export function addToScene(cube: Cube, scene: Scene) {
   scene.add(cube.getRepresentation());
@@ -69,55 +68,45 @@ export class Cube {
   private shakeScaleIncrease: number = SHAKE_SCALE_INCREASE;
 
   constructor(args: CubeArgs = {}) {
-    const {
-      geometry,
-      cubeState,
-      material,
-      mesh,
-      breathingFrequency
-    } = args;
+    const { geometry, cubeState, material, mesh, breathingFrequency } = args;
 
     this.cubeState = fromMaybe({
       maybe: cubeState,
-      fallback: randomCubeState()
+      fallback: randomCubeState(),
     });
-    
+
     this.material = fromMaybe({
       maybe: material,
-      fallback: new MeshStandardMaterial({ color: this.cubeState })
+      fallback: new MeshStandardMaterial({ color: this.cubeState }),
     });
 
     this.geometry = fromMaybe({
       maybe: geometry,
-      fallback: new BoxGeometry(1, 1, 1)
+      fallback: new BoxGeometry(1, 1, 1),
     });
 
     this.mesh = fromMaybe({
       maybe: mesh,
-      fallback: new Mesh(this.geometry, this.material)
+      fallback: new Mesh(this.geometry, this.material),
     });
 
     this.breathingFrequency = fromMaybe({
       maybe: breathingFrequency,
-      fallback: getRandomIntInclusive(1, 5) / 3_200
+      fallback: getRandomIntInclusive(1, 5) / 3_200,
     });
 
-    const {
-      x,
-      y,
-      z
-    } = this.mesh.position;
+    const { x, y, z } = this.mesh.position;
 
     this.lastPosition = {
       x,
       y,
-      z
+      z,
     };
 
     this.pressedAt = 0;
 
     this.mesh.userData = {
-      cube: this
+      cube: this,
     };
   }
 
@@ -138,24 +127,25 @@ export class Cube {
     this.position = this.lastPosition;
     this.shakingDurationInMillis = SHAKING_DURATION_IN_MILLIS;
     this.shakeIntensity = SHAKE_INTENSITY;
-    this.shakeScaleIncrease = SHAKE_SCALE_INCREASE;  
+    this.shakeScaleIncrease = SHAKE_SCALE_INCREASE;
   }
 
   public setShakeValues(values: ShakeValues): void {
-    const {
-      shakingDurationInMillis,
-      shakeIntensity,
-      shakeScaleIncrease,
-    } = values;
+    const { shakingDurationInMillis, shakeIntensity, shakeScaleIncrease } =
+      values;
     this.shakingDurationInMillis = shakingDurationInMillis;
     this.shakeIntensity = shakeIntensity;
-    this.shakeScaleIncrease = shakeScaleIncrease;  
+    this.shakeScaleIncrease = shakeScaleIncrease;
   }
 
   // Animations
-  public breathingAnimation(time: DOMHighResTimeStamp, shouldBreathe: boolean): void {
-    if (shouldBreathe){
-      this.position.y = BREATHING_INTENSITY * Math.sin(time * this.breathingFrequency);
+  public breathingAnimation(
+    time: DOMHighResTimeStamp,
+    shouldBreathe: boolean
+  ): void {
+    if (shouldBreathe) {
+      this.position.y =
+        BREATHING_INTENSITY * Math.sin(time * this.breathingFrequency);
     } else {
       this.position.y = 0;
     }
@@ -170,7 +160,7 @@ export class Cube {
     const shouldAnimate = elapsedTime < this.shakingDurationInMillis;
 
     if (shouldAnimate) {
-      // Shake 
+      // Shake
       this.position.x += (Math.random() - 0.5) * this.shakeIntensity;
       this.position.y += (Math.random() - 0.5) * this.shakeIntensity;
       this.position.z += (Math.random() - 0.5) * this.shakeIntensity;
@@ -180,7 +170,7 @@ export class Cube {
       const scale = 1 + progress * (this.shakeScaleIncrease - 1); // Linearly interpolate scale
       this.mesh.scale.set(scale, scale, scale);
 
-      return; 
+      return;
     }
 
     // Stop and Reset Shaking Animation
@@ -190,13 +180,19 @@ export class Cube {
   }
 
   public toggleLose(): void {
-    const updatedColor = this.material.color.getHex() === CubeState.DONT_PRESS ? CubeState.NOT_PRESSED : CubeState.DONT_PRESS;
+    const updatedColor =
+      this.material.color.getHex() === CubeState.DONT_PRESS
+        ? CubeState.NOT_PRESSED
+        : CubeState.DONT_PRESS;
     this.material.color.set(updatedColor);
   }
 
   public toggleWin(): void {
-    const updatedColor = this.material.color.getHex() === CubeState.SHOULD_PRESS ? CubeState.NOT_PRESSED : CubeState.SHOULD_PRESS;
-    this.material.color.set(updatedColor); 
+    const updatedColor =
+      this.material.color.getHex() === CubeState.SHOULD_PRESS
+        ? CubeState.NOT_PRESSED
+        : CubeState.SHOULD_PRESS;
+    this.material.color.set(updatedColor);
   }
 
   // Interactions
@@ -241,13 +237,13 @@ export class Cube {
     return this.mesh.position;
   }
 
-  private set position({x,y,z}: SimplePosition) {
+  private set position({ x, y, z }: SimplePosition) {
     this.lastPosition = {
       x,
       y,
-      z
+      z,
     };
-    this.mesh.position.set(x,y,z);
+    this.mesh.position.set(x, y, z);
   }
 }
 
