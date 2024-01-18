@@ -7,47 +7,19 @@ const { t } = useI18n({
 
 <script lang="ts">
 import { initializeWebGL } from "./games/webgl";
-import { initializeScene } from "./games/cube-up/scene";
+import { initializeScene, adjustView } from "./games/cube-up/scene";
 import {
   Scene,
   PerspectiveCamera,
-  WebGLRenderer,
   Raycaster,
   Vector2
 } from 'three';
-import { addToScene } from "./games/cube-up/cube";
+import { addToScene, CubeState } from "./games/cube-up/cube";
 import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import { createCubes } from "./games/cube-up/cubeFactory";
 
-interface AdjustViewArgs {
-  canvas: HTMLCanvasElement;
-  renderer: WebGLRenderer;
-  camera: PerspectiveCamera;
-}
-
-// Helper Functions
-function adjustView({ canvas, renderer, camera }: AdjustViewArgs) {
-  camera.updateMatrixWorld();
-
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
-  if (width !== canvas.width || height !== canvas.height) {
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height, false);
-  }
-}
-
-enum CubeState {
-  NOT_PRESSED = 0x0099ff,
-  SHOULD_PRESS = 0x66ff66,
-  DONT_PRESS = 0xff6666,
-  PRESSED = 0xefefef,
-}
-
-const sceneId = "scene";
-
 interface GameViewData {
+  sceneId: string;
   canvas: HTMLCanvasElement;
   camera: PerspectiveCamera;
   raycaster: Raycaster;
@@ -63,6 +35,7 @@ interface GameViewData {
 export default {
   data(): GameViewData {
     return {
+      sceneId: "scene",
       canvas: {} as HTMLCanvasElement,
       camera: {} as PerspectiveCamera,
       raycaster: new Raycaster(),
@@ -78,7 +51,6 @@ export default {
   mounted() {
     const {
       canvas,
-      context,
       renderer
     } = initializeWebGL({
       id: "scene"
@@ -107,9 +79,7 @@ export default {
     this.canvas.addEventListener('keydown', this.handleInput);
 
     const gameData = this.gameData;
-
     function animate(time: DOMHighResTimeStamp) {
-      // Animations
       cubes.forEach((cube) => {
         cube.breathingAnimation(time, gameData.shouldIdleBreathe);
         cube.shakingAnimation(time);
@@ -124,6 +94,7 @@ export default {
   },
   beforeUnmount() {
     this.canvas.removeEventListener('click', this.onCanvasClick);
+    this.canvas.removeEventListener('keydown', this.handleInput);
   },
   methods: {
     onCanvasClick(event: MouseEvent) {
@@ -177,8 +148,7 @@ export default {
 
       switch (key) {
         case Keys.Space:
-          const didWin = this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS).length === 0;
-          if (didWin) {
+          if (this.didWin) {
             this.winAnimation();
           } else {
             this.loseAnimation();
@@ -242,6 +212,12 @@ export default {
       );
     },
   },
+  computed: {
+    didWin(): boolean {
+      const noMoreCubesThatWeNeedToPress = this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS).length === 0;
+      return noMoreCubesThatWeNeedToPress;
+    }
+  }
 }
 </script>
 
@@ -249,7 +225,7 @@ export default {
   <div class="games">
     <h1>{{  t("title") }}</h1>
     <div class="canvas-container">
-      <canvas id="scene" tabindex="0"></canvas>
+      <canvas :id="sceneId" tabindex="0"></canvas>
     </div>
   </div>
 </template>

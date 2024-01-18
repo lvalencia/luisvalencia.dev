@@ -17,7 +17,7 @@ export function addToScene(cube: Cube, scene: Scene) {
   scene.add(cube.getRepresentation());
 }
 
-enum CubeState {
+export enum CubeState {
   NOT_PRESSED = 0x0099ff,
   SHOULD_PRESS = 0x66ff66,
   DONT_PRESS = 0xff6666,
@@ -170,7 +170,7 @@ export class Cube {
     const shouldAnimate = elapsedTime < this.shakingDurationInMillis;
 
     if (shouldAnimate) {
-      // Rattle
+      // Shake 
       this.position.x += (Math.random() - 0.5) * this.shakeIntensity;
       this.position.y += (Math.random() - 0.5) * this.shakeIntensity;
       this.position.z += (Math.random() - 0.5) * this.shakeIntensity;
@@ -183,7 +183,7 @@ export class Cube {
       return; 
     }
 
-    // Stop and Reset Rattle Animation
+    // Stop and Reset Shaking Animation
     this.pressedAt = 0;
     this.position = this.lastPosition;
     this.mesh.scale.set(1, 1, 1);
@@ -241,7 +241,7 @@ export class Cube {
     return this.mesh.position;
   }
 
-  public set position({x,y,z}: SimplePosition) {
+  private set position({x,y,z}: SimplePosition) {
     this.lastPosition = {
       x,
       y,

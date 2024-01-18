@@ -1,4 +1,22 @@
-import { AmbientLight, Color, DirectionalLight, Light, PerspectiveCamera, Scene } from "three";
+import { AmbientLight, Color, DirectionalLight, Light, PerspectiveCamera, Scene, WebGLRenderer } from "three";
+
+interface AdjustViewArgs {
+  canvas: HTMLCanvasElement;
+  renderer: WebGLRenderer;
+  camera: PerspectiveCamera;
+}
+
+export function adjustView({ canvas, renderer, camera }: AdjustViewArgs) {
+  camera.updateMatrixWorld();
+
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+  if (width !== canvas.width || height !== canvas.height) {
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height, false);
+  }
+}
 
 interface InitializeSceneArgs {
   canvas: HTMLCanvasElement;
@@ -52,9 +70,7 @@ function sceneConfiguration(): SceneConfiguration {
 function lights(): Light[] {
   const white = new Color(0xffffff);
 
-  /*
-   * Make sure we can see the cubes in the scene
-   */
+  // Make sure we can see the cubes in the scene
   const ambientLight = new AmbientLight(white, 0.5);
 
   /*
