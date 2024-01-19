@@ -237,7 +237,7 @@ export class Cube {
     return this.mesh.position;
   }
 
-  private set position({ x, y, z }: SimplePosition) {
+  public set position({ x, y, z }: SimplePosition) {
     this.lastPosition = {
       x,
       y,
