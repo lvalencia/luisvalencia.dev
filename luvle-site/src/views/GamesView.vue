@@ -7,11 +7,12 @@ const { t } = useI18n({
 
 <script lang="ts">
 import { initializeWebGL } from "./games/webgl";
-import { initializeScene, adjustView } from "./games/cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
-import { addToScene, CubeState } from "./games/cube-up/cube";
+import { initializeScene, addToScene, adjustView } from "./games/cube-up/scene";
+import { Scene, PerspectiveCamera, Raycaster, Vector2, PlaneGeometry, MeshBasicMaterial, Mesh, Vector3, BoxGeometry, MeshStandardMaterial, MeshPhysicalMaterial } from "three";
+import { CubeState } from "./games/cube-up/cube";
 import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import { createCubes } from "./games/cube-up/cubeFactory";
+import { createTimerBar } from "./games/cube-up/timerBarFactory";
 
 interface GameViewData {
   sceneId: string;
@@ -63,6 +64,11 @@ export default {
       addToScene(cube, scene);
     });
 
+    const timerBar = createTimerBar({
+      camera
+    });
+    addToScene(timerBar, scene);
+   
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);

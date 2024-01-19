@@ -7,14 +7,10 @@ import {
   Mesh,
   MeshStandardMaterial,
   Object3D,
-  Scene,
   Vector3,
 } from "three";
 import type { Edge } from "./edges";
-
-export function addToScene(cube: Cube, scene: Scene) {
-  scene.add(cube.getRepresentation());
-}
+import type { Representable } from "./representable";
 
 export enum CubeState {
   NOT_PRESSED = 0x0099ff,
@@ -55,7 +51,7 @@ const SHAKING_DURATION_IN_MILLIS = 150;
 const SHAKE_INTENSITY = 0.1;
 const SHAKE_SCALE_INCREASE = 1.2;
 
-export class Cube {
+export class Cube implements Representable {
   private readonly material: MeshStandardMaterial;
   private readonly geometry: BoxGeometry;
   private readonly mesh: Mesh;

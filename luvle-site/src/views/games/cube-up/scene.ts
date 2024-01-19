@@ -1,3 +1,4 @@
+import { degreesToRadians } from "@/helpers/degrees";
 import {
   AmbientLight,
   Color,
@@ -7,6 +8,11 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
+import type { Representable } from "./representable";
+
+export function addToScene(representable: Representable, scene: Scene) {
+  scene.add(representable.getRepresentation());
+}
 
 interface AdjustViewArgs {
   canvas: HTMLCanvasElement;
@@ -137,8 +143,7 @@ function cameraConfiguration(canvas: HTMLCanvasElement): CameraConfiguration {
    * Camera position we want is an overhead view at
    * at a slight angle off perpendicular
    */
-  const angleInDegrees = 70;
-  const angleInRadians = (angleInDegrees / 180) * Math.PI;
+  const angleInRadians = degreesToRadians(70);
   const distance = 4;
 
   const x = 0;
