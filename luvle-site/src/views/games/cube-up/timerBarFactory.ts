@@ -8,28 +8,40 @@ interface CreateTimerBarArgs {
 export function createTimerBar({camera}: CreateTimerBarArgs): TimerBar {
   const timerBar = new TimerBar();
 
-  setTimerPositionRelativeTCamera({
+  setTimerPositionRelativeToCamera({
     timerBar,
-    camera
+    camera,
+    position: {
+      x: 0,
+      y: -1,
+      z: -1.2
+    }
   });
 
   return timerBar;
 }
 
+interface SimplePosition {
+  x: number;
+  y: number;
+  z: number;
+}
 interface SetTimerPositionArgs {
+  position: SimplePosition;
   camera: Camera;
   timerBar: TimerBar;
 }
 
-function setTimerPositionRelativeTCamera(args: SetTimerPositionArgs): void {
+function setTimerPositionRelativeToCamera(args: SetTimerPositionArgs): void {
   const {
     camera,
-    timerBar
+    timerBar,
+    position: {
+      x,
+      y,
+      z
+    }
   } = args;
-
-  const x = 0;
-  const y = -1;
-  const z = -1.2;
 
   const barPosition = new Vector3(x, y, z);
   barPosition.applyQuaternion(camera.quaternion);

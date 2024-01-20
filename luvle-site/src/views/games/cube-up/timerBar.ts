@@ -7,7 +7,7 @@ import {
   Vector3,
   Object3D,
 } from "three"; 
-import type { BufferGeometry, Material } from "three";
+import type { BufferGeometry } from "three";
 import type { Representable } from "./representable";
 
 interface TimerBarArgs {
@@ -15,20 +15,20 @@ interface TimerBarArgs {
   height?: number
   geometry?: BufferGeometry;
   color?: Color;
-  material?: Material;
+  material?: MeshStandardMaterial;
   mesh?: Mesh;
 }
 
 /*
  * Note: Currently width and height are senstiive to camera FOV
- * .     but not distance nor angle in degrees.
+ *       but not distance nor angle in degrees.
  */
 export class TimerBar implements Representable {
   private readonly width: number;
   private readonly height: number;
   private readonly geometry: BufferGeometry;
   private readonly color: Color;
-  private readonly material: Material;
+  private readonly material: MeshStandardMaterial;
   private readonly mesh: Mesh;
 
   constructor(args: TimerBarArgs = {}) {
@@ -65,7 +65,9 @@ export class TimerBar implements Representable {
     this.material = fromMaybe({
       maybe: material,
       fallback: new MeshStandardMaterial({
-        color: this.color
+        color: this.color,
+        emissive: this.color,
+        emissiveIntensity: 0.325
       })
     });
 
@@ -79,6 +81,11 @@ export class TimerBar implements Representable {
     this.mesh.lookAt(point);
   }
 
+  public scaleX(percentage: number): void {
+    const clampedPercentage = Math.max(0, Math.min(1, percentage));
+    this.mesh.scale.x = clampedPercentage;
+  }
+
   public getRepresentation(): Object3D {
     return this.mesh;
   }
@@ -86,6 +93,11 @@ export class TimerBar implements Representable {
   // Getters / Setters
   public get position(): Vector3 {
     return this.mesh.position;
+  }
+
+  public set barColor(color: number) {
+    this.material.color.set(color);
+    this.material.emissive.set(color);
   }
 
 }

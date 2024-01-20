@@ -8,11 +8,12 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./games/webgl";
 import { initializeScene, addToScene, adjustView } from "./games/cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2, PlaneGeometry, MeshBasicMaterial, Mesh, Vector3, BoxGeometry, MeshStandardMaterial, MeshPhysicalMaterial } from "three";
+import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
 import { CubeState } from "./games/cube-up/cube";
 import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import { createCubes } from "./games/cube-up/cubeFactory";
 import { createTimerBar } from "./games/cube-up/timerBarFactory";
+import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
 
 interface GameViewData {
   sceneId: string;
@@ -22,9 +23,12 @@ interface GameViewData {
   scene: Scene;
   mouse: Vector2;
   cubes: Cube[];
+  timerBarAnimator: TimerBarAnimator;
   gameData: {
     shouldIdleBreathe: boolean;
     points: number;
+    roundTimeInSeconds: number;
+    currentRoundTime: number;
   };
 }
 
@@ -38,13 +42,17 @@ export default {
       mouse: new Vector2(),
       scene: {} as Scene,
       cubes: [],
+      timerBarAnimator: {} as TimerBarAnimator,
       gameData: {
         shouldIdleBreathe: true,
         points: 0,
+        roundTimeInSeconds: 5,
+        currentRoundTime: Number.POSITIVE_INFINITY
       },
     };
   },
   mounted() {
+    // Initialize Engine
     const { canvas, renderer } = initializeWebGL({
       id: "scene",
     });
@@ -56,6 +64,7 @@ export default {
     this.scene = scene;
     this.camera = camera;
 
+    // Create and Add Objects to Scene
     const cubes: Cube[] = createCubes({
       rows: [3, 4, 3],
     });
@@ -68,23 +77,35 @@ export default {
       camera
     });
     addToScene(timerBar, scene);
+
+    const timerBarAnimator = new TimerBarAnimator({
+      timerBar,
+      camera
+    });
+    this.timerBarAnimator = timerBarAnimator;
    
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
 
-    const gameData = this.gameData;
-    function animate(time: DOMHighResTimeStamp) {
+    // Render Loop
+    const animate = (time: DOMHighResTimeStamp) => {
       cubes.forEach((cube) => {
-        cube.breathingAnimation(time, gameData.shouldIdleBreathe);
+        cube.breathingAnimation(time, this.gameData.shouldIdleBreathe);
         cube.shakingAnimation(time);
       });
+      const countdownDone = timerBarAnimator.countdown(time);
+      if (countdownDone) {
+        this.loseAnimation();
+        // triggerLose();
+      }
 
       adjustView({ canvas, renderer, camera });
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
 
+    // Kick-Off Render Loop
     requestAnimationFrame(animate);
   },
   beforeUnmount() {
@@ -93,6 +114,9 @@ export default {
   },
   methods: {
     onCanvasClick(event: MouseEvent) {
+      if (this.gameData.shouldIdleBreathe) {
+        this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
+      }
       this.gameData.shouldIdleBreathe = false;
       const rect = this.canvas.getBoundingClientRect();
 
@@ -161,6 +185,7 @@ export default {
       this.gameData.points += 50;
     },
     initCubes() {
+      this.timerBarAnimator.reset();
       this.cubes.forEach((cube) => {
         cube.reset();
       });
@@ -170,6 +195,7 @@ export default {
       this.canvas.removeEventListener("click", this.onCanvasClick);
       this.canvas.removeEventListener("keydown", this.handleInput);
 
+      this.timerBarAnimator.pause();
       this.cubes.forEach((cube) => {
         cube.unpress();
         cube.setShakeValues(values);

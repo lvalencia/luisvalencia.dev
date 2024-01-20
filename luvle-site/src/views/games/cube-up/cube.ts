@@ -12,6 +12,10 @@ import {
 import type { Edge } from "./edges";
 import type { Representable } from "./representable";
 
+function randomCubeState(): CubeState {
+  return CubeStates[getRandomIntInclusive(0, CubeStates.length - 1)];
+}
+
 export enum CubeState {
   NOT_PRESSED = 0x0099ff,
   SHOULD_PRESS = 0x66ff66,
@@ -23,7 +27,6 @@ const CubeStates = [
   CubeState.NOT_PRESSED,
   CubeState.SHOULD_PRESS,
   CubeState.DONT_PRESS,
-  CubeState.PRESSED,
 ];
 
 interface SimplePosition {
@@ -134,7 +137,7 @@ export class Cube implements Representable {
     this.shakeScaleIncrease = shakeScaleIncrease;
   }
 
-  // Animations
+  // Animations (this really should be in a Cube Animator class, it's bloating the cube class)
   public breathingAnimation(
     time: DOMHighResTimeStamp,
     shouldBreathe: boolean
@@ -243,6 +246,4 @@ export class Cube implements Representable {
   }
 }
 
-function randomCubeState(): CubeState {
-  return CubeStates[getRandomIntInclusive(0, CubeStates.length - 1)];
-}
+
