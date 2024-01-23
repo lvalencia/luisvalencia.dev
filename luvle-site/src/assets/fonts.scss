@@ -33,3 +33,10 @@
     src: local('Raleway-Regular'), url('@/assets/fonts/Raleway-Regular.ttf') format('truetype');
     font-weight: 400;
 }
+
+/*VT323 Font*/
+@font-face {
+    font-family: VT323;
+    src: local('VT323-Regular'), url('@/assets/fonts/VT323-Regular.ttf') format('truetype');
+    font-weight: 400;
+}

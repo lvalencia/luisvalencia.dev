@@ -9,7 +9,11 @@ interface ScoreBoardArgs {
   color?: number;
 }
 
-const FontURI = 'src/assets/fonts/VT323-Regular.ttf';
+const url = new URL(
+  '../../../assets/fonts/VT323-Regular.ttf',
+  import.meta.url
+);
+const FontURI = url.href;
 
 export class ScoreBoard implements Representable {
   private readonly text: Text;
