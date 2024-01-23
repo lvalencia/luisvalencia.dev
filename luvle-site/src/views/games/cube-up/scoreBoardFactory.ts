@@ -1,6 +1,6 @@
 import { degreesToRadians } from "@/helpers/degrees";
-import { Vector3, type Camera } from "three";
 import { ScoreBoard } from "./scoreBoard";
+import type { Camera } from "three";
 
 interface CreateScoreBoardArgs {
   text: string;

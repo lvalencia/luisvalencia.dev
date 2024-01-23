@@ -1,5 +1,5 @@
 import { fromMaybe } from "@luvle/utils";
-import type { Object3D, Object3DEventMap, Vector3 } from "three";
+import type { Euler, Object3D, Object3DEventMap, Vector3 } from "three";
 import { Text } from "troika-three-text";
 import type { Representable } from "./representable";
 
@@ -71,7 +71,7 @@ export class ScoreBoard implements Representable {
     return this.text.position;
   }
 
-  public get rotation(): Vector3 {
+  public get rotation(): Euler {
     return this.text.rotation;
   }
 
