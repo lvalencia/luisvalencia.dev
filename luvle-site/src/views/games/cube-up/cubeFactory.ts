@@ -1,4 +1,3 @@
-import type { Scene } from "three";
 import { Cube } from "./cube";
 import { Edge } from "./edges";
 

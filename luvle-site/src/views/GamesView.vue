@@ -8,12 +8,14 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./games/webgl";
 import { initializeScene, addToScene, adjustView } from "./games/cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
+import { Scene, PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three";
 import { CubeState } from "./games/cube-up/cube";
 import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import { createCubes } from "./games/cube-up/cubeFactory";
 import { createTimerBar } from "./games/cube-up/timerBarFactory";
 import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
+import { createScoreBoard } from "./games/cube-up/scoreBoardFactory";
+import type { ScoreBoard } from "./games/cube-up/scoreBoard";
 
 interface GameViewData {
   sceneId: string;
@@ -24,9 +26,9 @@ interface GameViewData {
   mouse: Vector2;
   cubes: Cube[];
   timerBarAnimator: TimerBarAnimator;
+  scoreBoard: ScoreBoard;
   gameData: {
     shouldIdleBreathe: boolean;
-    points: number;
     roundTimeInSeconds: number;
     currentRoundTime: number;
   };
@@ -43,9 +45,9 @@ export default {
       scene: {} as Scene,
       cubes: [],
       timerBarAnimator: {} as TimerBarAnimator,
+      scoreBoard: {} as ScoreBoard,
       gameData: {
         shouldIdleBreathe: true,
-        points: 0,
         roundTimeInSeconds: 5,
         currentRoundTime: Number.POSITIVE_INFINITY
       },
@@ -83,7 +85,15 @@ export default {
       camera
     });
     this.timerBarAnimator = timerBarAnimator;
-   
+
+    const scoreBoard = createScoreBoard({
+      text: 'Score',
+      camera,
+      color: 0x9966FF
+    });
+    this.scoreBoard = scoreBoard;
+    addToScene(scoreBoard, scene);
+
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
@@ -97,8 +107,8 @@ export default {
       const countdownDone = timerBarAnimator.countdown(time);
       if (countdownDone) {
         this.loseAnimation();
-        // triggerLose();
       }
+      scoreBoard.update();
 
       adjustView({ canvas, renderer, camera });
       renderer.render(scene, camera);
@@ -145,7 +155,7 @@ export default {
       this.raycaster.setFromCamera(this.mouse, this.camera);
 
       const intersects = this.raycaster.intersectObjects(
-        this.scene.children,
+        this.cubes.map((cube) => cube.getRepresentation()),
         false
       );
 
@@ -182,7 +192,7 @@ export default {
       }
     },
     addPoints() {
-      this.gameData.points += 50;
+      this.scoreBoard.addPoints(50);
     },
     initCubes() {
       this.timerBarAnimator.reset();

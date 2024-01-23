@@ -817,6 +817,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rimraf", "npm:3.0.2"],\
             ["sass", "npm:1.57.1"],\
             ["three", "npm:0.160.0"],\
+            ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.49.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"],\
             ["underscore", "npm:1.13.6"],\
             ["vite", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:4.5.1"],\
@@ -2172,6 +2173,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/base64-js-npm-1.5.1-b2f7275641-669632eb37.zip/node_modules/base64-js/",\
           "packageDependencies": [\
             ["base64-js", "npm:1.5.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["bidi-js", [\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/bidi-js-npm-1.0.3-0035393a88-877c5dcfd6.zip/node_modules/bidi-js/",\
+          "packageDependencies": [\
+            ["bidi-js", "npm:1.0.3"],\
+            ["require-from-string", "npm:2.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5498,6 +5509,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["require-from-string", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/require-from-string-npm-2.0.2-8557e0db12-a03ef68954.zip/node_modules/require-from-string/",\
+          "packageDependencies": [\
+            ["require-from-string", "npm:2.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["requires-port", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/requires-port-npm-1.0.0-fd036b488a-eee0e303ad.zip/node_modules/requires-port/",\
@@ -6148,6 +6168,63 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["tr46", "npm:3.0.0"],\
             ["punycode", "npm:2.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["troika-three-text", [\
+        ["npm:0.49.0", {\
+          "packageLocation": "./.yarn/cache/troika-three-text-npm-0.49.0-697c58d032-dc9a66c2ce.zip/node_modules/troika-three-text/",\
+          "packageDependencies": [\
+            ["troika-three-text", "npm:0.49.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.49.0", {\
+          "packageLocation": "./.yarn/__virtual__/troika-three-text-virtual-1c96c69f9c/0/cache/troika-three-text-npm-0.49.0-697c58d032-dc9a66c2ce.zip/node_modules/troika-three-text/",\
+          "packageDependencies": [\
+            ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.49.0"],\
+            ["@types/three", "npm:0.160.0"],\
+            ["bidi-js", "npm:1.0.3"],\
+            ["three", "npm:0.160.0"],\
+            ["troika-three-utils", "virtual:1c96c69f9cdd998ee4fe773cae8e9ffd7336c5922c2f7e3bc6e1371b43c62ee65a097272c82fb63a018ae4369a31c7b2eb9e6821b4773e0dc3a3a54a5d712f4a#npm:0.49.0"],\
+            ["troika-worker-utils", "npm:0.49.0"],\
+            ["webgl-sdf-generator", "npm:1.1.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/three",\
+            "three"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["troika-three-utils", [\
+        ["npm:0.49.0", {\
+          "packageLocation": "./.yarn/cache/troika-three-utils-npm-0.49.0-e5b1be0aaa-33b4337d18.zip/node_modules/troika-three-utils/",\
+          "packageDependencies": [\
+            ["troika-three-utils", "npm:0.49.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:1c96c69f9cdd998ee4fe773cae8e9ffd7336c5922c2f7e3bc6e1371b43c62ee65a097272c82fb63a018ae4369a31c7b2eb9e6821b4773e0dc3a3a54a5d712f4a#npm:0.49.0", {\
+          "packageLocation": "./.yarn/__virtual__/troika-three-utils-virtual-cdca33926d/0/cache/troika-three-utils-npm-0.49.0-e5b1be0aaa-33b4337d18.zip/node_modules/troika-three-utils/",\
+          "packageDependencies": [\
+            ["troika-three-utils", "virtual:1c96c69f9cdd998ee4fe773cae8e9ffd7336c5922c2f7e3bc6e1371b43c62ee65a097272c82fb63a018ae4369a31c7b2eb9e6821b4773e0dc3a3a54a5d712f4a#npm:0.49.0"],\
+            ["@types/three", "npm:0.160.0"],\
+            ["three", "npm:0.160.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/three",\
+            "three"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["troika-worker-utils", [\
+        ["npm:0.49.0", {\
+          "packageLocation": "./.yarn/cache/troika-worker-utils-npm-0.49.0-525c087de8-b5cbfb2efe.zip/node_modules/troika-worker-utils/",\
+          "packageDependencies": [\
+            ["troika-worker-utils", "npm:0.49.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6899,6 +6976,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["w3c-xmlserializer", "npm:4.0.0"],\
             ["xml-name-validator", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["webgl-sdf-generator", [\
+        ["npm:1.1.1", {\
+          "packageLocation": "./.yarn/cache/webgl-sdf-generator-npm-1.1.1-856e80df4d-babf69e99c.zip/node_modules/webgl-sdf-generator/",\
+          "packageDependencies": [\
+            ["webgl-sdf-generator", "npm:1.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
