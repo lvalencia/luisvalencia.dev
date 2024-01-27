@@ -199,7 +199,7 @@ export default {
       }
     },
     addPoints() {
-      this.scoreBoardAnimator.addPoints(50, performance.now());
+      this.scoreBoardAnimator.addPoints(50);
     },
     initCubes() {
       this.timerBarAnimator.reset();
