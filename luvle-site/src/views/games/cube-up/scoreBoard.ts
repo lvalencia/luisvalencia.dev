@@ -57,9 +57,8 @@ export class ScoreBoard implements Representable {
     this.text.fontSize = 0.2;
   }
 
-  public update() {
+  public updateScore() {
     this.text.text = this.scoreText;
-    this.applyChanges();
   }
   
   public applyChanges(): void {

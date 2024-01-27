@@ -15,6 +15,7 @@ import { createCubes } from "./games/cube-up/cubeFactory";
 import { createTimerBar } from "./games/cube-up/timerBarFactory";
 import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
 import { createScoreBoard } from "./games/cube-up/scoreBoardFactory";
+import { ScoreBoardAnimator } from "./games/cube-up/scoreBoardAnimator";
 import type { ScoreBoard } from "./games/cube-up/scoreBoard";
 
 interface GameViewData {
@@ -26,6 +27,7 @@ interface GameViewData {
   mouse: Vector2;
   cubes: Cube[];
   timerBarAnimator: TimerBarAnimator;
+  scoreBoardAnimator: ScoreBoardAnimator;
   scoreBoard: ScoreBoard;
   gameData: {
     shouldIdleBreathe: boolean;
@@ -45,6 +47,7 @@ export default {
       scene: {} as Scene,
       cubes: [],
       timerBarAnimator: {} as TimerBarAnimator,
+      scoreBoardAnimator: {} as ScoreBoardAnimator,
       scoreBoard: {} as ScoreBoard,
       gameData: {
         shouldIdleBreathe: true,
@@ -94,6 +97,11 @@ export default {
     this.scoreBoard = scoreBoard;
     addToScene(scoreBoard, scene);
 
+    const scoreBoardAnimator = new ScoreBoardAnimator({
+      scoreBoard,
+    });
+    this.scoreBoardAnimator = scoreBoardAnimator;
+
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
@@ -108,7 +116,6 @@ export default {
       if (countdownDone) {
         this.loseAnimation();
       }
-      scoreBoard.update();
 
       adjustView({ canvas, renderer, camera });
       renderer.render(scene, camera);
@@ -192,7 +199,7 @@ export default {
       }
     },
     addPoints() {
-      this.scoreBoard.addPoints(50);
+      this.scoreBoardAnimator.addPoints(50, performance.now());
     },
     initCubes() {
       this.timerBarAnimator.reset();
