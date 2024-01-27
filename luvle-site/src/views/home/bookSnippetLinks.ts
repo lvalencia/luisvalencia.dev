@@ -160,6 +160,23 @@ const bookSnippetLinks: BookSnippetLink[] = [
       finished: toISO8601("2023-01-15T08:00:00.000Z"),
     },
   },
+  {
+    id: "aizgorri",
+    href: "https://www.amazon.com/Tierra-Vasca-Aizgorri-mayorazgo-aventurero-ebook/dp/B01JK2CV2I",
+    text: "_aizgorri",
+    meta: {
+      external: true,
+      finished: toISO8601("2023-10-15T08:00:00.000Z"),
+    },
+  },
+  {
+    id: "labraz",
+    href: "https://www.amazon.com/Tierra-Vasca-Aizgorri-mayorazgo-aventurero-ebook/dp/B01JK2CV2I",
+    text: "_labraz",
+    meta: {
+      external: true,
+    },
+  },
 ];
 
 function hasFinishedAttribute(snippetLink: BookSnippetLink) {
