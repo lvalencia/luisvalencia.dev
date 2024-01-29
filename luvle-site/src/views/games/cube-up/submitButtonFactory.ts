@@ -4,15 +4,18 @@ import { SubmitButton } from "./submitButton";
 
 interface CreateSubmitButtonArgs {
   onPressed?: () => void;
+  initialColor?: number;
 }
 
 export function createSubmitButton(args: CreateSubmitButtonArgs = {}): SubmitButton {
   const {
-    onPressed
+    onPressed,
+    initialColor
   } = args;
 
   const submitButton = new SubmitButton({
-    onClick: onPressed
+    onClick: onPressed,
+    initialColor
   });
 
   setPosition(submitButton);

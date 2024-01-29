@@ -16,11 +16,10 @@ import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
 import { createScoreBoard } from "./games/cube-up/scoreBoardFactory";
 import { ScoreBoardAnimator } from "./games/cube-up/scoreBoardAnimator";
 import { createSubmitButton } from "./games/cube-up/submitButtonFactory";
-
-import type { Cube, ShakeValues } from "./games/cube-up/cube";
-import type { ScoreBoard } from "./games/cube-up/scoreBoard";
 import { isSubmitButton, type SubmitButton } from "./games/cube-up/submitButton";
 import { SubmitButtonAnimator } from "./games/cube-up/submitButtonAnimator";
+import type { Cube, ShakeValues } from "./games/cube-up/cube";
+import type { ScoreBoard } from "./games/cube-up/scoreBoard";
 
 interface GameViewData {
   sceneId: string;
@@ -114,6 +113,7 @@ export default {
     this.scoreBoardAnimator = scoreBoardAnimator;
 
     const submitButton = createSubmitButton({
+      initialColor: this.noMoreCubesThatWeNeedToPress ? CubeState.SHOULD_PRESS : CubeState.DONT_PRESS,
       onPressed: () => {
         this.handleInput({key: " "} as KeyboardEvent)
       }

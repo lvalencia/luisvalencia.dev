@@ -11,6 +11,7 @@ interface SubmitButtonArgs {
   onClick?: () => void;
   dontPressColor?: number;
   pressColor?: number;
+  initialColor?: number;
 }
 
 export class SubmitButton implements Representable {
@@ -23,7 +24,8 @@ export class SubmitButton implements Representable {
     const {
       dontPressColor,
       pressColor,
-      onClick
+      onClick,
+      initialColor
     } = args;
 
     this.dontPressColor = fromMaybe({
@@ -35,6 +37,10 @@ export class SubmitButton implements Representable {
       maybe: pressColor,
       fallback: CubeState.SHOULD_PRESS
     });
+    const initialCubeState = fromMaybe({
+      maybe: initialColor,
+      fallback: CubeState.DONT_PRESS
+    })
 
     this.onClick = fromMaybe({
       maybe: onClick,
@@ -42,7 +48,7 @@ export class SubmitButton implements Representable {
     });
 
     this._cube = new Cube({
-      cubeState: CubeState.DONT_PRESS
+      cubeState: initialCubeState
     });
     this._cube.userData = {
       object: this
