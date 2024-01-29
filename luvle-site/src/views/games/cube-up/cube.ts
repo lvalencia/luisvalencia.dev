@@ -12,6 +12,10 @@ import {
 import type { Edge } from "./edges";
 import type { Representable } from "./representable";
 
+export function isCube(cube: any): cube is Cube {
+  return cube instanceof Cube;
+}
+
 function randomCubeState(): CubeState {
   return CubeStates[getRandomIntInclusive(0, CubeStates.length - 1)];
 }
@@ -62,6 +66,7 @@ export class Cube implements Representable {
   private cubeState: CubeState;
   private pressedAt: number;
   private lastPosition: SimplePosition;
+  private lastScale: Vector3;
   private shakingDurationInMillis: number = SHAKING_DURATION_IN_MILLIS;
   private shakeIntensity: number = SHAKE_INTENSITY;
   private shakeScaleIncrease: number = SHAKE_SCALE_INCREASE;
@@ -102,10 +107,12 @@ export class Cube implements Representable {
       z,
     };
 
+    this.lastScale = this.mesh.scale.clone();
+
     this.pressedAt = 0;
 
     this.mesh.userData = {
-      cube: this,
+      object: this,
     };
   }
 
@@ -166,7 +173,8 @@ export class Cube implements Representable {
 
       // Scale
       const progress = elapsedTime / this.shakingDurationInMillis;
-      const scale = 1 + progress * (this.shakeScaleIncrease - 1); // Linearly interpolate scale
+      const scaleMax = this.lastScale.x;
+      const scale = scaleMax + progress * (this.shakeScaleIncrease - scaleMax); // Linearly interpolate scale
       this.mesh.scale.set(scale, scale, scale);
 
       return;
@@ -175,7 +183,10 @@ export class Cube implements Representable {
     // Stop and Reset Shaking Animation
     this.pressedAt = 0;
     this.position = this.lastPosition;
-    this.mesh.scale.set(1, 1, 1);
+    const {
+      x, y, z
+    } = this.lastScale;
+    this.mesh.scale.set(x, y, z);
   }
 
   public toggleLose(): void {
@@ -207,6 +218,10 @@ export class Cube implements Representable {
     this.material.color.set(this.cubeState);
   }
 
+  public pressWithoutChangingAppearance(): void {
+    this.pressedAt = performance.now();
+  }
+
   // Setters / Getters
   public getGeometry(): BufferGeometry {
     return this.geometry;
@@ -234,6 +249,20 @@ export class Cube implements Representable {
 
   public get position(): Vector3 {
     return this.mesh.position;
+  }
+
+  public set userData(obj: any) {
+    this.mesh.userData = obj;
+  }
+
+  public set state(state: CubeState) {
+    this.cubeState = state;
+    this.material.color.set(this.cubeState);
+  }
+
+  public set scale({ x, y, z}: SimplePosition) {
+    this.lastScale.set(x,y,z);
+    this.mesh.scale.set(x,y,z);
   }
 
   public set position({ x, y, z }: SimplePosition) {

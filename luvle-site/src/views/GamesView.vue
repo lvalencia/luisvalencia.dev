@@ -8,15 +8,19 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./games/webgl";
 import { initializeScene, addToScene, adjustView } from "./games/cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three";
-import { CubeState } from "./games/cube-up/cube";
-import type { Cube, ShakeValues } from "./games/cube-up/cube";
+import { Scene, PerspectiveCamera, Raycaster, Vector2, Vector3, type Object3DEventMap, Object3D } from "three";
+import { CubeState, isCube } from "./games/cube-up/cube";
 import { createCubes } from "./games/cube-up/cubeFactory";
 import { createTimerBar } from "./games/cube-up/timerBarFactory";
 import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
 import { createScoreBoard } from "./games/cube-up/scoreBoardFactory";
 import { ScoreBoardAnimator } from "./games/cube-up/scoreBoardAnimator";
+import { createSubmitButton } from "./games/cube-up/submitButtonFactory";
+
+import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import type { ScoreBoard } from "./games/cube-up/scoreBoard";
+import { isSubmitButton, type SubmitButton } from "./games/cube-up/submitButton";
+import { SubmitButtonAnimator } from "./games/cube-up/submitButtonAnimator";
 
 interface GameViewData {
   sceneId: string;
@@ -29,6 +33,8 @@ interface GameViewData {
   timerBarAnimator: TimerBarAnimator;
   scoreBoardAnimator: ScoreBoardAnimator;
   scoreBoard: ScoreBoard;
+  submitButton: SubmitButton;
+  intersectable: Object3D<Object3DEventMap>[];
   gameData: {
     shouldIdleBreathe: boolean;
     roundTimeInSeconds: number;
@@ -49,6 +55,8 @@ export default {
       timerBarAnimator: {} as TimerBarAnimator,
       scoreBoardAnimator: {} as ScoreBoardAnimator,
       scoreBoard: {} as ScoreBoard,
+      submitButton: {} as SubmitButton,
+      intersectable: [],
       gameData: {
         shouldIdleBreathe: true,
         roundTimeInSeconds: 5,
@@ -77,6 +85,9 @@ export default {
     cubes.forEach((cube) => {
       addToScene(cube, scene);
     });
+    this.intersectable.push(
+      ...this.cubes.map((cube) => cube.getRepresentation())
+    );
 
     const timerBar = createTimerBar({
       camera
@@ -102,6 +113,19 @@ export default {
     });
     this.scoreBoardAnimator = scoreBoardAnimator;
 
+    const submitButton = createSubmitButton({
+      onPressed: () => {
+        this.handleInput({key: " "} as KeyboardEvent)
+      }
+    });
+    this.submitButton = submitButton;
+    addToScene(submitButton, scene)
+    this.intersectable.push(submitButton.getRepresentation());
+
+    const submitButtonAnimator = new SubmitButtonAnimator({
+      submitButton
+    });
+
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
@@ -116,6 +140,7 @@ export default {
       if (countdownDone) {
         this.loseAnimation();
       }
+      submitButtonAnimator.update(time);
 
       adjustView({ canvas, renderer, camera });
       renderer.render(scene, camera);
@@ -162,24 +187,35 @@ export default {
       this.raycaster.setFromCamera(this.mouse, this.camera);
 
       const intersects = this.raycaster.intersectObjects(
-        this.cubes.map((cube) => cube.getRepresentation()),
+        this.intersectable,
         false
       );
 
       if (intersects.length > 0) {
         const intersected = intersects[0].object;
-        const cube: Cube = intersected.userData.cube;
+        const gameObject: Cube | SubmitButton = intersected.userData.object;
 
-        switch (cube.state) {
-          case CubeState.DONT_PRESS:
-            this.loseAnimation();
-            break;
-          case CubeState.SHOULD_PRESS:
-            this.addPoints();
-          case CubeState.PRESSED:
-          case CubeState.NOT_PRESSED:
-            cube.pressed();
-            break;
+        if (isCube(gameObject)) {
+          const cube = gameObject;
+          switch (cube.state) {
+            case CubeState.DONT_PRESS:
+              this.loseAnimation();
+              break;
+            case CubeState.SHOULD_PRESS:
+              this.addPoints();
+            case CubeState.PRESSED:
+            case CubeState.NOT_PRESSED:
+              cube.pressed();
+              break;
+          }
+        }
+
+        if (this.noMoreCubesThatWeNeedToPress) {
+          this.submitButton.indicateShouldPress();
+        }
+
+        if (isSubmitButton(gameObject)) {
+          gameObject.pressed();
         }
       }
     },
@@ -207,6 +243,7 @@ export default {
         cube.reset();
       });
       this.gameData.shouldIdleBreathe = true;
+      this.submitButton.indicateShouldNotPress();
     },
     animateRoundEnd(values: ShakeValues, animation: () => void) {
       this.canvas.removeEventListener("click", this.onCanvasClick);
@@ -258,11 +295,14 @@ export default {
   },
   computed: {
     didWin(): boolean {
+      return this.noMoreCubesThatWeNeedToPress;
+    },
+    noMoreCubesThatWeNeedToPress(): boolean {
       const noMoreCubesThatWeNeedToPress =
         this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS)
           .length === 0;
       return noMoreCubesThatWeNeedToPress;
-    },
+    }
   },
 };
 </script>
