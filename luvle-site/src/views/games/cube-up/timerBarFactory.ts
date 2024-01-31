@@ -1,4 +1,5 @@
 import { Vector3, type Camera } from "three";
+import type { SimpleVector } from "../simpleVector";
 import { TimerBar } from "./timerBar";
 
 interface CreateTimerBarArgs {
@@ -21,13 +22,8 @@ export function createTimerBar({camera}: CreateTimerBarArgs): TimerBar {
   return timerBar;
 }
 
-interface SimplePosition {
-  x: number;
-  y: number;
-  z: number;
-}
 interface SetTimerPositionArgs {
-  position: SimplePosition;
+  position: SimpleVector;
   camera: Camera;
   timerBar: TimerBar;
 }

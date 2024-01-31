@@ -14,6 +14,10 @@ interface SubmitButtonArgs {
   initialColor?: number;
 }
 
+const SHAKING_DURATION_IN_MILLIS = 150 * 4;
+const SHAKE_INTENSITY = 0.1 * 1.2;
+const SHAKE_SCALE_INCREASE = 1;
+
 export class SubmitButton implements Representable {
   private readonly dontPressColor: number;
   private readonly pressColor: number;
@@ -48,7 +52,10 @@ export class SubmitButton implements Representable {
     });
 
     this._cube = new Cube({
-      cubeState: initialCubeState
+      cubeState: initialCubeState,
+      shakingDurationInMillis: SHAKING_DURATION_IN_MILLIS, 
+      shakeIntensity: SHAKE_INTENSITY,
+      shakeScaleIncrease: SHAKE_SCALE_INCREASE,
     });
     this._cube.userData = {
       object: this

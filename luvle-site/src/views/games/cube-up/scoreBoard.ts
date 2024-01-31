@@ -78,7 +78,15 @@ export class ScoreBoard implements Representable {
     return this.text.rotation;
   }
 
+  public get scoreCount(): number {
+    return this.score;
+  }
+
+  public set scoreCount(score: number) {
+    this.score = score;
+  }
+
   private get scoreText(): string {
-    return `${this.prefixText}: ${this.score}`;
+    return `${this.prefixText}:${this.score}`;
   }
 }

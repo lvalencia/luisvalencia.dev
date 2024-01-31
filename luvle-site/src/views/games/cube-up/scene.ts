@@ -8,6 +8,7 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
+import type { SimpleVector } from "../simpleVector";
 import type { Representable } from "./representable";
 
 export function addToScene(representable: Representable, scene: Scene) {
@@ -124,18 +125,12 @@ function configureCamera({ canvas, camera, scene }: ConfigureCameraArgs): void {
   camera.updateProjectionMatrix();
 }
 
-interface SimplePosition {
-  x: number;
-  y: number;
-  z: number;
-}
-
 interface CameraConfiguration {
   fieldOfView: number;
   aspectRatio: number;
   nearClipping: number;
   farClipping: number;
-  position: SimplePosition;
+  position: SimpleVector;
 }
 
 function cameraConfiguration(canvas: HTMLCanvasElement): CameraConfiguration {

@@ -10,7 +10,7 @@
     "test:watch": "ts-mocha --package ./tsconfig.json --paths ./test/**/*.spec.ts -w --watch-files 'src/**/*.ts' --watch-files 'test/**/*.spec.ts'"
   },
   "dependencies": {
-    "@luvle/utils": "0.1.1",
+    "@luvle/utils": "0.1.2",
     "aws-sdk": "^2.1272.0",
     "mime-types": "^2.1.35",
     "underscore": "^1.13.6"

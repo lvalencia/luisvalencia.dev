@@ -9,6 +9,7 @@ import {
   Object3D,
   Vector3,
 } from "three";
+import type { SimpleVector } from "../simpleVector";
 import type { Edge } from "./edges";
 import type { Representable } from "./representable";
 
@@ -33,12 +34,6 @@ const CubeStates = [
   CubeState.DONT_PRESS,
 ];
 
-interface SimplePosition {
-  x: number;
-  y: number;
-  z: number;
-}
-
 export interface ShakeValues {
   shakingDurationInMillis: number;
   shakeIntensity: number;
@@ -51,6 +46,9 @@ interface CubeArgs {
   geometry?: BoxGeometry;
   mesh?: Mesh;
   breathingFrequency?: number;
+  shakingDurationInMillis?: number;
+  shakeIntensity?: number;
+  shakeScaleIncrease?: number;
 }
 
 const BREATHING_INTENSITY = 0.2;
@@ -65,14 +63,23 @@ export class Cube implements Representable {
   private readonly breathingFrequency: number;
   private cubeState: CubeState;
   private pressedAt: number;
-  private lastPosition: SimplePosition;
+  private lastPosition: SimpleVector;
   private lastScale: Vector3;
-  private shakingDurationInMillis: number = SHAKING_DURATION_IN_MILLIS;
-  private shakeIntensity: number = SHAKE_INTENSITY;
-  private shakeScaleIncrease: number = SHAKE_SCALE_INCREASE;
+  private shakingDurationInMillis: number;
+  private shakeIntensity: number;
+  private shakeScaleIncrease: number;
 
   constructor(args: CubeArgs = {}) {
-    const { geometry, cubeState, material, mesh, breathingFrequency } = args;
+    const { 
+      geometry, 
+      cubeState, 
+      material, 
+      mesh, 
+      breathingFrequency,
+      shakingDurationInMillis,
+      shakeIntensity,
+      shakeScaleIncrease,
+    } = args;
 
     this.cubeState = fromMaybe({
       maybe: cubeState,
@@ -98,6 +105,22 @@ export class Cube implements Representable {
       maybe: breathingFrequency,
       fallback: getRandomIntInclusive(1, 5) / 3_200,
     });
+
+    this.shakingDurationInMillis = fromMaybe({
+      maybe: shakingDurationInMillis,
+      fallback: SHAKING_DURATION_IN_MILLIS
+    });
+
+    this.shakeIntensity = fromMaybe({
+      maybe: shakeIntensity,
+      fallback: SHAKE_INTENSITY
+    });
+
+    this.shakeScaleIncrease = fromMaybe({
+      maybe: shakeScaleIncrease,
+      fallback: SHAKE_SCALE_INCREASE
+    });
+
 
     const { x, y, z } = this.mesh.position;
 
@@ -260,12 +283,12 @@ export class Cube implements Representable {
     this.material.color.set(this.cubeState);
   }
 
-  public set scale({ x, y, z}: SimplePosition) {
+  public set scale({ x, y, z}: SimpleVector) {
     this.lastScale.set(x,y,z);
     this.mesh.scale.set(x,y,z);
   }
 
-  public set position({ x, y, z }: SimplePosition) {
+  public set position({ x, y, z }: SimpleVector) {
     this.lastPosition = {
       x,
       y,

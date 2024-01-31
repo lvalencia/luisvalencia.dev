@@ -8,18 +8,21 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./games/webgl";
 import { initializeScene, addToScene, adjustView } from "./games/cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2, Vector3, type Object3DEventMap, Object3D } from "three";
+import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
 import { CubeState, isCube } from "./games/cube-up/cube";
 import { createCubes } from "./games/cube-up/cubeFactory";
 import { createTimerBar } from "./games/cube-up/timerBarFactory";
 import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
+import { addPoints, renderNextTick } from "./games/cube-up/scoreBoardAnimator";
 import { createScoreBoard } from "./games/cube-up/scoreBoardFactory";
-import { ScoreBoardAnimator } from "./games/cube-up/scoreBoardAnimator";
 import { createSubmitButton } from "./games/cube-up/submitButtonFactory";
-import { isSubmitButton, type SubmitButton } from "./games/cube-up/submitButton";
+import { isSubmitButton } from "./games/cube-up/submitButton";
 import { SubmitButtonAnimator } from "./games/cube-up/submitButtonAnimator";
+import { stringIsSomething, fromNullable } from "@luvle/utils";
+import type { SubmitButton } from "./games/cube-up/submitButton";
 import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import type { ScoreBoard } from "./games/cube-up/scoreBoard";
+import type { Object3DEventMap, Object3D } from "three";
 
 interface GameViewData {
   sceneId: string;
@@ -30,16 +33,19 @@ interface GameViewData {
   mouse: Vector2;
   cubes: Cube[];
   timerBarAnimator: TimerBarAnimator;
-  scoreBoardAnimator: ScoreBoardAnimator;
   scoreBoard: ScoreBoard;
+  highScore: ScoreBoard;
   submitButton: SubmitButton;
   intersectable: Object3D<Object3DEventMap>[];
   gameData: {
     shouldIdleBreathe: boolean;
     roundTimeInSeconds: number;
     currentRoundTime: number;
+    roundEnding: boolean;
   };
 }
+
+const SAVED_HIGH_SCORE_KEY = "saved_high_score";
 
 export default {
   data(): GameViewData {
@@ -52,13 +58,14 @@ export default {
       scene: {} as Scene,
       cubes: [],
       timerBarAnimator: {} as TimerBarAnimator,
-      scoreBoardAnimator: {} as ScoreBoardAnimator,
       scoreBoard: {} as ScoreBoard,
+      highScore: {} as ScoreBoard,
       submitButton: {} as SubmitButton,
       intersectable: [],
       gameData: {
         shouldIdleBreathe: true,
         roundTimeInSeconds: 5,
+        roundEnding: false,
         currentRoundTime: Number.POSITIVE_INFINITY
       },
     };
@@ -102,20 +109,29 @@ export default {
     const scoreBoard = createScoreBoard({
       text: 'Score',
       camera,
-      color: 0x9966FF
+      color: 0x9966FF,
     });
     this.scoreBoard = scoreBoard;
     addToScene(scoreBoard, scene);
 
-    const scoreBoardAnimator = new ScoreBoardAnimator({
-      scoreBoard,
+    const highScore = createScoreBoard({
+      text: 'High Score',
+      camera,
+      color: 0x9966FF,
+      position: {
+        x: 0.2,
+        y: 3,
+        z: 0.2,
+      },
+      initialScore: this.savedHighScore
     });
-    this.scoreBoardAnimator = scoreBoardAnimator;
+    this.highScore = highScore;
+    addToScene(highScore, scene);
 
     const submitButton = createSubmitButton({
       initialColor: this.noMoreCubesThatWeNeedToPress ? CubeState.SHOULD_PRESS : CubeState.DONT_PRESS,
       onPressed: () => {
-        this.handleInput({key: " "} as KeyboardEvent)
+        this.handleInput({ key: " " } as KeyboardEvent)
       }
     });
     this.submitButton = submitButton;
@@ -136,6 +152,11 @@ export default {
         cube.breathingAnimation(time, this.gameData.shouldIdleBreathe);
         cube.shakingAnimation(time);
       });
+
+      if (this.noMoreCubesThatWeNeedToPress) {
+          this.submitButton.indicateShouldPress();
+        }
+
       const countdownDone = timerBarAnimator.countdown(time);
       if (countdownDone) {
         this.loseAnimation();
@@ -199,6 +220,7 @@ export default {
           const cube = gameObject;
           switch (cube.state) {
             case CubeState.DONT_PRESS:
+              this.scoreBoard.scoreCount = 0;
               this.loseAnimation();
               break;
             case CubeState.SHOULD_PRESS:
@@ -208,10 +230,6 @@ export default {
               cube.pressed();
               break;
           }
-        }
-
-        if (this.noMoreCubesThatWeNeedToPress) {
-          this.submitButton.indicateShouldPress();
         }
 
         if (isSubmitButton(gameObject)) {
@@ -235,7 +253,8 @@ export default {
       }
     },
     addPoints() {
-      this.scoreBoardAnimator.addPoints(50);
+      addPoints(this.roundScoreBoard, 50);
+      this.updateHighScore();
     },
     initCubes() {
       this.timerBarAnimator.reset();
@@ -243,9 +262,13 @@ export default {
         cube.reset();
       });
       this.gameData.shouldIdleBreathe = true;
+      this.gameData.roundEnding = false;
       this.submitButton.indicateShouldNotPress();
+      this.updateHighScore();
     },
     animateRoundEnd(values: ShakeValues, animation: () => void) {
+      this.gameData.roundEnding = true;
+      renderNextTick(this.roundScoreBoard);
       this.canvas.removeEventListener("click", this.onCanvasClick);
       this.canvas.removeEventListener("keydown", this.handleInput);
 
@@ -292,6 +315,16 @@ export default {
         }
       );
     },
+    updateHighScore() {
+      const roundScore = this.scoreBoard.scoreCount;
+      const highScore = this.highScore.scoreCount;
+
+      if (roundScore > highScore) {
+        this.highScore.scoreCount = roundScore;
+        localStorage.setItem(SAVED_HIGH_SCORE_KEY, String(roundScore));
+        renderNextTick(this.highScoreBoard);
+      }
+    },
   },
   computed: {
     didWin(): boolean {
@@ -301,10 +334,29 @@ export default {
       const noMoreCubesThatWeNeedToPress =
         this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS)
           .length === 0;
-      return noMoreCubesThatWeNeedToPress;
+      return noMoreCubesThatWeNeedToPress && !this.gameData.roundEnding;
+    },
+    roundScoreBoard(): ScoreBoard {
+      return this.scoreBoard as ScoreBoard;
+    },
+    highScoreBoard(): ScoreBoard {
+      return this.highScore as ScoreBoard;
+    },
+    savedHighScore(): number {
+      const score = fromNullable({
+        nullable: localStorage.getItem(SAVED_HIGH_SCORE_KEY),
+        fallback: ""
+      });
+
+      if (stringIsSomething(score)) {
+        return Number(score);
+      }
+
+      return 0;
     }
   },
 };
+
 </script>
 
 <template>

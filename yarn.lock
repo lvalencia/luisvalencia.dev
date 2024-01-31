@@ -600,7 +600,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@luvle/code-deploy@workspace:luvle-deploy"
   dependencies:
-    "@luvle/utils": 0.1.1
+    "@luvle/utils": 0.1.2
     "@tsconfig/recommended": ^1.0.2
     "@types/chai": ^4.3.4
     "@types/mime-types": ^2.1.1
@@ -631,7 +631,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.2.1
     "@fortawesome/vue-fontawesome": latest-3
     "@intlify/unplugin-vue-i18n": ^0.8.1
-    "@luvle/utils": 0.1.1
+    "@luvle/utils": 0.1.2
     "@pinia/testing": ^0.0.14
     "@playwright/test": ^1.28.1
     "@rushstack/eslint-patch": ^1.1.4
@@ -678,7 +678,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@luvle/utils@0.1.1, @luvle/utils@workspace:luvle-utils":
+"@luvle/utils@0.1.2, @luvle/utils@workspace:luvle-utils":
   version: 0.0.0-use.local
   resolution: "@luvle/utils@workspace:luvle-utils"
   dependencies:

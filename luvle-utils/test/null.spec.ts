@@ -1,4 +1,4 @@
-import { fromNullableOrThrow, isNonNull } from "@/null";
+import { fromNullableOrThrow, isNonNull, fromNullable } from "@/null";
 import { expect } from "chai";
 
 describe("null", () => {
@@ -12,6 +12,25 @@ describe("null", () => {
       expect(isNonNull("hello")).to.be.true;
       expect(isNonNull([])).to.be.true;
       expect(isNonNull({})).to.be.true;
+    });
+  });
+  describe("#fromNullable", () => {
+    it("returns unrwapped maybe value", () => {
+      const something = 0;
+      const fallback = 10;
+      const result = fromNullable({
+        nullable: something,
+        fallback,
+      });
+      expect(result).equals(something);
+    });
+    it("returns fallback value", () => {
+      const fallback = 10;
+      const result = fromNullable({
+        nullable: null,
+        fallback,
+      });
+      expect(result).equals(fallback); 
     });
   });
   describe("#fromNullableOrThrow", () => {

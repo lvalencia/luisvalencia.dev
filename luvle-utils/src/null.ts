@@ -20,3 +20,15 @@ export function fromNullableOrThrow<T>({nullable, error}: FromNullableOrThrowArg
   }
   return nullable as T;
 }
+
+interface FromNullableArgs<T> {
+  fallback: T;
+  nullable: Nullable<T>;
+}
+
+export function fromNullable<T>({ fallback, nullable }: FromNullableArgs<T>): T {
+  if (isNonNull(nullable)) {
+    return nullable as T;
+  }
+  return fallback;
+}
