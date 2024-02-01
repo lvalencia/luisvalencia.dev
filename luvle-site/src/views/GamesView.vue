@@ -220,7 +220,6 @@ export default {
           const cube = gameObject;
           switch (cube.state) {
             case CubeState.DONT_PRESS:
-              this.scoreBoard.scoreCount = 0;
               this.loseAnimation();
               break;
             case CubeState.SHOULD_PRESS:
@@ -288,6 +287,7 @@ export default {
       }, values.shakingDurationInMillis);
     },
     loseAnimation() {
+      this.scoreBoard.scoreCount = 0;
       this.animateRoundEnd(
         {
           shakingDurationInMillis: 1500,
