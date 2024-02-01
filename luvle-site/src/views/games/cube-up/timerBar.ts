@@ -6,9 +6,11 @@ import {
   Mesh,
   Vector3,
   Object3D,
+  Euler,
 } from "three"; 
 import type { BufferGeometry } from "three";
 import type { Representable } from "./representable";
+import type { SimpleVector } from "../simpleVector";
 
 interface TimerBarArgs {
   width?: number,
@@ -93,6 +95,14 @@ export class TimerBar implements Representable {
   // Getters / Setters
   public get position(): Vector3 {
     return this.mesh.position;
+  }
+
+  public set position({x,y,z}: SimpleVector) {
+    this.mesh.position.set(x,y,z);
+  }
+
+  public get rotation(): Euler {
+    return this.mesh.rotation;
   }
 
   public set barColor(color: number) {

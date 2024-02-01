@@ -1,3 +1,4 @@
+import { degreesToRadians } from "@/helpers/degrees";
 import { Vector3, type Camera } from "three";
 import type { SimpleVector } from "../simpleVector";
 import { TimerBar } from "./timerBar";
@@ -15,7 +16,7 @@ export function createTimerBar({camera}: CreateTimerBarArgs): TimerBar {
     position: {
       x: 0,
       y: -1,
-      z: -1.2
+      z: -1.24
     }
   });
 
@@ -39,10 +40,10 @@ function setTimerPositionRelativeToCamera(args: SetTimerPositionArgs): void {
     }
   } = args;
 
-  const barPosition = new Vector3(x, y, z);
+  const barPosition = new Vector3(x, y , z);
   barPosition.applyQuaternion(camera.quaternion);
   barPosition.add(camera.position);
 
   timerBar.position.copy(barPosition);
-  timerBar.orientToward(camera.position);
+  timerBar.rotation.x = degreesToRadians(-70);
 }

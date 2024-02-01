@@ -1,4 +1,5 @@
 import type { PerspectiveCamera } from "three";
+import type { SimpleVector } from "../simpleVector";
 import type{ TimerBar } from "./timerBar";
 
 interface TimerBarAnimatorArgs {
@@ -21,6 +22,7 @@ export class TimerBarAnimator {
   private startedAt: number = 0;
   private timeAllotedInSeconds: number = Number.POSITIVE_INFINITY;
   private shortCircuit: boolean = false;
+  private initialPosition: SimpleVector;
 
   constructor(args: TimerBarAnimatorArgs) {
     const {
@@ -30,7 +32,16 @@ export class TimerBarAnimator {
 
     this.timerBar = timerBar;
     this.camera = camera;
+
+    const {
+      x, y, z
+    } = this.timerBar.position;
+
+    this.initialPosition = {
+      x, y, z
+    }
   }
+
   public countdown(time: DOMHighResTimeStamp): boolean {
     if (this.timeAllotedInSeconds === Number.POSITIVE_INFINITY || this.shortCircuit) return false;
 
@@ -69,6 +80,7 @@ export class TimerBarAnimator {
     this.shortCircuit = false;
     this.timerBar.scaleX(1);
     this.timerBar.barColor = TimerState.PLENTY_OF_TIME;
+    this.timerBar.position = this.initialPosition;
     this.timeAllotedInSeconds = Number.POSITIVE_INFINITY;
   }
 
