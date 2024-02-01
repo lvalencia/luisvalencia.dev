@@ -797,6 +797,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@pinia/testing", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.0.14"],\
             ["@playwright/test", "npm:1.30.0"],\
             ["@rushstack/eslint-patch", "npm:1.2.0"],\
+            ["@types/howler", "npm:2.2.11"],\
             ["@types/jsdom", "npm:20.0.1"],\
             ["@types/node", "npm:18.11.18"],\
             ["@types/three", "npm:0.160.0"],\
@@ -810,6 +811,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@vue/tsconfig", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.1.3"],\
             ["eslint", "npm:8.32.0"],\
             ["eslint-plugin-vue", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:9.9.0"],\
+            ["howler", "npm:2.2.4"],\
             ["jsdom", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:20.0.3"],\
             ["npm-run-all", "npm:4.1.5"],\
             ["pinia", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:2.0.29"],\
@@ -1082,6 +1084,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/chai-subset", "npm:1.3.3"],\
             ["@types/chai", "npm:4.3.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/howler", [\
+        ["npm:2.2.11", {\
+          "packageLocation": "./.yarn/cache/@types-howler-npm-2.2.11-dd9e5eb3f8-736f210dec.zip/node_modules/@types/howler/",\
+          "packageDependencies": [\
+            ["@types/howler", "npm:2.2.11"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3759,6 +3770,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/hosted-git-info-npm-2.8.9-62c44fa93f-c955394bda.zip/node_modules/hosted-git-info/",\
           "packageDependencies": [\
             ["hosted-git-info", "npm:2.8.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["howler", [\
+        ["npm:2.2.4", {\
+          "packageLocation": "./.yarn/cache/howler-npm-2.2.4-689ccf19b1-14ad7ed882.zip/node_modules/howler/",\
+          "packageDependencies": [\
+            ["howler", "npm:2.2.4"]\
           ],\
           "linkType": "HARD"\
         }]\

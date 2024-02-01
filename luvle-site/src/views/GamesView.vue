@@ -10,6 +10,7 @@ import { initializeWebGL } from "./games/webgl";
 import { initializeScene, addToScene, adjustView } from "./games/cube-up/scene";
 import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
 import { CubeState, isCube } from "./games/cube-up/cube";
+import { SoundBoard } from "./games/cube-up/soundboard";
 import { createCubes } from "./games/cube-up/cubeFactory";
 import { createTimerBar } from "./games/cube-up/timerBarFactory";
 import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
@@ -34,6 +35,7 @@ interface GameViewData {
   cubes: Cube[];
   timerBarAnimator: TimerBarAnimator;
   scoreBoard: ScoreBoard;
+  soundBoard: SoundBoard;
   highScore: ScoreBoard;
   submitButton: SubmitButton;
   intersectable: Object3D<Object3DEventMap>[];
@@ -59,6 +61,7 @@ export default {
       cubes: [],
       timerBarAnimator: {} as TimerBarAnimator,
       scoreBoard: {} as ScoreBoard,
+      soundBoard: {} as SoundBoard,
       highScore: {} as ScoreBoard,
       submitButton: {} as SubmitButton,
       intersectable: [],
@@ -142,6 +145,8 @@ export default {
       submitButton
     });
 
+    this.soundBoard = new SoundBoard();
+
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
@@ -223,9 +228,13 @@ export default {
               this.loseAnimation();
               break;
             case CubeState.SHOULD_PRESS:
+              this.soundBoard.points();
               this.addPoints();
+              cube.pressed();
+              break;
             case CubeState.PRESSED:
             case CubeState.NOT_PRESSED:
+              this.soundBoard.noPoints();
               cube.pressed();
               break;
           }
@@ -288,6 +297,8 @@ export default {
     },
     loseAnimation() {
       this.scoreBoard.scoreCount = 0;
+      this.soundBoard.lost();
+
       this.animateRoundEnd(
         {
           shakingDurationInMillis: 1500,
@@ -302,6 +313,8 @@ export default {
       );
     },
     winAnimation() {
+      this.soundBoard.win();
+
       this.animateRoundEnd(
         {
           shakingDurationInMillis: 1500,
