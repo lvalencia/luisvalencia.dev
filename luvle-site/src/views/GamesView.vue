@@ -24,6 +24,8 @@ import type { SubmitButton } from "./games/cube-up/submitButton";
 import type { Cube, ShakeValues } from "./games/cube-up/cube";
 import type { ScoreBoard } from "./games/cube-up/scoreBoard";
 import type { Object3DEventMap, Object3D } from "three";
+import { RoundCard } from "./games/cube-up/roundCard";
+import { RoundCardAnimator } from "./games/cube-up/roundCardAnimator";
 
 interface GameViewData {
   sceneId: string;
@@ -38,6 +40,8 @@ interface GameViewData {
   soundBoard: SoundBoard;
   highScore: ScoreBoard;
   submitButton: SubmitButton;
+  roundCard: RoundCard;
+  roundCardAnimator: RoundCardAnimator;
   intersectable: Object3D<Object3DEventMap>[];
   gameData: {
     shouldIdleBreathe: boolean;
@@ -64,6 +68,8 @@ export default {
       soundBoard: {} as SoundBoard,
       highScore: {} as ScoreBoard,
       submitButton: {} as SubmitButton,
+      roundCard: {} as RoundCard,
+      roundCardAnimator: {} as RoundCardAnimator,
       intersectable: [],
       gameData: {
         shouldIdleBreathe: true,
@@ -147,6 +153,17 @@ export default {
 
     this.soundBoard = new SoundBoard();
 
+    const roundCard = new RoundCard({
+      color: 0xffffff,
+    });
+    this.roundCard = roundCard;
+    addToScene(roundCard, scene);
+    const roundCardAnimator = new RoundCardAnimator({
+      roundCard,
+    });
+    this.roundCardAnimator = roundCardAnimator;
+    roundCardAnimator.nextRound();
+
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
@@ -159,8 +176,8 @@ export default {
       });
 
       if (this.noMoreCubesThatWeNeedToPress) {
-          this.submitButton.indicateShouldPress();
-        }
+        this.submitButton.indicateShouldPress();
+      }
 
       const countdownDone = timerBarAnimator.countdown(time);
       if (countdownDone) {
@@ -182,11 +199,17 @@ export default {
   },
   methods: {
     onCanvasClick(event: MouseEvent) {
-      if (this.gameData.shouldIdleBreathe) {
+      if (this.roundCard.visible) {
+        this.roundCard.hide();
         this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
+
+        return;
       }
-      this.gameData.shouldIdleBreathe = false;
+      if (this.gameData.shouldIdleBreathe) {
+        this.gameData.shouldIdleBreathe = false;
+      }
       const rect = this.canvas.getBoundingClientRect();
+
 
       // Position relative to canvas
       const canvasRelativeX = event.clientX - rect.left;
@@ -274,9 +297,8 @@ export default {
       this.submitButton.indicateShouldNotPress();
       this.updateHighScore();
     },
-    animateRoundEnd(values: ShakeValues, animation: () => void) {
+    animateRoundEnd(values: ShakeValues, animation: () => void, endActions: () => void = () => { }) {
       this.gameData.roundEnding = true;
-      renderNextTick(this.roundScoreBoard);
       this.canvas.removeEventListener("click", this.onCanvasClick);
       this.canvas.removeEventListener("keydown", this.handleInput);
 
@@ -293,10 +315,10 @@ export default {
         this.initCubes();
         this.canvas.addEventListener("click", this.onCanvasClick);
         this.canvas.addEventListener("keydown", this.handleInput);
+        endActions();
       }, values.shakingDurationInMillis);
     },
     loseAnimation() {
-      this.scoreBoard.scoreCount = 0;
       this.soundBoard.lost();
 
       this.animateRoundEnd(
@@ -309,6 +331,11 @@ export default {
           this.cubes.forEach((cube) => {
             cube.toggleLose();
           });
+        },
+        () => {
+          this.scoreBoard.scoreCount = 0;
+          renderNextTick(this.roundScoreBoard);
+          this.roundCardAnimator.startOver();
         }
       );
     },
@@ -325,6 +352,9 @@ export default {
           this.cubes.forEach((cube) => {
             cube.toggleWin();
           });
+        },
+        () => {
+          this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
         }
       );
     },
