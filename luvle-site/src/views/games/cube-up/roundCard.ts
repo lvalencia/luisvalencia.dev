@@ -67,6 +67,7 @@ export class RoundCard implements Representable {
     const width = 8;
     const height = 5;
     this.blurMaterial = new MeshPhysicalMaterial({
+      transmission: 1,
       roughness: 0.4,
       opacity: this.blurOpacity,
       color: 0xA9A9A9
