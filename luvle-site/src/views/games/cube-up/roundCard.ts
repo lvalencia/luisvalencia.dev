@@ -1,6 +1,7 @@
 import { degreesToRadians } from "@/helpers/degrees";
 import { fromMaybe } from "@luvle/utils";
-import { Mesh, MeshPhysicalMaterial, PlaneGeometry, type Object3D, type Object3DEventMap } from "three";
+import { Mesh, MeshPhysicalMaterial, PlaneGeometry } from "three";
+import type { Object3D, Object3DEventMap } from "three";
 import { Text } from "troika-three-text";
 import type { Representable } from "./representable";
 
@@ -11,6 +12,7 @@ export interface RoundContent {
 
 interface RoundCardArgs extends Partial<RoundContent> {
   color?: number;
+  opacity?: number;
 }
 
 const url = new URL(
@@ -19,8 +21,8 @@ const url = new URL(
 );
 const FontURI = url.href;
 
-
 export class RoundCard implements Representable {
+  private readonly blurOpacity: number;
   private readonly blurMaterial: MeshPhysicalMaterial;
   private readonly blur: Mesh;
   private readonly color: number;
@@ -31,7 +33,8 @@ export class RoundCard implements Representable {
     const {
       title,
       instructions, 
-      color
+      color,
+      opacity
     } = args;
 
     this.color = fromMaybe({
@@ -57,11 +60,15 @@ export class RoundCard implements Representable {
     this.title.rotation.x = degreesToRadians(-70);
     this.title.position.set(-1.25, 1.6, 0);
 
+    this.blurOpacity = fromMaybe({
+      maybe: opacity,
+      fallback: 0.5
+    });
     const width = 8;
     const height = 5;
     this.blurMaterial = new MeshPhysicalMaterial({
-      transmission: 1,
       roughness: 0.4,
+      opacity: this.blurOpacity,
       color: 0xA9A9A9
     })
     this.blur = new Mesh(
@@ -95,7 +102,7 @@ export class RoundCard implements Representable {
 
   public show(): void {
     this.title.fillOpacity = 1;
-    this.blurMaterial.opacity = 1;
+    this.blurMaterial.opacity = this.blurOpacity;
     this.instructions.fillOpacity = 1;
   }
 
