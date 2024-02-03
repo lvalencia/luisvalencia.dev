@@ -1,7 +1,4 @@
-import * as howler from 'howler';
-
-// Workaround for Rollup Issue
-const { Howl } = howler;
+import * as howler from 'howler';  // Workaround for Rollup Issue
 
 function uriForAudio(audioFile: string): string {
   const url = new URL(

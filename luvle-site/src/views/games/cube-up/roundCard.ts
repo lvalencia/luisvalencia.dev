@@ -5,11 +5,11 @@ import { Text } from "troika-three-text";
 import type { Representable } from "./representable";
 
 export interface RoundContent {
-  title?: string;
-  instructions?: string;
+  title: string;
+  instructions: string;
 }
 
-interface RoundCardArgs extends RoundContent {
+interface RoundCardArgs extends Partial<RoundContent> {
   color?: number;
 }
 
