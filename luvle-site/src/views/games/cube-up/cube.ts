@@ -1,4 +1,4 @@
-import { getRandomIntInclusive } from "@/helpers/random";
+import { getRandomIntInclusive, selectRandomFrom } from "@/helpers/random";
 import { fromMaybe } from "@luvle/utils";
 import {
   BoxGeometry,
@@ -15,10 +15,6 @@ import type { Representable } from "./representable";
 
 export function isCube(cube: any): cube is Cube {
   return cube instanceof Cube;
-}
-
-function randomCubeState(): CubeState {
-  return CubeStates[getRandomIntInclusive(0, CubeStates.length - 1)];
 }
 
 export enum CubeState {
@@ -83,7 +79,7 @@ export class Cube implements Representable {
 
     this.cubeState = fromMaybe({
       maybe: cubeState,
-      fallback: randomCubeState(),
+      fallback: selectRandomFrom(CubeStates)
     });
 
     this.material = fromMaybe({
@@ -151,7 +147,7 @@ export class Cube implements Representable {
 
   // State Manipulation
   public reset(): void {
-    this.cubeState = randomCubeState();
+    this.cubeState = selectRandomFrom(CubeStates);
     this.material.color.set(this.cubeState);
     this.position = this.lastPosition;
     this.shakingDurationInMillis = SHAKING_DURATION_IN_MILLIS;

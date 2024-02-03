@@ -163,6 +163,7 @@ export default {
     });
     this.roundCardAnimator = roundCardAnimator;
     roundCardAnimator.nextRound();
+    this.soundBoard.startWind();
 
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
@@ -202,11 +203,14 @@ export default {
       if (this.roundCard.visible) {
         this.roundCard.hide();
         this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
+        this.soundBoard.stopWind();
+        this.soundBoard.startRoundBackground();
 
         return;
       }
       if (this.gameData.shouldIdleBreathe) {
         this.gameData.shouldIdleBreathe = false;
+
       }
       const rect = this.canvas.getBoundingClientRect();
 
@@ -336,6 +340,8 @@ export default {
           this.scoreBoard.scoreCount = 0;
           renderNextTick(this.roundScoreBoard);
           this.roundCardAnimator.startOver();
+          this.soundBoard.stopRoundBackground();
+          this.soundBoard.startWind();
         }
       );
     },
