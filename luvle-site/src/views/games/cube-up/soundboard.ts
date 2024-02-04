@@ -38,12 +38,12 @@ interface SoundboardArgs {
 }
 
 export class SoundBoard {
-  private readonly winEffect: Controllable;
-  private readonly loseEffect: Controllable;
-  private readonly pointsEffet: Controllable;
-  private readonly noPointsEffet: Controllable;
-  private readonly wind: Controllable;
-  private readonly bumbumbumbum: Controllable;
+  private readonly winEffect: Silenceable;
+  private readonly loseEffect: Silenceable;
+  private readonly pointsEffet: Silenceable;
+  private readonly noPointsEffet: Silenceable;
+  private readonly wind: Silenceable;
+  private readonly bumbumbumbum: Silenceable;
 
   constructor(args: SoundboardArgs = {}) {
     const {
@@ -190,6 +190,24 @@ export class SoundBoard {
 
   public stopRoundBackground(): void {
     this.bumbumbumbum.stop();
+  }
+
+  public get silenced(): boolean {
+    return this.winEffect.silenced &&
+    this.loseEffect.silenced &&
+    this.pointsEffet.silenced &&
+    this.noPointsEffet.silenced &&
+    this.wind.silenced &&
+    this.bumbumbumbum.silenced;
+  }
+
+  public set silenced(silenced: boolean) {
+    this.winEffect.silenced = silenced;
+    this.loseEffect.silenced = silenced;
+    this.pointsEffet.silenced = silenced;
+    this.noPointsEffet.silenced = silenced;
+    this.wind.silenced = silenced;
+    this.bumbumbumbum.silenced = silenced;
   }
 }
 

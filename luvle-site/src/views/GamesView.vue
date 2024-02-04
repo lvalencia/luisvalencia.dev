@@ -151,9 +151,7 @@ export default {
       submitButton
     });
 
-    this.soundBoard = new SoundBoard({
-      // silenced: true
-    });
+    this.soundBoard = new SoundBoard();
 
     const roundCard = new RoundCard({
       color: 0xffffff,
@@ -376,6 +374,9 @@ export default {
         renderNextTick(this.highScoreBoard);
       }
     },
+    toggleSilenced() {
+      this.soundBoard.silenced = !this.soundBoard.silenced;
+    }
   },
   computed: {
     didWin(): boolean {
@@ -404,6 +405,10 @@ export default {
       }
 
       return 0;
+    },
+    silencedIcon(): string {
+      const icon = this.soundBoard.silenced ? "fa-volume-off" : "fa-volume-high";
+      return `fa-solid ${icon}`;
     }
   },
 };
@@ -415,6 +420,11 @@ export default {
     <h1>{{ t("title") }}</h1>
     <div class="canvas-container">
       <canvas :id="sceneId" tabindex="0"></canvas>
+      <font-awesome-icon
+        class="volume-icon"
+        :icon="silencedIcon"
+        @click="toggleSilenced"
+      />
     </div>
   </div>
 </template>
@@ -427,6 +437,16 @@ div.canvas-container {
   width: 100%;
   height: auto;
   margin: auto;
+  position: relative;
+
+  .volume-icon {
+    position: absolute;
+    bottom: 3.2vh;
+    left: 2vw;
+    font-size: 240%;
+    color: #9966FF;
+    z-index: 10;
+  }
 
   canvas {
     width: 100%;
