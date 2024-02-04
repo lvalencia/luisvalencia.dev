@@ -151,7 +151,9 @@ export default {
       submitButton
     });
 
-    this.soundBoard = new SoundBoard();
+    this.soundBoard = new SoundBoard({
+      // silenced: true
+    });
 
     const roundCard = new RoundCard({
       color: 0xffffff,
