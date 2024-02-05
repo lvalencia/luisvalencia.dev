@@ -9,13 +9,6 @@ const { t } = useI18n({
   useScope: "local",
 });
 
-function translationOrNothing(
-  str: Maybe<string>,
-  args?: Maybe<any>
-): Maybe<string> {
-  return str ? t(str, args) : undefined;
-}
-
 function externalTargetOrNothing(isExternal: Maybe<boolean>): Maybe<string> {
   return isExternal ? "_blank" : undefined;
 }
@@ -25,12 +18,14 @@ function externalTargetOrNothing(isExternal: Maybe<boolean>): Maybe<string> {
 import { useGrid } from "../stores/useGrid";
 import { mapState } from "pinia";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import type { Snippet, BookSnippet, BookSnippetLink } from "./home/snippets";
 import { incompleteBooks, completedBooksByYear } from "./home/bookSnippetLinks";
 import { fromMaybe } from "@luvle/utils";
 import { map, sortBy } from "underscore";
+import { translationOrNothing } from "@/helpers/translation";
+import type { BookSnippet, BookSnippetLink } from "./home/bookSnippets";
+import type { HomeSnippet } from "./home/homeSnippet";
 
-const aboutSnippet: Snippet = {
+const aboutSnippet: HomeSnippet = {
   keypath: "about",
   links: [
     {
@@ -62,14 +57,14 @@ const aboutSnippet: Snippet = {
   ],
 };
 
-const familySnippet: Snippet = {
+const familySnippet: HomeSnippet = {
   keypath: "family",
   title: "_family_title",
   titleId: "family",
   links: [],
 };
 
-const patentsSnippet: Snippet = {
+const patentsSnippet: HomeSnippet = {
   keypath: "patents",
   title: "_patents_title",
   titleId: "patents",
@@ -114,7 +109,7 @@ export const readingSnippet: BookSnippetsWithYear = {
 };
 
 interface HomeViewData {
-  generalSnippets: Snippet[];
+  generalSnippets: HomeSnippet[];
   bookSnippets: BookSnippetsWithYear[];
 }
 
@@ -161,9 +156,9 @@ export default {
     <AboutSnippet
       v-for="(snippet, index) in generalSnippets"
       :key="`snippet-${index}`"
-      :title="translationOrNothing(snippet.title)"
+      :title="translationOrNothing(t, snippet.title)"
       :titleId="snippet.titleId"
-      :content="translationOrNothing(snippet.content)"
+      :content="translationOrNothing(t, snippet.content)"
       :contentId="snippet.contentId"
     >
       <i18n-t :keypath="snippet.keypath" tag="p">
@@ -187,9 +182,9 @@ export default {
     <AboutSnippet
       v-for="(snippet, index) in bookSnippets"
       :key="`snippet-${index}`"
-      :title="translationOrNothing(snippet.title)"
+      :title="translationOrNothing(t, snippet.title)"
       :titleId="snippet.titleId"
-      :content="translationOrNothing(snippet.content)"
+      :content="translationOrNothing(t, snippet.content)"
       :contentId="snippet.contentId"
     >
       <i18n-t :keypath="snippet.keypath" tag="p">
@@ -384,3 +379,4 @@ a + svg {
   }
 }
 </i18n>
+./home/bookSnippets

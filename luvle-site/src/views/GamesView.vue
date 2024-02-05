@@ -1,414 +1,35 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import AboutSnippet from "@/components/games/AboutSnippet.vue";
+import { translationOrNothing } from "@/helpers/translation";
+import { inDevelopmentGames, releasedGames } from "./games/cube-up/gameSnippetLink";
+import type { GameSnippet } from "./games/cube-up/gameSnippets";
 const { t } = useI18n({
   useScope: "local",
 });
+
+function uriForImage(image: string) {
+  const url = new URL(
+      `../assets/images/${image}`,
+      import.meta.url
+    );
+    return url.href;
+}
+
 </script>
 
 <script lang="ts">
-import { initializeWebGL } from "./games/webgl";
-import { initializeScene, addToScene, adjustView } from "./games/cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
-import { CubeState, isCube } from "./games/cube-up/cube";
-import { SoundBoard } from "./games/cube-up/soundboard";
-import { createCubes } from "./games/cube-up/cubeFactory";
-import { createTimerBar } from "./games/cube-up/timerBarFactory";
-import { TimerBarAnimator } from "./games/cube-up/timerBarAnimator";
-import { addPoints, renderNextTick } from "./games/cube-up/scoreBoardAnimator";
-import { createScoreBoard } from "./games/cube-up/scoreBoardFactory";
-import { createSubmitButton } from "./games/cube-up/submitButtonFactory";
-import { isSubmitButton } from "./games/cube-up/submitButton";
-import { SubmitButtonAnimator } from "./games/cube-up/submitButtonAnimator";
-import { stringIsSomething, fromNullable } from "@luvle/utils";
-import type { SubmitButton } from "./games/cube-up/submitButton";
-import type { Cube, ShakeValues } from "./games/cube-up/cube";
-import type { ScoreBoard } from "./games/cube-up/scoreBoard";
-import type { Object3DEventMap, Object3D } from "three";
-import { RoundCard } from "./games/cube-up/roundCard";
-import { RoundCardAnimator } from "./games/cube-up/roundCardAnimator";
 
 interface GameViewData {
-  sceneId: string;
-  canvas: HTMLCanvasElement;
-  camera: PerspectiveCamera;
-  raycaster: Raycaster;
-  scene: Scene;
-  mouse: Vector2;
-  cubes: Cube[];
-  timerBarAnimator: TimerBarAnimator;
-  scoreBoard: ScoreBoard;
-  soundBoard: SoundBoard;
-  highScore: ScoreBoard;
-  submitButton: SubmitButton;
-  roundCard: RoundCard;
-  roundCardAnimator: RoundCardAnimator;
-  intersectable: Object3D<Object3DEventMap>[];
-  gameData: {
-    shouldIdleBreathe: boolean;
-    roundTimeInSeconds: number;
-    currentRoundTime: number;
-    roundEnding: boolean;
-  };
+  inDevelopmentGames: GameSnippet[];
+  releasedGames: GameSnippet[];
 }
-
-const SAVED_HIGH_SCORE_KEY = "saved_high_score";
 
 export default {
   data(): GameViewData {
     return {
-      sceneId: "scene",
-      canvas: {} as HTMLCanvasElement,
-      camera: {} as PerspectiveCamera,
-      raycaster: new Raycaster(),
-      mouse: new Vector2(),
-      scene: {} as Scene,
-      cubes: [],
-      timerBarAnimator: {} as TimerBarAnimator,
-      scoreBoard: {} as ScoreBoard,
-      soundBoard: {} as SoundBoard,
-      highScore: {} as ScoreBoard,
-      submitButton: {} as SubmitButton,
-      roundCard: {} as RoundCard,
-      roundCardAnimator: {} as RoundCardAnimator,
-      intersectable: [],
-      gameData: {
-        shouldIdleBreathe: true,
-        roundTimeInSeconds: 5,
-        roundEnding: false,
-        currentRoundTime: Number.POSITIVE_INFINITY
-      },
-    };
-  },
-  mounted() {
-    // Initialize Engine
-    const { canvas, renderer } = initializeWebGL({
-      id: "scene",
-    });
-    this.canvas = canvas;
-
-    const { camera, scene } = initializeScene({
-      canvas,
-    });
-    this.scene = scene;
-    this.camera = camera;
-
-    // Create and Add Objects to Scene
-    const cubes: Cube[] = createCubes({
-      rows: [3, 4, 3],
-    });
-    this.cubes = cubes;
-    cubes.forEach((cube) => {
-      addToScene(cube, scene);
-    });
-    this.intersectable.push(
-      ...this.cubes.map((cube) => cube.getRepresentation())
-    );
-
-    const timerBar = createTimerBar({
-      camera
-    });
-    addToScene(timerBar, scene);
-
-    const timerBarAnimator = new TimerBarAnimator({
-      timerBar,
-      camera
-    });
-    this.timerBarAnimator = timerBarAnimator;
-
-    const scoreBoard = createScoreBoard({
-      text: 'Score',
-      camera,
-      color: 0x9966FF,
-    });
-    this.scoreBoard = scoreBoard;
-    addToScene(scoreBoard, scene);
-
-    const highScore = createScoreBoard({
-      text: 'High Score',
-      camera,
-      color: 0x9966FF,
-      position: {
-        x: 0.2,
-        y: 3,
-        z: 0.2,
-      },
-      initialScore: this.savedHighScore
-    });
-    this.highScore = highScore;
-    addToScene(highScore, scene);
-
-    const submitButton = createSubmitButton({
-      initialColor: this.noMoreCubesThatWeNeedToPress ? CubeState.SHOULD_PRESS : CubeState.DONT_PRESS,
-      onPressed: () => {
-        this.handleInput({ key: " " } as KeyboardEvent)
-      }
-    });
-    this.submitButton = submitButton;
-    addToScene(submitButton, scene)
-    this.intersectable.push(submitButton.getRepresentation());
-
-    const submitButtonAnimator = new SubmitButtonAnimator({
-      submitButton
-    });
-
-    this.soundBoard = new SoundBoard();
-
-    const roundCard = new RoundCard({
-      color: 0xffffff,
-    });
-    this.roundCard = roundCard;
-    addToScene(roundCard, scene);
-    const roundCardAnimator = new RoundCardAnimator({
-      roundCard,
-    });
-    this.roundCardAnimator = roundCardAnimator;
-    roundCardAnimator.nextRound();
-    this.soundBoard.startWind();
-
-    // Interaction
-    this.canvas.addEventListener("click", this.onCanvasClick);
-    this.canvas.addEventListener("keydown", this.handleInput);
-
-    // Render Loop
-    const animate = (time: DOMHighResTimeStamp) => {
-      cubes.forEach((cube) => {
-        cube.breathingAnimation(time, this.gameData.shouldIdleBreathe);
-        cube.shakingAnimation(time);
-      });
-
-      if (this.noMoreCubesThatWeNeedToPress) {
-        this.submitButton.indicateShouldPress();
-      }
-
-      const countdownDone = timerBarAnimator.countdown(time);
-      if (countdownDone) {
-        this.loseAnimation();
-      }
-      submitButtonAnimator.update(time);
-
-      adjustView({ canvas, renderer, camera });
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    }
-
-    // Kick-Off Render Loop
-    requestAnimationFrame(animate);
-  },
-  beforeUnmount() {
-    this.canvas.removeEventListener("click", this.onCanvasClick);
-    this.canvas.removeEventListener("keydown", this.handleInput);
-  },
-  methods: {
-    onCanvasClick(event: MouseEvent) {
-      if (this.roundCard.visible) {
-        this.roundCard.hide();
-        this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
-        this.soundBoard.stopWind();
-        this.soundBoard.startRoundBackground();
-
-        return;
-      }
-      if (this.gameData.shouldIdleBreathe) {
-        this.gameData.shouldIdleBreathe = false;
-
-      }
-      const rect = this.canvas.getBoundingClientRect();
-
-
-      // Position relative to canvas
-      const canvasRelativeX = event.clientX - rect.left;
-      const canvasRelativeY = event.clientY - rect.top;
-      const canvasWidth = rect.width;
-      const canvasHeight = rect.height;
-
-      // Normalize
-      // Normalized Device Coordinates [-1,1]
-      const ndcUnit = 1;
-      const lengthOfNDCSquare = 2; // length from -1 to 1
-      const inversion = -1;
-
-      const normalizedX =
-        (canvasRelativeX / canvasWidth) * lengthOfNDCSquare - ndcUnit;
-      const normalizedY =
-        inversion * (canvasRelativeY / canvasHeight) * lengthOfNDCSquare +
-        ndcUnit;
-
-      // set Coordinates
-      this.mouse.x = normalizedX;
-      this.mouse.y = normalizedY;
-
-      this.raycaster.setFromCamera(this.mouse, this.camera);
-
-      const intersects = this.raycaster.intersectObjects(
-        this.intersectable,
-        false
-      );
-
-      if (intersects.length > 0) {
-        const intersected = intersects[0].object;
-        const gameObject: Cube | SubmitButton = intersected.userData.object;
-
-        if (isCube(gameObject)) {
-          const cube = gameObject;
-          switch (cube.state) {
-            case CubeState.DONT_PRESS:
-              this.loseAnimation();
-              break;
-            case CubeState.SHOULD_PRESS:
-              this.soundBoard.points();
-              this.addPoints();
-              cube.pressed();
-              break;
-            case CubeState.PRESSED:
-            case CubeState.NOT_PRESSED:
-              this.soundBoard.noPoints();
-              cube.pressed();
-              break;
-          }
-        }
-
-        if (isSubmitButton(gameObject)) {
-          gameObject.pressed();
-        }
-      }
-    },
-    handleInput({ key }: KeyboardEvent) {
-      const Keys = {
-        Space: " ",
-      };
-
-      switch (key) {
-        case Keys.Space:
-          if (this.didWin) {
-            this.winAnimation();
-          } else {
-            this.loseAnimation();
-          }
-          break;
-      }
-    },
-    addPoints() {
-      addPoints(this.roundScoreBoard, 50);
-      this.updateHighScore();
-    },
-    initCubes() {
-      this.timerBarAnimator.reset();
-      this.cubes.forEach((cube) => {
-        cube.reset();
-      });
-      this.gameData.shouldIdleBreathe = true;
-      this.gameData.roundEnding = false;
-      this.submitButton.indicateShouldNotPress();
-      this.updateHighScore();
-    },
-    animateRoundEnd(values: ShakeValues, animation: () => void, endActions: () => void = () => { }) {
-      this.gameData.roundEnding = true;
-      this.canvas.removeEventListener("click", this.onCanvasClick);
-      this.canvas.removeEventListener("keydown", this.handleInput);
-
-      this.timerBarAnimator.pause();
-      this.cubes.forEach((cube) => {
-        cube.unpress();
-        cube.setShakeValues(values);
-      });
-
-      const flashInterval = setInterval(animation, 250);
-
-      setTimeout(() => {
-        clearInterval(flashInterval);
-        this.initCubes();
-        this.canvas.addEventListener("click", this.onCanvasClick);
-        this.canvas.addEventListener("keydown", this.handleInput);
-        endActions();
-      }, values.shakingDurationInMillis);
-    },
-    loseAnimation() {
-      this.soundBoard.lost();
-
-      this.animateRoundEnd(
-        {
-          shakingDurationInMillis: 1500,
-          shakeIntensity: 0.05,
-          shakeScaleIncrease: 1,
-        },
-        () => {
-          this.cubes.forEach((cube) => {
-            cube.toggleLose();
-          });
-        },
-        () => {
-          this.scoreBoard.scoreCount = 0;
-          renderNextTick(this.roundScoreBoard);
-          this.roundCardAnimator.startOver();
-          this.soundBoard.stopRoundBackground();
-          this.soundBoard.startWind();
-        }
-      );
-    },
-    winAnimation() {
-      this.soundBoard.win();
-
-      this.animateRoundEnd(
-        {
-          shakingDurationInMillis: 1500,
-          shakeIntensity: 0.05,
-          shakeScaleIncrease: 1,
-        },
-        () => {
-          this.cubes.forEach((cube) => {
-            cube.toggleWin();
-          });
-        },
-        () => {
-          this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
-        }
-      );
-    },
-    updateHighScore() {
-      const roundScore = this.scoreBoard.scoreCount;
-      const highScore = this.highScore.scoreCount;
-
-      if (roundScore > highScore) {
-        this.highScore.scoreCount = roundScore;
-        localStorage.setItem(SAVED_HIGH_SCORE_KEY, String(roundScore));
-        renderNextTick(this.highScoreBoard);
-      }
-    },
-    toggleSilenced() {
-      this.soundBoard.silenced = !this.soundBoard.silenced;
-    }
-  },
-  computed: {
-    didWin(): boolean {
-      return this.noMoreCubesThatWeNeedToPress;
-    },
-    noMoreCubesThatWeNeedToPress(): boolean {
-      const noMoreCubesThatWeNeedToPress =
-        this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS)
-          .length === 0;
-      return noMoreCubesThatWeNeedToPress && !this.gameData.roundEnding;
-    },
-    roundScoreBoard(): ScoreBoard {
-      return this.scoreBoard as ScoreBoard;
-    },
-    highScoreBoard(): ScoreBoard {
-      return this.highScore as ScoreBoard;
-    },
-    savedHighScore(): number {
-      const score = fromNullable({
-        nullable: localStorage.getItem(SAVED_HIGH_SCORE_KEY),
-        fallback: ""
-      });
-
-      if (stringIsSomething(score)) {
-        return Number(score);
-      }
-
-      return 0;
-    },
-    silencedIcon(): string {
-      const icon = this.soundBoard.silenced ? "fa-volume-off" : "fa-volume-high";
-      return `fa-solid ${icon}`;
+      inDevelopmentGames,
+      releasedGames,
     }
   },
 };
@@ -418,55 +39,49 @@ export default {
 <template>
   <div class="games">
     <h1>{{ t("title") }}</h1>
-    <div class="canvas-container">
-      <canvas :id="sceneId" tabindex="0"></canvas>
-      <font-awesome-icon
-        class="volume-icon"
-        :icon="silencedIcon"
-        @click="toggleSilenced"
-      />
-    </div>
+    <h2>{{ t("_in_development") }}</h2>
+    <AboutSnippet
+      v-for="(snippet, index) in inDevelopmentGames"
+      :key="`snippet-${index}`"
+      :title="translationOrNothing(t, snippet.title)"
+      :titleId="snippet.titleId"
+      :content="translationOrNothing(t, snippet.content)"
+      :contentId="snippet.contentId"
+      :image="uriForImage(snippet.image)"
+      :imageText="translationOrNothing(t, '_image_text')"
+      :href="snippet.link.href"
+      :hrefId="snippet.link.id"
+    >
+    </AboutSnippet>
   </div>
 </template>
 
 <style scoped lang="scss">
-div.canvas-container {
-  max-height: 720px;
-  max-width: 1280px;
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  height: auto;
-  margin: auto;
-  position: relative;
 
-  .volume-icon {
-    position: absolute;
-    bottom: 3.2vh;
-    left: 2vw;
-    font-size: 240%;
-    color: #9966FF;
-    z-index: 10;
-  }
-
-  canvas {
-    width: 100%;
-    height: 100%;
-    outline: none;
-  }
-}
 </style>
 
 <i18n lang="json">
 {
   "en": {
-    "title": "Games"
+    "title": "Games",
+    "_in_development": "In Development",
+    "_image_text": "(Click image to play game in browser).",
+    "_cube_up_title": "Cube Up!",
+    "_cube_up_content": "I think this is the first game I'd be able to call \"my first game.\" Though I have built some games before; Massive real-time trivia game while in Alexa and Alien Decoder during the Alexa Button Launch, I have never game I could call my own. I wanted the game to be simple, silly, and lighthearted. This is my take on a whack-a-mole variant using cubes."
   },
   "es": {
-    "title": "Juegos"
+    "title": "Juegos",
+    "_in_development": "En Desarollo",
+    "_image_text": "(Haz clic en la imagen para descargar en juegop el navegador).",
+    "_cube_up_title": "Cube Up!",
+    "_cube_up_content": "Creo que éste juego cuenta como mi \"primer juego.\". En el pasado si he escrito otros juegos; cuando hizimos el juego de trivia masivo en Alexa o Alien Decorder cuando se lanzaron los Alexa Buttons, pero nunca he hecho un juego que llamaría mi juego. Quice hacer un juego simple, tonto, y liviano. Éste es mi giro en un juego estilo Pegale-al-Topo pero con cubos."
   },
   "ca": {
-    "title": "Jocs"
+    "title": "Jocs",
+    "_image_text": "Fes clic a la imatge per jugar al joc al navegador.",
+    "_in_development": "En Desenvolupament",
+    "_cube_up_title": "Cube Up!",
+    "_cube_up_content": "Crec que aquest joc compta com el meu \"primer joc\". En el passat sí que he escrit altres jocs; quan vam fer el joc de trivia massiu en Alexa o Alien Decoder quan es van llançar els botons d'Alexa, però mai he fet un joc que anomenaria el meu joc. Vaig voler fer un joc senzill, absurd i lleuger. Aquest és el meu gir en un joc d'estil Pega-al-Tou però amb cubs."
   }
 }
 </i18n>
-./games/webgl

@@ -2,14 +2,6 @@ import { selectRandomFrom } from '@/helpers/random';
 import { fromMaybe, isSomething } from '@luvle/utils';
 import * as howler from 'howler';  // Workaround for Rollup Issue
 
-function uriForAudio(audioFile: string): string {
-  const url = new URL(
-    `../../../assets/audio/${audioFile}`,
-    import.meta.url
-  );
-  return url.href;
-}
-
 interface Playable {
   play(input?: any): any;
 }
@@ -35,6 +27,14 @@ type Controllable = Playable & Stoppable & Hookable & Adjustable;
 
 interface SoundboardArgs {
   silenced?: boolean;
+}
+
+function uriForAudio(audioFile: string): string {
+  const url = new URL(
+   `../../../assets/audio/${audioFile}`,
+    import.meta.url
+  );
+  return url.href;
 }
 
 export class SoundBoard {
@@ -158,6 +158,15 @@ export class SoundBoard {
         loop: true,
       }),
     });
+  }
+
+  public stop(): void {
+    this.winEffect.stop();
+    this.loseEffect.stop();
+    this.pointsEffet.stop();
+    this.noPointsEffet.stop();
+    this.wind.stop();
+    this.bumbumbumbum.stop();
   }
   
   public noPoints(): void {

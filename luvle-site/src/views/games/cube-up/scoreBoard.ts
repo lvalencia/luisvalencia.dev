@@ -1,7 +1,7 @@
 import { fromMaybe } from "@luvle/utils";
-import type { Euler, Object3D, Object3DEventMap, Vector3 } from "three";
 import { Text } from "troika-three-text";
 import type { Representable } from "./representable";
+import type { Euler, Object3D, Object3DEventMap, Vector3 } from "three";
 
 interface ScoreBoardArgs {
   text: string;

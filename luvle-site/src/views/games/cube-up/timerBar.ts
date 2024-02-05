@@ -10,7 +10,7 @@ import {
 } from "three"; 
 import type { BufferGeometry } from "three";
 import type { Representable } from "./representable";
-import type { SimpleVector } from "../simpleVector";
+import type { SimpleVector } from "../shared/simpleVector";
 
 interface TimerBarArgs {
   width?: number,

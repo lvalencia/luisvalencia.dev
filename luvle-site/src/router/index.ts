@@ -22,6 +22,14 @@ const router = createRouter({
         i18nKey: "games",
       },
     },
+    {
+      path: "/games/cube-up",
+      name: "game-cube-up",
+      component: () => import("../views/games/CubeUpView.vue"),
+      meta: {
+        i18nKey: "games",
+      },
+    },
   ],
 });
 

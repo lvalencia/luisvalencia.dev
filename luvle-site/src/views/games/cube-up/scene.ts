@@ -8,7 +8,7 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
-import type { SimpleVector } from "../simpleVector";
+import type { SimpleVector } from "../shared/simpleVector";
 import type { Representable } from "./representable";
 
 export function addToScene(representable: Representable, scene: Scene) {

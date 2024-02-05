@@ -1,5 +1,5 @@
 import { toISO8601, hasOwnProperty } from "@luvle/utils";
-import type { BookSnippetLink } from "./snippets";
+import type { BookSnippetLink } from "./bookSnippets";
 import { groupBy } from "underscore";
 
 const bookSnippetLinks: BookSnippetLink[] = [

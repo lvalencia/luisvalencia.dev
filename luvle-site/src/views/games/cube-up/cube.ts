@@ -9,7 +9,7 @@ import {
   Object3D,
   Vector3,
 } from "three";
-import type { SimpleVector } from "../simpleVector";
+import type { SimpleVector } from "../shared/simpleVector";
 import type { Edge } from "./edges";
 import type { Representable } from "./representable";
 

@@ -1,5 +1,5 @@
 import type { PerspectiveCamera } from "three";
-import type { SimpleVector } from "../simpleVector";
+import type { SimpleVector } from "../shared/simpleVector";
 import type{ TimerBar } from "./timerBar";
 
 interface TimerBarAnimatorArgs {

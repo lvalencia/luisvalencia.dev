@@ -1,6 +1,6 @@
 import { degreesToRadians } from "@/helpers/degrees";
 import { Vector3, type Camera } from "three";
-import type { SimpleVector } from "../simpleVector";
+import type { SimpleVector } from "../shared/simpleVector";
 import { TimerBar } from "./timerBar";
 
 interface CreateTimerBarArgs {
