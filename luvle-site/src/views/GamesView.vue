@@ -67,21 +67,21 @@ export default {
     "_in_development": "In Development",
     "_image_text": "(Click image to play game in browser).",
     "_cube_up_title": "Cube Up!",
-    "_cube_up_content": "I think this is the first game I'd be able to call \"my first game.\" Though I have built some games before; Massive real-time trivia game while in Alexa and Alien Decoder during the Alexa Button Launch, I have never game I could call my own. I wanted the game to be simple, silly, and lighthearted. This is my take on a whack-a-mole variant using cubes."
+    "_cube_up_content": "Though I have helped build games at work before (massive real-time trivia while at my time Alexa and Alien Decoder during the Alexa Buttons Launch); this game is the first game I would call my own game. I wanted the game to be simple, silly, and lighthearted. It’s my take on a cube-based whack-a-mole variant."
   },
   "es": {
     "title": "Juegos",
     "_in_development": "En Desarollo",
     "_image_text": "(Haz clic en la imagen para descargar en juegop el navegador).",
     "_cube_up_title": "Cube Up!",
-    "_cube_up_content": "Creo que éste juego cuenta como mi \"primer juego.\". En el pasado si he escrito otros juegos; cuando hizimos el juego de trivia masivo en Alexa o Alien Decorder cuando se lanzaron los Alexa Buttons, pero nunca he hecho un juego que llamaría mi juego. Quice hacer un juego simple, tonto, y liviano. Éste es mi giro en un juego estilo Pegale-al-Topo pero con cubos."
+    "_cube_up_content": "Aunque he escrito otros juegos anteriormente (un juego de trivia en tiempo real masivo en Alexa y Alien Decoder durante el lanzamiento de Alexa Buttons; creo que éste juego es el primer juego que llamaría mi propio juego. Quería que el juego fuera simple, tonto y desenfadado. Es mi versión de una variante de golpear-topos basada en cubos."
   },
   "ca": {
     "title": "Jocs",
-    "_image_text": "Fes clic a la imatge per jugar al joc al navegador.",
+    "_image_text": "(Fes clic a la imatge per jugar al joc al navegador).",
     "_in_development": "En Desenvolupament",
     "_cube_up_title": "Cube Up!",
-    "_cube_up_content": "Crec que aquest joc compta com el meu \"primer joc\". En el passat sí que he escrit altres jocs; quan vam fer el joc de trivia massiu en Alexa o Alien Decoder quan es van llançar els botons d'Alexa, però mai he fet un joc que anomenaria el meu joc. Vaig voler fer un joc senzill, absurd i lleuger. Aquest és el meu gir en un joc d'estil Pega-al-Tou però amb cubs."
+    "_cube_up_content": "Encara que he escrit altres jocs anteriorment (un joc de trivia en temps real massiu en Alexa i Alien Decoder durant el llançament d'Alexa Buttons); crec que aquest joc és el primer joc que anomenaria el meu propi joc. Volia que el joc fos senzill, ximple i desenfadat. És la meva versió d'una variant de picar-talps basada en cubs."
   }
 }
 </i18n>
