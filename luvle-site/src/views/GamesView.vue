@@ -74,14 +74,14 @@ export default {
     "_in_development": "En Desarollo",
     "_image_text": "(Haz clic en la imagen para descargar en juegop el navegador).",
     "_cube_up_title": "Cube Up!",
-    "_cube_up_content": "Aunque he escrito otros juegos anteriormente (un juego de trivia en tiempo real masivo en Alexa y Alien Decoder durante el lanzamiento de Alexa Buttons; creo que éste juego es el primer juego que llamaría mi propio juego. Quería que el juego fuera simple, tonto y desenfadado. Es mi versión de una variante de golpear-topos basada en cubos."
+    "_cube_up_content": "Aunque antes he construido juegos en el trabajo (un juego de trivia en tiempo real masivo en Alexa y Alien Decoder durante el lanzamiento de Alexa Buttons); creo que éste juego es el primer juego que llamaría mi propio juego. Quería que el juego fuera simple, tonto y desenfadado. Es mi versión de una variante de golpear-topos basada en cubos."
   },
   "ca": {
     "title": "Jocs",
     "_image_text": "(Fes clic a la imatge per jugar al joc al navegador).",
     "_in_development": "En Desenvolupament",
     "_cube_up_title": "Cube Up!",
-    "_cube_up_content": "Encara que he escrit altres jocs anteriorment (un joc de trivia en temps real massiu en Alexa i Alien Decoder durant el llançament d'Alexa Buttons); crec que aquest joc és el primer joc que anomenaria el meu propi joc. Volia que el joc fos senzill, ximple i desenfadat. És la meva versió d'una variant de picar-talps basada en cubs."
+    "_cube_up_content": "Encara que abans he construït jocs a la feina (un joc de trivia en temps real massiu en Alexa i Alien Decoder durant el llançament d'Alexa Buttons); crec que aquest joc és el primer joc que anomenaria el meu propi joc. Volia que el joc fos senzill, ximple i desenfadat. És la meva versió d'una variant de picar-talps basada en cubs."
   }
 }
 </i18n>
