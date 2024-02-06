@@ -8,7 +8,7 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
+import { Scene, PerspectiveCamera, Raycaster, Vector2, TextureLoader, PlaneGeometry, MeshBasicMaterial, Mesh, RepeatWrapping, ClampToEdgeWrapping, MeshStandardMaterial } from "three";
 import { CubeState, isCube } from "./cube-up/cube";
 import { SoundBoard } from "./cube-up/soundboard";
 import { createCubes } from "./cube-up/cubeFactory";
@@ -19,13 +19,14 @@ import { createScoreBoard } from "./cube-up/scoreBoardFactory";
 import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
-import { stringIsSomething, fromNullable } from "@luvle/utils";
+import { stringIsSomething, fromNullable, type Maybe } from "@luvle/utils";
 import type { SubmitButton } from "./cube-up/submitButton";
 import type { Cube, ShakeValues } from "./cube-up/cube";
 import type { ScoreBoard } from "./cube-up/scoreBoard";
 import type { Object3DEventMap, Object3D } from "three";
 import { RoundCard } from "./cube-up/roundCard";
 import { RoundCardAnimator } from "./cube-up/roundCardAnimator";
+import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
 
 interface GameViewData {
   sceneId: string;
@@ -165,6 +166,11 @@ export default {
     roundCardAnimator.nextRound();
     this.soundBoard.startWind();
 
+
+    const soundIcon = new SoundIcon();
+    this.intersectable.push(soundIcon.getRepresentation());
+    addToScene(soundIcon, scene);
+
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
@@ -202,7 +208,18 @@ export default {
   },
   methods: {
     onCanvasClick(event: MouseEvent) {
-      if (this.roundCard.visible) {
+      const haventStartedRound = this.roundCard.visible;
+      const intersected = this.getIntersectedObject(event);
+
+      if (isSoundIcon(intersected)) {
+        const soundIcon = intersected;
+        soundIcon.toggle();
+        this.toggleSilenced();
+
+        if (haventStartedRound) return;
+      }
+
+      if (haventStartedRound) {
         this.roundCard.hide();
         this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
         this.soundBoard.stopWind();
@@ -210,12 +227,37 @@ export default {
 
         return;
       }
+
       if (this.gameData.shouldIdleBreathe) {
         this.gameData.shouldIdleBreathe = false;
-
       }
-      const rect = this.canvas.getBoundingClientRect();
 
+      if (isCube(intersected)) {
+        const cube = intersected;
+        switch (cube.state) {
+          case CubeState.DONT_PRESS:
+            this.loseAnimation();
+            break;
+          case CubeState.SHOULD_PRESS:
+            this.soundBoard.points();
+            this.addPoints();
+            cube.pressed();
+            break;
+          case CubeState.PRESSED:
+          case CubeState.NOT_PRESSED:
+            this.soundBoard.noPoints();
+            cube.pressed();
+            break;
+        }
+      }
+
+      if (isSubmitButton(intersected)) {
+        const submitButton = intersected;
+        submitButton.pressed();
+      }
+    },
+    getIntersectedObject(event: MouseEvent): Maybe<Cube | SubmitButton | SoundIcon> {
+      const rect = this.canvas.getBoundingClientRect();
 
       // Position relative to canvas
       const canvasRelativeX = event.clientX - rect.left;
@@ -245,34 +287,10 @@ export default {
         this.intersectable,
         false
       );
-
       if (intersects.length > 0) {
-        const intersected = intersects[0].object;
-        const gameObject: Cube | SubmitButton = intersected.userData.object;
-
-        if (isCube(gameObject)) {
-          const cube = gameObject;
-          switch (cube.state) {
-            case CubeState.DONT_PRESS:
-              this.loseAnimation();
-              break;
-            case CubeState.SHOULD_PRESS:
-              this.soundBoard.points();
-              this.addPoints();
-              cube.pressed();
-              break;
-            case CubeState.PRESSED:
-            case CubeState.NOT_PRESSED:
-              this.soundBoard.noPoints();
-              cube.pressed();
-              break;
-          }
-        }
-
-        if (isSubmitButton(gameObject)) {
-          gameObject.pressed();
-        }
+        return intersects[0].object.userData.object;
       }
+      return undefined;
     },
     handleInput({ key }: KeyboardEvent) {
       const Keys = {
@@ -407,10 +425,6 @@ export default {
       }
 
       return 0;
-    },
-    silencedIcon(): string {
-      const icon = this.soundBoard.silenced ? "fa-volume-off" : "fa-volume-high";
-      return `fa-solid ${icon}`;
     }
   },
 };
@@ -423,11 +437,6 @@ export default {
     <h2>{{ t("game") }}</h2>
     <div class="canvas-container">
       <canvas :id="sceneId" tabindex="0"></canvas>
-      <font-awesome-icon
-        class="volume-icon"
-        :icon="silencedIcon"
-        @click="toggleSilenced"
-      />
     </div>
   </div>
 </template>
