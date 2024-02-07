@@ -65,6 +65,9 @@ export class SoundBoard {
           new Howl({
             src: [uriForAudio('awwyee.mp3')]
           }),
+          new Howl({
+            src: [uriForAudio('naes.mp3')]
+          }),
         ]
       })
     });
@@ -145,10 +148,13 @@ export class SoundBoard {
       track: new Randomizer({
         tracks: [
           new Howl({
-            src: [uriForAudio('bonk.mp3')]
+            src: [uriForAudio('derp.mp3')]
           }),
           new Howl({
-            src: [uriForAudio('honk.mp3')]
+            src: [uriForAudio('no.mp3')]
+          }),
+          new Howl({
+            src: [uriForAudio('quitIt.mp3')]
           }),
         ]
       }),
