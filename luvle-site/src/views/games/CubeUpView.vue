@@ -20,13 +20,15 @@ import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
 import { stringIsSomething, fromNullable, type Maybe } from "@luvle/utils";
-import type { SubmitButton } from "./cube-up/submitButton";
-import type { Cube, ShakeValues } from "./cube-up/cube";
-import type { ScoreBoard } from "./cube-up/scoreBoard";
-import type { Object3DEventMap, Object3D } from "three";
 import { RoundCard } from "./cube-up/roundCard";
 import { RoundCardAnimator } from "./cube-up/roundCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
+import { CubeAnimator, toggleLose, toggleWin } from "./cube-up/cubeAnimator";
+import type { ShakeValues } from "./cube-up/cubeAnimator";
+import type { SubmitButton } from "./cube-up/submitButton";
+import type { Cube } from "./cube-up/cube";
+import type { ScoreBoard } from "./cube-up/scoreBoard";
+import type { Object3DEventMap, Object3D } from "three";
 
 interface GameViewData {
   sceneId: string;
@@ -36,6 +38,7 @@ interface GameViewData {
   scene: Scene;
   mouse: Vector2;
   cubes: Cube[];
+  cubeAnimator: CubeAnimator;
   timerBarAnimator: TimerBarAnimator;
   scoreBoard: ScoreBoard;
   soundBoard: SoundBoard;
@@ -64,6 +67,7 @@ export default {
       mouse: new Vector2(),
       scene: {} as Scene,
       cubes: [],
+      cubeAnimator: {} as CubeAnimator,
       timerBarAnimator: {} as TimerBarAnimator,
       scoreBoard: {} as ScoreBoard,
       soundBoard: {} as SoundBoard,
@@ -104,6 +108,9 @@ export default {
     this.intersectable.push(
       ...this.cubes.map((cube) => cube.getRepresentation())
     );
+
+    const cubeAnimator = new CubeAnimator();
+    this.cubeAnimator = cubeAnimator;
 
     const timerBar = createTimerBar({
       camera
@@ -149,7 +156,8 @@ export default {
     this.intersectable.push(submitButton.getRepresentation());
 
     const submitButtonAnimator = new SubmitButtonAnimator({
-      submitButton
+      submitButton,
+      cubeAnimator
     });
 
     this.soundBoard = new SoundBoard();
@@ -178,8 +186,18 @@ export default {
     // Render Loop
     const animate = (time: DOMHighResTimeStamp) => {
       cubes.forEach((cube) => {
-        cube.breathingAnimation(time, this.gameData.shouldIdleBreathe);
-        cube.shakingAnimation(time);
+        const animationsArgs = {
+          cube, 
+          time,
+        }
+
+        cubeAnimator.breathing({
+          ...animationsArgs,
+          shouldBreathe: this.gameData.shouldIdleBreathe,
+        })
+        cubeAnimator.shaking({
+          ...animationsArgs
+        });
       });
 
       if (this.noMoreCubesThatWeNeedToPress) {
@@ -316,6 +334,7 @@ export default {
       this.cubes.forEach((cube) => {
         cube.reset();
       });
+      this.cubeAnimator.reset();
       this.gameData.shouldIdleBreathe = true;
       this.gameData.roundEnding = false;
       this.submitButton.indicateShouldNotPress();
@@ -327,9 +346,9 @@ export default {
       this.canvas.removeEventListener("keydown", this.handleInput);
 
       this.timerBarAnimator.pause();
+      this.cubeAnimator.setShakeValues(values);
       this.cubes.forEach((cube) => {
         cube.unpress();
-        cube.setShakeValues(values);
       });
 
       const flashInterval = setInterval(animation, 250);
@@ -353,7 +372,7 @@ export default {
         },
         () => {
           this.cubes.forEach((cube) => {
-            cube.toggleLose();
+            toggleLose(cube as Cube);
           });
         },
         () => {
@@ -376,7 +395,7 @@ export default {
         },
         () => {
           this.cubes.forEach((cube) => {
-            cube.toggleWin();
+            toggleWin(cube as Cube)
           });
         },
         () => {

@@ -3,6 +3,7 @@ import { fromMaybe } from "@luvle/utils";
 import {
   BoxGeometry,
   BufferGeometry,
+  Color,
   Euler,
   Mesh,
   MeshStandardMaterial,
@@ -30,40 +31,25 @@ const CubeStates = [
   CubeState.DONT_PRESS,
 ];
 
-export interface ShakeValues {
-  shakingDurationInMillis: number;
-  shakeIntensity: number;
-  shakeScaleIncrease: number;
-}
+
 
 interface CubeArgs {
   cubeState?: CubeState;
   material?: MeshStandardMaterial;
   geometry?: BoxGeometry;
   mesh?: Mesh;
-  breathingFrequency?: number;
-  shakingDurationInMillis?: number;
-  shakeIntensity?: number;
-  shakeScaleIncrease?: number;
+  frequency?: number;
 }
-
-const BREATHING_INTENSITY = 0.2;
-const SHAKING_DURATION_IN_MILLIS = 150;
-const SHAKE_INTENSITY = 0.1;
-const SHAKE_SCALE_INCREASE = 1.2;
 
 export class Cube implements Representable {
   private readonly material: MeshStandardMaterial;
   private readonly geometry: BoxGeometry;
   private readonly mesh: Mesh;
-  private readonly breathingFrequency: number;
+  private readonly frequency: number;
   private cubeState: CubeState;
   private pressedAt: number;
   private lastPosition: SimpleVector;
   private lastScale: Vector3;
-  private shakingDurationInMillis: number;
-  private shakeIntensity: number;
-  private shakeScaleIncrease: number;
 
   constructor(args: CubeArgs = {}) {
     const { 
@@ -71,10 +57,7 @@ export class Cube implements Representable {
       cubeState, 
       material, 
       mesh, 
-      breathingFrequency,
-      shakingDurationInMillis,
-      shakeIntensity,
-      shakeScaleIncrease,
+      frequency,
     } = args;
 
     this.cubeState = fromMaybe({
@@ -97,26 +80,10 @@ export class Cube implements Representable {
       fallback: new Mesh(this.geometry, this.material),
     });
 
-    this.breathingFrequency = fromMaybe({
-      maybe: breathingFrequency,
+    this.frequency = fromMaybe({
+      maybe: frequency,
       fallback: getRandomIntInclusive(1, 5) / 3_200,
     });
-
-    this.shakingDurationInMillis = fromMaybe({
-      maybe: shakingDurationInMillis,
-      fallback: SHAKING_DURATION_IN_MILLIS
-    });
-
-    this.shakeIntensity = fromMaybe({
-      maybe: shakeIntensity,
-      fallback: SHAKE_INTENSITY
-    });
-
-    this.shakeScaleIncrease = fromMaybe({
-      maybe: shakeScaleIncrease,
-      fallback: SHAKE_SCALE_INCREASE
-    });
-
 
     const { x, y, z } = this.mesh.position;
 
@@ -150,78 +117,6 @@ export class Cube implements Representable {
     this.cubeState = selectRandomFrom(CubeStates);
     this.material.color.set(this.cubeState);
     this.position = this.lastPosition;
-    this.shakingDurationInMillis = SHAKING_DURATION_IN_MILLIS;
-    this.shakeIntensity = SHAKE_INTENSITY;
-    this.shakeScaleIncrease = SHAKE_SCALE_INCREASE;
-  }
-
-  public setShakeValues(values: ShakeValues): void {
-    const { shakingDurationInMillis, shakeIntensity, shakeScaleIncrease } =
-      values;
-    this.shakingDurationInMillis = shakingDurationInMillis;
-    this.shakeIntensity = shakeIntensity;
-    this.shakeScaleIncrease = shakeScaleIncrease;
-  }
-
-  // Animations (this really should be in a Cube Animator class, it's bloating the cube class)
-  public breathingAnimation(
-    time: DOMHighResTimeStamp,
-    shouldBreathe: boolean
-  ): void {
-    if (shouldBreathe) {
-      this.position.y =
-        BREATHING_INTENSITY * Math.sin(time * this.breathingFrequency);
-    } else {
-      this.position.y = 0;
-    }
-  }
-
-  public shakingAnimation(time: DOMHighResTimeStamp): void {
-    if (this.pressedAt === 0) return;
-
-    const startTime = this.pressedAt;
-
-    const elapsedTime = time - startTime;
-    const shouldAnimate = elapsedTime < this.shakingDurationInMillis;
-
-    if (shouldAnimate) {
-      // Shake
-      this.position.x += (Math.random() - 0.5) * this.shakeIntensity;
-      this.position.y += (Math.random() - 0.5) * this.shakeIntensity;
-      this.position.z += (Math.random() - 0.5) * this.shakeIntensity;
-
-      // Scale
-      const progress = elapsedTime / this.shakingDurationInMillis;
-      const scaleMax = this.lastScale.x;
-      const scale = scaleMax + progress * (this.shakeScaleIncrease - scaleMax); // Linearly interpolate scale
-      this.mesh.scale.set(scale, scale, scale);
-
-      return;
-    }
-
-    // Stop and Reset Shaking Animation
-    this.pressedAt = 0;
-    this.position = this.lastPosition;
-    const {
-      x, y, z
-    } = this.lastScale;
-    this.mesh.scale.set(x, y, z);
-  }
-
-  public toggleLose(): void {
-    const updatedColor =
-      this.material.color.getHex() === CubeState.DONT_PRESS
-        ? CubeState.NOT_PRESSED
-        : CubeState.DONT_PRESS;
-    this.material.color.set(updatedColor);
-  }
-
-  public toggleWin(): void {
-    const updatedColor =
-      this.material.color.getHex() === CubeState.SHOULD_PRESS
-        ? CubeState.NOT_PRESSED
-        : CubeState.SHOULD_PRESS;
-    this.material.color.set(updatedColor);
   }
 
   // Interactions
@@ -254,8 +149,51 @@ export class Cube implements Representable {
     return this.pressedAt;
   }
 
+  public set lastPressed(pressedAt: number) {
+    this.pressedAt = pressedAt;
+  }
+
   public get state(): CubeState {
     return this.cubeState;
+  }
+
+  public set state(state: CubeState) {
+    this.cubeState = state;
+    this.material.color.set(this.cubeState);
+  }
+
+  public get position(): Vector3 {
+    return this.mesh.position;
+  }
+
+  public set position({ x, y, z }: SimpleVector) {
+    this.lastPosition = {
+      x,
+      y,
+      z,
+    };
+    this.mesh.position.set(x, y, z);
+  }
+
+  public get lastSetPosition():  SimpleVector {
+    return this.lastPosition;
+  }
+
+  public get scale(): Vector3 {
+    return this.mesh.scale;
+  }
+
+  public set scale({x, y, z}: SimpleVector) {
+    this.lastScale.set(x,y,z);
+    this.mesh.scale.set(x,y,z);
+  }
+
+  public get lastSetScale(): Vector3 {
+    return this.lastScale;
+  }
+
+  public get color(): Color {
+    return this.material.color;
   }
 
   public get cubeSize(): number {
@@ -266,31 +204,12 @@ export class Cube implements Representable {
     return this.mesh.rotation;
   }
 
-  public get position(): Vector3 {
-    return this.mesh.position;
+  public get breathingFrequency(): number {
+    return this.frequency;
   }
 
   public set userData(obj: any) {
     this.mesh.userData = obj;
-  }
-
-  public set state(state: CubeState) {
-    this.cubeState = state;
-    this.material.color.set(this.cubeState);
-  }
-
-  public set scale({ x, y, z}: SimpleVector) {
-    this.lastScale.set(x,y,z);
-    this.mesh.scale.set(x,y,z);
-  }
-
-  public set position({ x, y, z }: SimpleVector) {
-    this.lastPosition = {
-      x,
-      y,
-      z,
-    };
-    this.mesh.position.set(x, y, z);
   }
 }
 

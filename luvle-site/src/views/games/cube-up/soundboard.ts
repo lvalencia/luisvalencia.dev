@@ -43,7 +43,7 @@ export class SoundBoard {
   private readonly pointsEffet: Silenceable;
   private readonly noPointsEffet: Silenceable;
   private readonly wind: Silenceable;
-  private readonly bumbumbumbum: Silenceable;
+  private readonly backgroundMusic: Silenceable;
 
   constructor(args: SoundboardArgs = {}) {
     const {
@@ -81,6 +81,9 @@ export class SoundBoard {
           }),
           new Howl({
             src: [uriForAudio('getrekt.mp3')]
+          }),
+          new Howl({
+            src: [uriForAudio('pewuweuweu.mp3')]
           }),
         ]
       })
@@ -151,7 +154,7 @@ export class SoundBoard {
       }),
     });
 
-    this.bumbumbumbum = new Silenceable({
+    this.backgroundMusic = new Silenceable({
       silenced: isSilent,
       track: new Howl({
         src: [uriForAudio('bumbumbumbum.mp3')],
@@ -166,7 +169,7 @@ export class SoundBoard {
     this.pointsEffet.stop();
     this.noPointsEffet.stop();
     this.wind.stop();
-    this.bumbumbumbum.stop();
+    this.backgroundMusic.stop();
   }
   
   public noPoints(): void {
@@ -194,11 +197,11 @@ export class SoundBoard {
   }
 
   public startRoundBackground(): void {
-    this.bumbumbumbum.play();
+    this.backgroundMusic.play();
   }
 
   public stopRoundBackground(): void {
-    this.bumbumbumbum.stop();
+    this.backgroundMusic.stop();
   }
 
   public get silenced(): boolean {
@@ -207,7 +210,7 @@ export class SoundBoard {
     this.pointsEffet.silenced &&
     this.noPointsEffet.silenced &&
     this.wind.silenced &&
-    this.bumbumbumbum.silenced;
+    this.backgroundMusic.silenced;
   }
 
   public set silenced(silenced: boolean) {
@@ -216,7 +219,7 @@ export class SoundBoard {
     this.pointsEffet.silenced = silenced;
     this.noPointsEffet.silenced = silenced;
     this.wind.silenced = silenced;
-    this.bumbumbumbum.silenced = silenced;
+    this.backgroundMusic.silenced = silenced;
   }
 }
 
