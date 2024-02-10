@@ -5,12 +5,12 @@ import type { Object3D, Object3DEventMap } from "three";
 import { Text } from "troika-three-text";
 import type { Representable } from "./representable";
 
-export interface RoundContent {
+export interface LevelContent {
   title: string;
   instructions: string;
 }
 
-interface RoundCardArgs extends Partial<RoundContent> {
+interface LevelCardArgs extends Partial<LevelContent> {
   color?: number;
   opacity?: number;
 }
@@ -21,7 +21,7 @@ const url = new URL(
 );
 const FontURI = url.href;
 
-export class RoundCard implements Representable {
+export class LevelCard implements Representable {
   private readonly blurOpacity: number;
   private readonly blurMaterial: MeshPhysicalMaterial;
   private readonly blur: Mesh;
@@ -29,7 +29,7 @@ export class RoundCard implements Representable {
   private title: Text;
   private instructions: Text;
 
-  constructor(args: RoundCardArgs) {
+  constructor(args: LevelCardArgs) {
     const {
       title,
       instructions, 
@@ -107,7 +107,7 @@ export class RoundCard implements Representable {
     this.instructions.fillOpacity = 1;
   }
 
-  public updateContent({title, instructions}: RoundContent) {
+  public updateContent({title, instructions}: LevelContent) {
     this.title.text = title;
     this.title.sync();
     this.instructions.text = instructions;

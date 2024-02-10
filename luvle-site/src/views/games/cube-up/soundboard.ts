@@ -202,11 +202,11 @@ export class SoundBoard {
     this.wind.stop();
   }
 
-  public startRoundBackground(): void {
+  public startLevelBackground(): void {
     this.backgroundMusic.play();
   }
 
-  public stopRoundBackground(): void {
+  public stopLevelBackground(): void {
     this.backgroundMusic.stop();
   }
 

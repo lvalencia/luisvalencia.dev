@@ -8,7 +8,7 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2, TextureLoader, PlaneGeometry, MeshBasicMaterial, Mesh, RepeatWrapping, ClampToEdgeWrapping, MeshStandardMaterial } from "three";
+import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
 import { CubeState, isCube } from "./cube-up/cube";
 import { SoundBoard } from "./cube-up/soundboard";
 import { createCubes } from "./cube-up/cubeFactory";
@@ -20,15 +20,21 @@ import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
 import { stringIsSomething, fromNullable, type Maybe } from "@luvle/utils";
-import { RoundCard } from "./cube-up/roundCard";
-import { RoundCardAnimator } from "./cube-up/roundCardAnimator";
+import { LevelCard } from "./cube-up/levelCard";
+import { LevelCardAnimator } from "./cube-up/levelCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
 import { CubeAnimator, toggleLose, toggleWin } from "./cube-up/cubeAnimator";
 import type { ShakeValues } from "./cube-up/cubeAnimator";
 import type { SubmitButton } from "./cube-up/submitButton";
 import type { Cube } from "./cube-up/cube";
 import type { ScoreBoard } from "./cube-up/scoreBoard";
+import type { LevelContent } from "./cube-up/levelCard";
 import type { Object3DEventMap, Object3D } from "three";
+
+interface LevelConfiguration {
+  content: LevelContent;
+  roundTimeInSeconds: number;
+}
 
 interface GameViewData {
   sceneId: string;
@@ -44,14 +50,13 @@ interface GameViewData {
   soundBoard: SoundBoard;
   highScore: ScoreBoard;
   submitButton: SubmitButton;
-  roundCard: RoundCard;
-  roundCardAnimator: RoundCardAnimator;
+  levelCard: LevelCard;
+  levelCardAnimator: LevelCardAnimator;
   intersectable: Object3D<Object3DEventMap>[];
-  gameData: {
-    shouldIdleBreathe: boolean;
-    roundTimeInSeconds: number;
-    currentRoundTime: number;
-    roundEnding: boolean;
+  levels: LevelConfiguration[];
+  game: {
+    currentLevel: number;
+    roundIsActive: boolean;
   };
 }
 
@@ -73,14 +78,35 @@ export default {
       soundBoard: {} as SoundBoard,
       highScore: {} as ScoreBoard,
       submitButton: {} as SubmitButton,
-      roundCard: {} as RoundCard,
-      roundCardAnimator: {} as RoundCardAnimator,
+      levelCard: {} as LevelCard,
+      levelCardAnimator: {} as LevelCardAnimator,
       intersectable: [],
-      gameData: {
-        shouldIdleBreathe: true,
-        roundTimeInSeconds: 5,
-        roundEnding: false,
-        currentRoundTime: Number.POSITIVE_INFINITY
+      levels: [
+        {
+          content: {
+            title: 'Level 1',
+            instructions: 'Hit all the greens!',
+          },
+          roundTimeInSeconds: 5,
+        },
+        {
+          content: {
+            title: 'Level 2',
+            instructions: 'Beware the changes!',
+          },
+          roundTimeInSeconds: 5,
+        },
+        {
+          content: {
+            title: 'Level 3',
+            instructions: 'Scramble!'
+          },
+          roundTimeInSeconds: 5,
+        },
+      ],
+      game: {
+        currentLevel: 0,
+        roundIsActive: false,
       },
     };
   },
@@ -162,16 +188,16 @@ export default {
 
     this.soundBoard = new SoundBoard();
 
-    const roundCard = new RoundCard({
+    const levelCard = new LevelCard({
       color: 0xffffff,
     });
-    this.roundCard = roundCard;
-    addToScene(roundCard, scene);
-    const roundCardAnimator = new RoundCardAnimator({
-      roundCard,
+    this.levelCard = levelCard;
+    addToScene(levelCard, scene);
+    const levelCardAnimator = new LevelCardAnimator({
+      levelCard,
     });
-    this.roundCardAnimator = roundCardAnimator;
-    roundCardAnimator.nextRound();
+    this.levelCardAnimator = levelCardAnimator;
+    levelCardAnimator.updateContentAndShow(this.currentLevelContent);
     this.soundBoard.startWind();
 
 
@@ -187,13 +213,13 @@ export default {
     const animate = (time: DOMHighResTimeStamp) => {
       cubes.forEach((cube) => {
         const animationsArgs = {
-          cube, 
+          cube,
           time,
         }
 
         cubeAnimator.breathing({
           ...animationsArgs,
-          shouldBreathe: this.gameData.shouldIdleBreathe,
+          shouldBreathe: this.shouldIdleBreathe,
         })
         cubeAnimator.shaking({
           ...animationsArgs
@@ -226,7 +252,7 @@ export default {
   },
   methods: {
     onCanvasClick(event: MouseEvent) {
-      const haventStartedRound = this.roundCard.visible;
+      const haventStartedLevel = !this.game.roundIsActive;
       const intersected = this.getIntersectedObject(event);
 
       if (isSoundIcon(intersected)) {
@@ -234,20 +260,17 @@ export default {
         soundIcon.toggle();
         this.toggleSilenced();
 
-        if (haventStartedRound) return;
+        if (haventStartedLevel) return;
       }
 
-      if (haventStartedRound) {
-        this.roundCard.hide();
-        this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
+      if (haventStartedLevel) {
+        this.levelCard.hide();
+        this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
         this.soundBoard.stopWind();
-        this.soundBoard.startRoundBackground();
+        this.soundBoard.startLevelBackground();
+        this.game.roundIsActive = true;
 
         return;
-      }
-
-      if (this.gameData.shouldIdleBreathe) {
-        this.gameData.shouldIdleBreathe = false;
       }
 
       if (isCube(intersected)) {
@@ -335,13 +358,12 @@ export default {
         cube.reset();
       });
       this.cubeAnimator.reset();
-      this.gameData.shouldIdleBreathe = true;
-      this.gameData.roundEnding = false;
+      this.game.roundIsActive = true;
       this.submitButton.indicateShouldNotPress();
       this.updateHighScore();
     },
-    animateRoundEnd(values: ShakeValues, animation: () => void, endActions: () => void = () => { }) {
-      this.gameData.roundEnding = true;
+    animateLevelEnd(values: ShakeValues, animation: () => void, endActions: () => void = () => { }) {
+      this.game.roundIsActive = false;
       this.canvas.removeEventListener("click", this.onCanvasClick);
       this.canvas.removeEventListener("keydown", this.handleInput);
 
@@ -364,7 +386,7 @@ export default {
     loseAnimation() {
       this.soundBoard.lost();
 
-      this.animateRoundEnd(
+      this.animateLevelEnd(
         {
           shakingDurationInMillis: 1500,
           shakeIntensity: 0.05,
@@ -378,8 +400,7 @@ export default {
         () => {
           this.scoreBoard.scoreCount = 0;
           renderNextTick(this.roundScoreBoard);
-          this.roundCardAnimator.startOver();
-          this.soundBoard.stopRoundBackground();
+          this.soundBoard.stopLevelBackground();
           this.soundBoard.startWind();
         }
       );
@@ -387,7 +408,7 @@ export default {
     winAnimation() {
       this.soundBoard.win();
 
-      this.animateRoundEnd(
+      this.animateLevelEnd(
         {
           shakingDurationInMillis: 1500,
           shakeIntensity: 0.05,
@@ -399,7 +420,7 @@ export default {
           });
         },
         () => {
-          this.timerBarAnimator.startCountDown(this.gameData.roundTimeInSeconds, performance.now());
+          this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
         }
       );
     },
@@ -425,7 +446,7 @@ export default {
       const noMoreCubesThatWeNeedToPress =
         this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS)
           .length === 0;
-      return noMoreCubesThatWeNeedToPress && !this.gameData.roundEnding;
+      return noMoreCubesThatWeNeedToPress && this.canInteract;
     },
     roundScoreBoard(): ScoreBoard {
       return this.scoreBoard as ScoreBoard;
@@ -444,6 +465,18 @@ export default {
       }
 
       return 0;
+    },
+    canInteract(): boolean {
+      return this.game.roundIsActive;
+    },
+    shouldIdleBreathe(): boolean {
+      return !this.game.roundIsActive;
+    },
+    currentLevelContent(): LevelContent {
+      return this.levels[this.game.currentLevel].content;
+    },
+    currentRoundTimeInSeconds(): number {
+      return this.levels[this.game.currentLevel].roundTimeInSeconds;
     }
   },
 };
