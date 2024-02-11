@@ -1,6 +1,6 @@
 import { degreesToRadians } from "@/helpers/degrees";
 import { fromMaybe } from "@luvle/utils";
-import { Box3, Mesh, MeshPhysicalMaterial, PlaneGeometry, Vector3 } from "three";
+import { Mesh, MeshPhysicalMaterial, PlaneGeometry } from "three";
 import type { Object3D, Object3DEventMap } from "three";
 import { Text } from "troika-three-text";
 import type { Representable } from "./representable";

@@ -4,11 +4,17 @@
 
 .grid-container {
   display: grid;
+
+  max-width: 656px;
+  margin: 0 auto;
   &.show * {
     @include sizeless-border($grid-line);
     &:hover {
       background-color: $grid-area;
     }
+  }
+  &.large {
+    max-width: 1280px;
   }
 }
 

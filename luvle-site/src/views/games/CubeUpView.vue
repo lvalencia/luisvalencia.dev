@@ -8,7 +8,7 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2, NumberKeyframeTrack } from "three";
+import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
 import { CubeState, isCube } from "./cube-up/cube";
 import { SoundBoard } from "./cube-up/soundboard";
 import { createCubes } from "./cube-up/cubeFactory";
@@ -19,7 +19,7 @@ import { createScoreBoard } from "./cube-up/scoreBoardFactory";
 import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
-import { stringIsSomething, fromNullable, type Maybe } from "@luvle/utils";
+import { stringIsSomething, fromNullable, type Maybe, type Nullable, isNonNull } from "@luvle/utils";
 import { LevelCard } from "./cube-up/levelCard";
 import { LevelCardAnimator } from "./cube-up/levelCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
@@ -149,6 +149,8 @@ export default {
     };
   },
   mounted() {
+    this.enlargeMaxPageWidth();
+
     // Initialize Engine
     const { canvas, renderer } = initializeWebGL({
       id: "scene",
@@ -282,6 +284,8 @@ export default {
     requestAnimationFrame(animate);
   },
   beforeUnmount() {
+    this.resetMaxPageWidth();
+
     this.canvas.removeEventListener("click", this.onCanvasClick);
     this.canvas.removeEventListener("keydown", this.handleInput);
     this.soundBoard.stop();
@@ -504,6 +508,12 @@ export default {
     },
     toggleSilenced() {
       this.soundBoard.silenced = !this.soundBoard.silenced;
+    },
+    enlargeMaxPageWidth() {
+      this.container.classList.add('large');
+    },
+    resetMaxPageWidth() {
+      this.container.classList.remove('large');
     }
   },
   computed: {
@@ -551,6 +561,14 @@ export default {
     },
     levelIsOver(): boolean {
       return this.game.currentRound >= this.numberOfRoundsInCurrentLevel;
+    },
+    container(): Element {
+      const element: Nullable<Element> = document.querySelector('#app > div.grid-container');
+
+      return fromNullable({
+        nullable: element,
+        fallback: document.createElement('null')
+      });
     }
   },
 };

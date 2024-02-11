@@ -128,22 +128,6 @@ export default {
 
 <template>
   <main class="grid-item" :class="classObject">
-    <p>
-      <font-awesome-icon
-        class="construction-icon"
-        icon="fa-solid fa-person-digging"
-      />
-      <span>{{ t("message") }}</span>
-    </p>
-    <i18n-t keypath="state" tag="p">
-      <template #state>
-        <strong>{{ t("_state") }}</strong>
-      </template>
-      <template #status>
-        <span> {{ t("_status") }}</span>
-      </template>
-    </i18n-t>
-
     <h1>Luis Valencia</h1>
     <h2>
       <span data-testid="occupation">{{ t("occupation") }}</span>
@@ -251,10 +235,6 @@ a + svg {
   "en": {
     "occupation": "Software Engineer",
     "location": "Southern California",
-    "message": "Under Construction",
-    "_state": "State",
-    "_status": "Developing the Site",
-    "state": "{state}: {status}",
     "_current_job": "Amazon Kuiper",
     "_patents": "inventor",
     "_read": "avid reader",
@@ -294,10 +274,6 @@ a + svg {
   "es": {
     "occupation": "Ingeniero de Software",
     "location": "Sur de California",
-    "message": "Bajo Construcción",
-    "_state": "Condición",
-    "_status": "Desarollando el Sitio",
-    "state": "{state}: {status}",
     "_current_job": "Amazon Kuiper",
     "_patents": "inventor",
     "_read": "aficiónado a la lectura",
@@ -337,10 +313,6 @@ a + svg {
   "ca": {
     "occupation": "Enginyer de Software",
     "location": "Sud de Califòrnia",
-    "message": "En Construcció",
-    "_state": "Estat",
-    "_status": "Desenvolupando el Lloc",
-    "state": "{state}: {status}",
     "_current_job": "Amazon Kuiper",
     "_patents": "inventor",
     "_read": "aficionat de llibres",
