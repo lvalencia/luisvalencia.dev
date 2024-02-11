@@ -86,27 +86,59 @@ export default {
       levels: [
         {
           content: {
-            title: 'Level 1',
-            instructions: 'Hit all the greens!',
+            title: "Level 1",
+            instructions: "Hit all the greens!",
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
         },
         {
           content: {
-            title: 'Level 2',
-            instructions: 'Beware the changes!',
+            title: "Level 2",
+            instructions: "Beware the Changing Cubes!",
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
         },
         {
           content: {
-            title: 'Level 3',
-            instructions: 'Scramble!'
+            title: "Level 3",
+            instructions: "Run away!"
           },
           roundTimeInSeconds: 5,
-          numberOfRounds: Number.POSITIVE_INFINITY,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: "Level 4",
+            instructions: "Scramble!"
+          },
+          roundTimeInSeconds: 5,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: "Level 5",
+            instructions: "This is heavy doc!",
+          },
+          roundTimeInSeconds: 5,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: "Level 6",
+            instructions: "Faster, Faster!",
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        },
+        {
+          content: {
+            title: "Level 7",
+            instructions: "Chaos",
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: Number.POSITIVE_INFINITY
         },
       ],
       game: {

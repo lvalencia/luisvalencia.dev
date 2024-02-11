@@ -1,6 +1,6 @@
 import { degreesToRadians } from "@/helpers/degrees";
 import { fromMaybe } from "@luvle/utils";
-import { Mesh, MeshPhysicalMaterial, PlaneGeometry } from "three";
+import { Box3, Mesh, MeshPhysicalMaterial, PlaneGeometry, Vector3 } from "three";
 import type { Object3D, Object3DEventMap } from "three";
 import { Text } from "troika-three-text";
 import type { Representable } from "./representable";
@@ -58,7 +58,9 @@ export class LevelCard implements Representable {
       })
     });
     this.title.rotation.x = degreesToRadians(-70);
-    this.title.position.set(-1.25, 1.6, 0);
+    this.title.anchorX = 'center';
+    this.title.anchorY = 'middle';
+    this.title.position.set(0, 1.6, 0);
 
     this.blurOpacity = fromMaybe({
       maybe: opacity,
@@ -77,7 +79,7 @@ export class LevelCard implements Representable {
       this.blurMaterial
     );
     this.title.add(this.blur);
-    this.blur.position.set(1.25, -0.68125, -0.05);
+    this.blur.position.set(0, -0.68125, -0.05);
 
     this.instructions = new Text();
     styleText(this.instructions, {
@@ -88,9 +90,10 @@ export class LevelCard implements Representable {
         fallback: 'dolor sit amet, consectetur'
       })
     });
-
     this.title.add(this.instructions);
-    this.instructions.position.set(-0.45, -0.8, 0);
+    this.instructions.anchorX = 'center';
+    this.instructions.anchorY = 'middle';
+    this.instructions.position.set(0, -0.8, 0);
 
     this.blurMaterial.transparent = true;
   }
