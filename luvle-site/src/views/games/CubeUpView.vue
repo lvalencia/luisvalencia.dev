@@ -408,9 +408,6 @@ export default {
             toggleWin(cube as Cube)
           });
         },
-        () => {
-          this.startCountDown();
-        }
       );
     },
     addPoints() {
@@ -428,6 +425,7 @@ export default {
         this.prepNextLevel();
       } else {
         this.game.roundIsActive = true;
+        this.startCountDown();
       }
 
       this.submitButton.indicateShouldNotPress();
@@ -453,12 +451,14 @@ export default {
     resetGame() {
       this.game.roundIsActive = false;
       this.scoreBoard.scoreCount = 0;
-      renderNextTick(this.sessionScoreBoard);
       this.game.currentRound = 0;
       this.game.currentLevel = 0;
+      this.timerBarAnimator.pause();
+      this.timerBarAnimator.reset();
       this.displayNextLevelCard();
       this.soundBoard.stopLevelBackground();
       this.soundBoard.startWind();
+      renderNextTick(this.sessionScoreBoard);
     },
     updateHighScore() {
       const roundScore = this.scoreBoard.scoreCount;
