@@ -8,7 +8,7 @@ const { t } = useI18n({
 <script lang="ts">
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
-import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
+import { Scene, PerspectiveCamera, Raycaster, Vector2, NumberKeyframeTrack } from "three";
 import { CubeState, isCube } from "./cube-up/cube";
 import { SoundBoard } from "./cube-up/soundboard";
 import { createCubes } from "./cube-up/cubeFactory";
@@ -34,6 +34,7 @@ import type { Object3DEventMap, Object3D } from "three";
 interface LevelConfiguration {
   content: LevelContent;
   roundTimeInSeconds: number;
+  numberOfRounds: number;
 }
 
 interface GameViewData {
@@ -55,6 +56,7 @@ interface GameViewData {
   intersectable: Object3D<Object3DEventMap>[];
   levels: LevelConfiguration[];
   game: {
+    currentRound: number;
     currentLevel: number;
     roundIsActive: boolean;
   };
@@ -88,6 +90,7 @@ export default {
             instructions: 'Hit all the greens!',
           },
           roundTimeInSeconds: 5,
+          numberOfRounds: 5,
         },
         {
           content: {
@@ -95,6 +98,7 @@ export default {
             instructions: 'Beware the changes!',
           },
           roundTimeInSeconds: 5,
+          numberOfRounds: 5,
         },
         {
           content: {
@@ -102,9 +106,11 @@ export default {
             instructions: 'Scramble!'
           },
           roundTimeInSeconds: 5,
+          numberOfRounds: Number.POSITIVE_INFINITY,
         },
       ],
       game: {
+        currentRound: 0,
         currentLevel: 0,
         roundIsActive: false,
       },
@@ -200,7 +206,6 @@ export default {
     levelCardAnimator.updateContentAndShow(this.currentLevelContent);
     this.soundBoard.startWind();
 
-
     const soundIcon = new SoundIcon();
     this.intersectable.push(soundIcon.getRepresentation());
     addToScene(soundIcon, scene);
@@ -265,10 +270,10 @@ export default {
 
       if (haventStartedLevel) {
         this.levelCard.hide();
-        this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
         this.soundBoard.stopWind();
         this.soundBoard.startLevelBackground();
         this.game.roundIsActive = true;
+        this.startCountDown();
 
         return;
       }
@@ -348,22 +353,9 @@ export default {
           break;
       }
     },
-    addPoints() {
-      addPoints(this.roundScoreBoard, 50);
-      this.updateHighScore();
-    },
-    initCubes() {
-      this.timerBarAnimator.reset();
-      this.cubes.forEach((cube) => {
-        cube.reset();
-      });
-      this.cubeAnimator.reset();
-      this.game.roundIsActive = true;
-      this.submitButton.indicateShouldNotPress();
-      this.updateHighScore();
-    },
     animateLevelEnd(values: ShakeValues, animation: () => void, endActions: () => void = () => { }) {
-      this.game.roundIsActive = false;
+      this.endRound();
+
       this.canvas.removeEventListener("click", this.onCanvasClick);
       this.canvas.removeEventListener("keydown", this.handleInput);
 
@@ -377,7 +369,7 @@ export default {
 
       setTimeout(() => {
         clearInterval(flashInterval);
-        this.initCubes();
+        this.prepNextRound();
         this.canvas.addEventListener("click", this.onCanvasClick);
         this.canvas.addEventListener("keydown", this.handleInput);
         endActions();
@@ -398,10 +390,7 @@ export default {
           });
         },
         () => {
-          this.scoreBoard.scoreCount = 0;
-          renderNextTick(this.roundScoreBoard);
-          this.soundBoard.stopLevelBackground();
-          this.soundBoard.startWind();
+          this.resetGame();
         }
       );
     },
@@ -420,9 +409,56 @@ export default {
           });
         },
         () => {
-          this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
+          this.startCountDown();
         }
       );
+    },
+    addPoints() {
+      addPoints(this.sessionScoreBoard, 50);
+      this.updateHighScore();
+    },
+    prepNextRound() {
+      this.timerBarAnimator.reset();
+      this.cubes.forEach((cube) => {
+        cube.reset();
+      });
+      this.cubeAnimator.reset();
+
+      if (this.levelIsOver) {
+        this.prepNextLevel();
+      } else {
+        this.game.roundIsActive = true;
+      }
+
+      this.submitButton.indicateShouldNotPress();
+      this.updateHighScore();
+    },
+    endRound(): void {
+      this.game.roundIsActive = false;
+      this.game.currentRound += 1;
+    },
+    prepNextLevel() {
+      this.game.currentRound = 0;
+      this.game.currentLevel += 1;
+      this.soundBoard.stopLevelBackground();
+      this.displayNextLevelCard();
+      this.soundBoard.startWind();
+    },
+    displayNextLevelCard() {
+      this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
+    },
+    startCountDown() {
+      this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
+    },
+    resetGame() {
+      this.game.roundIsActive = false;
+      this.scoreBoard.scoreCount = 0;
+      renderNextTick(this.sessionScoreBoard);
+      this.game.currentRound = 0;
+      this.game.currentLevel = 0;
+      this.displayNextLevelCard();
+      this.soundBoard.stopLevelBackground();
+      this.soundBoard.startWind();
     },
     updateHighScore() {
       const roundScore = this.scoreBoard.scoreCount;
@@ -448,7 +484,7 @@ export default {
           .length === 0;
       return noMoreCubesThatWeNeedToPress && this.canInteract;
     },
-    roundScoreBoard(): ScoreBoard {
+    sessionScoreBoard(): ScoreBoard {
       return this.scoreBoard as ScoreBoard;
     },
     highScoreBoard(): ScoreBoard {
@@ -477,6 +513,12 @@ export default {
     },
     currentRoundTimeInSeconds(): number {
       return this.levels[this.game.currentLevel].roundTimeInSeconds;
+    },
+    numberOfRoundsInCurrentLevel(): number {
+      return this.levels[this.game.currentLevel].numberOfRounds;
+    },
+    levelIsOver(): boolean {
+      return this.game.currentRound >= this.numberOfRoundsInCurrentLevel;
     }
   },
 };
