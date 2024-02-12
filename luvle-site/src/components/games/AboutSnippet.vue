@@ -68,9 +68,9 @@ export default {
         {{ title }}
       </h3>
     </MaybeComponent>
-    <a :href="href" :id="hrefId">
+    <router-link :to="href" :id="hrefId">
       <img :src="image" :id="imageId" :alt="imageAlt" />
-    </a>
+    </router-link>
     <MaybeComponent :render-if="imageText">
       <p :id="imageTextId" :key="imageText">
         {{ imageText }}
