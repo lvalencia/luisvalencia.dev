@@ -319,6 +319,8 @@ export default {
         const fullscreenIcon = intersected;
         fullscreenIcon.toggle();
         this.toggleFullscreen();
+
+        if (haventStartedLevel) return;
       }
 
       if (haventStartedLevel) {
