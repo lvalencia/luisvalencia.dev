@@ -1,6 +1,16 @@
 import { degreesToRadians } from "@/helpers/degrees";
+import { fromMaybe } from "@luvle/utils";
 import { ClampToEdgeWrapping, Mesh, MeshStandardMaterial, Object3D, PlaneGeometry, Texture, TextureLoader, type Object3DEventMap } from "three";
 import type { Representable } from "./representable";
+
+export function isToggleableIcon(icon: any): icon is ToggleableIcon  {
+  return icon instanceof ToggleableIcon;
+}
+
+export enum ToggleableState {
+  ACTIVE,
+  INACTIVE
+}
 
 interface Dimensions {
   width: number;
@@ -11,6 +21,7 @@ interface ToggleableIconArgs {
   activeImage: string;
   inactiveImage: string;
   dimensions: Dimensions;
+  initialState?: ToggleableState;
 }
 
 const loader = new TextureLoader();
@@ -37,7 +48,8 @@ export class ToggleableIcon implements Representable {
       dimensions: {
         height,
         width
-      }
+      },
+      initialState
     } = args;
 
     const geometry = new PlaneGeometry(width, height);
@@ -48,12 +60,18 @@ export class ToggleableIcon implements Representable {
     this.inactive = loader.load(uriForImage(inactiveImage));
     configureTexture(this.inactive);
 
+    const toggleState = fromMaybe({
+      maybe: initialState,
+      fallback: ToggleableState.ACTIVE
+    });
+
+    this.isActive = toggleState === ToggleableState.ACTIVE;
+
     this.material = new MeshStandardMaterial({
-      map: this.active,
+        map: this.isActive ? this.active : this.inactive,
       transparent: true, 
       opacity: 1 
     });
-    this.isActive = false;
 
     this.mesh = new Mesh(geometry, this.material);
     this.mesh.rotation.x = degreesToRadians(-70 + 360);

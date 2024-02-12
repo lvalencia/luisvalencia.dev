@@ -31,6 +31,8 @@ import type { ScoreBoard } from "./cube-up/scoreBoard";
 import type { LevelContent } from "./cube-up/levelCard";
 import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
+import { FullscreenIcon, isFullscreenIcon } from "./cube-up/fullscreenIcon";
+import { isMobileDevice } from "@/helpers/mobile";
 
 interface LevelConfiguration {
   content: LevelContent;
@@ -60,6 +62,7 @@ interface GameViewData {
     currentRound: number;
     currentLevel: number;
     roundIsActive: boolean;
+    isFullScreen: boolean;
   };
 }
 
@@ -146,6 +149,7 @@ export default {
         currentRound: 0,
         currentLevel: 0,
         roundIsActive: false,
+        isFullScreen: false,
       },
     };
   },
@@ -245,6 +249,12 @@ export default {
     this.intersectable.push(soundIcon.getRepresentation());
     addToScene(soundIcon, scene);
 
+    if (!isMobileDevice()) {
+      const fullscreenIcon = new FullscreenIcon();
+      this.intersectable.push(fullscreenIcon.getRepresentation());
+      addToScene(fullscreenIcon, scene);
+    }
+
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
@@ -303,6 +313,12 @@ export default {
         this.toggleSilenced();
 
         if (haventStartedLevel) return;
+      }
+
+      if(isFullscreenIcon(intersected)) {
+        const fullscreenIcon = intersected;
+        fullscreenIcon.toggle();
+        this.toggleFullscreen();
       }
 
       if (haventStartedLevel) {
@@ -517,46 +533,20 @@ export default {
       this.container.classList.remove('large');
     },
     makeFullScreen() {
-      if (this.canvas.requestFullscreen) {
-        this.canvas.requestFullscreen();
-        return;
-      }
-
-      const altCanvasAPI = this.canvas as any;
-
-      if (altCanvasAPI.webkitRequestFullScreen) {
-        altCanvasAPI.webkitRequestFullScreen();
-        return;
-      }
-      if (altCanvasAPI.mozRequestFullScreen) {
-        altCanvasAPI.mozRequestFullScreen();
-        return;
-      }
-      if (altCanvasAPI.msRequestFullscreen) {
-        altCanvasAPI.msRequestFullscreen();
-        return;
-      }
+      document.getElementsByClassName('games')[0].requestFullscreen();
     },
     exitFullScreen() {
-      const altCanvasAPI = this.canvas as any;
-
-      if (altCanvasAPI.exitFullscreen) {
-        altCanvasAPI.exitFullscreen();
+      document.exitFullscreen();
+    },
+    toggleFullscreen() {
+      this.game.isFullScreen = !this.game.isFullScreen;
+      if (this.game.isFullScreen) {
+        console.log("entering fullscreen");
+        this.makeFullScreen();
         return;
       }
-
-      if (altCanvasAPI.webkitCancelFullScreen) {
-        altCanvasAPI.webkitCancelFullScreen();
-        return;
-      }
-      if (altCanvasAPI.mozCancelFullScreen) {
-        altCanvasAPI.mozCancelFullScreen();
-        return;
-      }
-      if (altCanvasAPI.msExitFullscreen) {
-        altCanvasAPI.msExitFullscreen();
-        return;
-      }
+      console.log("existing fullscreen");
+      this.exitFullScreen();
     }
   },
   computed: {
