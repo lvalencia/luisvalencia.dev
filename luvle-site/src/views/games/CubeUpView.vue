@@ -19,7 +19,7 @@ import { createScoreBoard } from "./cube-up/scoreBoardFactory";
 import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
-import { stringIsSomething, fromNullable, type Maybe, type Nullable, isNonNull } from "@luvle/utils";
+import { stringIsSomething, fromNullable } from "@luvle/utils";
 import { LevelCard } from "./cube-up/levelCard";
 import { LevelCardAnimator } from "./cube-up/levelCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
@@ -29,6 +29,7 @@ import type { SubmitButton } from "./cube-up/submitButton";
 import type { Cube } from "./cube-up/cube";
 import type { ScoreBoard } from "./cube-up/scoreBoard";
 import type { LevelContent } from "./cube-up/levelCard";
+import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 
 interface LevelConfiguration {
@@ -514,6 +515,48 @@ export default {
     },
     resetMaxPageWidth() {
       this.container.classList.remove('large');
+    },
+    makeFullScreen() {
+      if (this.canvas.requestFullscreen) {
+        this.canvas.requestFullscreen();
+        return;
+      }
+
+      const altCanvasAPI = this.canvas as any;
+
+      if (altCanvasAPI.webkitRequestFullScreen) {
+        altCanvasAPI.webkitRequestFullScreen();
+        return;
+      }
+      if (altCanvasAPI.mozRequestFullScreen) {
+        altCanvasAPI.mozRequestFullScreen();
+        return;
+      }
+      if (altCanvasAPI.msRequestFullscreen) {
+        altCanvasAPI.msRequestFullscreen();
+        return;
+      }
+    },
+    exitFullScreen() {
+      const altCanvasAPI = this.canvas as any;
+
+      if (altCanvasAPI.exitFullscreen) {
+        altCanvasAPI.exitFullscreen();
+        return;
+      }
+
+      if (altCanvasAPI.webkitCancelFullScreen) {
+        altCanvasAPI.webkitCancelFullScreen();
+        return;
+      }
+      if (altCanvasAPI.mozCancelFullScreen) {
+        altCanvasAPI.mozCancelFullScreen();
+        return;
+      }
+      if (altCanvasAPI.msExitFullscreen) {
+        altCanvasAPI.msExitFullscreen();
+        return;
+      }
     }
   },
   computed: {
