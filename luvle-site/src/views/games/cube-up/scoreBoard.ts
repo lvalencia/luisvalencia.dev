@@ -60,7 +60,7 @@ export class Scoreboard implements Representable {
     this.prefix.fontSize = 0.2;
     this.prefix.sync();
 
-    this.points.text = this.score;
+    this.points.text = `${this.score}`;
     this.points.anchorX = 'left';
     this.points.anchorY = 'top';
     this.points.font = FontURI;
@@ -71,7 +71,7 @@ export class Scoreboard implements Representable {
 
     this.prefix.addEventListener("synccomplete", () => {
       const size = new Vector3();
-      this.prefix.geometry.boundingBox.getSize(size);
+      (this.prefix as any).geometry.boundingBox.getSize(size);
       const padding = 0.02;
       const prefixWidth = size.x + padding;
   
@@ -81,7 +81,7 @@ export class Scoreboard implements Representable {
   }
 
   public updateScore() {
-    this.points.text = this.score;
+    this.points.text = `${this.score}`;
   }
 
   public updatePrefix(text: string) {
