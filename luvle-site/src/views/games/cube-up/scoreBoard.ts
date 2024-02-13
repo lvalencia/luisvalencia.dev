@@ -3,7 +3,7 @@ import { Text } from "troika-three-text";
 import type { Representable } from "./representable";
 import type { Euler, Object3D, Object3DEventMap, Vector3 } from "three";
 
-interface ScoreBoardArgs {
+interface ScoreboardArgs {
   text: string;
   initialScore?: number;
   color?: number;
@@ -15,13 +15,13 @@ const url = new URL(
 );
 const FontURI = url.href;
 
-export class ScoreBoard implements Representable {
+export class Scoreboard implements Representable {
   private readonly text: Text;
   private readonly prefixText: string;
   private readonly color: number;
   private score: number;
 
-  constructor(args: ScoreBoardArgs) {
+  constructor(args: ScoreboardArgs) {
     const {
       text,
       initialScore,

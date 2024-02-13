@@ -1,5 +1,5 @@
 import { degreesToRadians } from "@/helpers/degrees";
-import { ScoreBoard } from "./scoreBoard";
+import { Scoreboard } from "./scoreboard";
 import type { Camera } from "three";
 import type { SimpleVector } from "../shared/simpleVector";
 
@@ -17,7 +17,7 @@ const topLeft = {
   z: 0.2, 
 };
 
-export function createScoreBoard(args: CreateScoreBoardArgs): ScoreBoard {
+export function createScoreBoard(args: CreateScoreBoardArgs): Scoreboard {
   const {
     text,
     camera,
@@ -30,7 +30,7 @@ export function createScoreBoard(args: CreateScoreBoardArgs): ScoreBoard {
     } = topLeft
   } = args;
 
-  const scoreBoard = new ScoreBoard({
+  const scoreBoard = new Scoreboard({
     text,
     initialScore,
     color,
@@ -52,7 +52,7 @@ export function createScoreBoard(args: CreateScoreBoardArgs): ScoreBoard {
 }
 
 interface SetScoreBoardPositionRelativeToCamera {
-  scoreBoard: ScoreBoard;
+  scoreBoard: Scoreboard;
   camera: Camera;
   position: SimpleVector;
 }

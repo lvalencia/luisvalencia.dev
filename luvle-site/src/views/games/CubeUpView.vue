@@ -14,8 +14,8 @@ import { SoundBoard } from "./cube-up/soundboard";
 import { createCubes } from "./cube-up/cubeFactory";
 import { createTimerBar } from "./cube-up/timerBarFactory";
 import { TimerBarAnimator } from "./cube-up/timerBarAnimator";
-import { addPoints, renderNextTick } from "./cube-up/scoreBoardAnimator";
-import { createScoreBoard } from "./cube-up/scoreBoardFactory";
+import { addPoints, renderNextTick } from "./cube-up/scoreboardAnimator";
+import { createScoreBoard } from "./cube-up/scoreboardFactory";
 import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
@@ -24,15 +24,15 @@ import { LevelCard } from "./cube-up/levelCard";
 import { LevelCardAnimator } from "./cube-up/levelCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
 import { CubeAnimator, toggleLose, toggleWin } from "./cube-up/cubeAnimator";
+import { FullscreenIcon, isFullscreenIcon } from "./cube-up/fullscreenIcon";
+import { isMobileDevice } from "@/helpers/mobile";
 import type { ShakeValues } from "./cube-up/cubeAnimator";
 import type { SubmitButton } from "./cube-up/submitButton";
 import type { Cube } from "./cube-up/cube";
-import type { ScoreBoard } from "./cube-up/scoreBoard";
+import type { Scoreboard } from "./cube-up/scoreboard";
 import type { LevelContent } from "./cube-up/levelCard";
 import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
-import { FullscreenIcon, isFullscreenIcon } from "./cube-up/fullscreenIcon";
-import { isMobileDevice } from "@/helpers/mobile";
 
 interface LevelConfiguration {
   content: LevelContent;
@@ -50,9 +50,9 @@ interface GameViewData {
   cubes: Cube[];
   cubeAnimator: CubeAnimator;
   timerBarAnimator: TimerBarAnimator;
-  scoreBoard: ScoreBoard;
+  scoreBoard: Scoreboard;
   soundBoard: SoundBoard;
-  highScore: ScoreBoard;
+  highScore: Scoreboard;
   submitButton: SubmitButton;
   levelCard: LevelCard;
   levelCardAnimator: LevelCardAnimator;
@@ -80,9 +80,9 @@ export default {
       cubes: [],
       cubeAnimator: {} as CubeAnimator,
       timerBarAnimator: {} as TimerBarAnimator,
-      scoreBoard: {} as ScoreBoard,
+      scoreBoard: {} as Scoreboard,
       soundBoard: {} as SoundBoard,
-      highScore: {} as ScoreBoard,
+      highScore: {} as Scoreboard,
       submitButton: {} as SubmitButton,
       levelCard: {} as LevelCard,
       levelCardAnimator: {} as LevelCardAnimator,
@@ -561,11 +561,11 @@ export default {
           .length === 0;
       return noMoreCubesThatWeNeedToPress && this.canInteract;
     },
-    sessionScoreBoard(): ScoreBoard {
-      return this.scoreBoard as ScoreBoard;
+    sessionScoreBoard(): Scoreboard {
+      return this.scoreBoard as Scoreboard;
     },
-    highScoreBoard(): ScoreBoard {
-      return this.highScore as ScoreBoard;
+    highScoreBoard(): Scoreboard {
+      return this.highScore as Scoreboard;
     },
     savedHighScore(): number {
       const score = fromNullable({
