@@ -655,11 +655,11 @@ div.canvas-container {
   },
   "es": {
     "title": "Juego",
-    "game": "Cube Up!"
+    "game": "Cubos Arriba!"
   },
   "ca": {
     "title": "Joc",
-    "game": "Cube Up!"
+    "game": "Cubs Amunt!"
   }
 }
 </i18n>

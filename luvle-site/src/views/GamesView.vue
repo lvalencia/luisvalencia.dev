@@ -76,7 +76,7 @@ export default {
     "_in_development": "En Desarollo",
     "_image_text": "(Haz clic en la imagen para descargar en juegop el navegador).",
     "_about_game": "Acerca de Este Juego",
-    "_cube_up_title": "Cube Up!",
+    "_cube_up_title": "Cubos Arriba!",
     "_cube_up_content": "Este es el primer juego que llamaría mi propio juego. Quería que el juego fuera simple, tonto y desenfadado. Es mi versión de una variante de golpear-topos basada en cubos."
   },
   "ca": {
@@ -84,7 +84,7 @@ export default {
     "_image_text": "(Fes clic a la imatge per jugar al joc al navegador).",
     "_in_development": "En Desenvolupament",
     "_about_game": "Sobre Aquest Joc",
-    "_cube_up_title": "Cube Up!",
+    "_cube_up_title": "Cubs Amunt!",
     "_cube_up_content": "Aquest és el primer joc que anomenaria el meu propi joc. Volia que el joc fos senzill, ximple i desenfadat. És la meva versió d'una variant de picar-talps basada en cubs."
   }
 }
