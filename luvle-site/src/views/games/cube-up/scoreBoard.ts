@@ -19,7 +19,6 @@ const FontURI = url.href;
 export class Scoreboard implements Representable {
   private readonly prefix: Text;
   private readonly points: Text;
-  private readonly prefixText: string;
   private readonly color: number;
   private score: number;
 
@@ -30,7 +29,6 @@ export class Scoreboard implements Representable {
       color,
     } = args;
 
-    this.prefixText = `${text}:`;
     this.color = fromMaybe({
       maybe: color,
       fallback: 0xf0f0f0
@@ -42,7 +40,7 @@ export class Scoreboard implements Representable {
 
     this.prefix = new Text();
     this.points = new Text();
-    this.initializeText();
+    this.initializeText(text);
   }
 
   public addPoints(points: number): void {
@@ -53,8 +51,8 @@ export class Scoreboard implements Representable {
     return this.prefix;
   }
 
-  private initializeText(): void {
-    this.prefix.text = this.prefixText;
+  private initializeText(prefixText: string): void {
+    this.prefix.text = prefixText;
     this.prefix.anchorX = 'left';
     this.prefix.anchorY = 'top';
     this.prefix.font = FontURI;
@@ -84,6 +82,11 @@ export class Scoreboard implements Representable {
 
   public updateScore() {
     this.points.text = this.score;
+  }
+
+  public updatePrefix(text: string) {
+    this.prefix.text = text;
+    this.prefix.sync();
   }
   
   public applyChanges(): void {

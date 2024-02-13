@@ -1,11 +1,5 @@
-<script setup lang="ts">
-import { useI18n } from "vue-i18n";
-const { t } = useI18n({
-  useScope: "local",
-});
-</script>
-
 <script lang="ts">
+import { useI18n } from "vue-i18n";
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
 import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
@@ -33,6 +27,7 @@ import type { Scoreboard } from "./cube-up/scoreboard";
 import type { LevelContent } from "./cube-up/levelCard";
 import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
+import { nextTick } from "vue";
 
 interface LevelConfiguration {
   content: LevelContent;
@@ -69,6 +64,14 @@ interface GameViewData {
 const SAVED_HIGH_SCORE_KEY = "saved_high_score";
 
 export default {
+  setup() {
+    const { t } = useI18n({
+      useScope: "local",
+    });
+    return {
+      t
+    };
+  },
   data(): GameViewData {
     return {
       sceneId: "scene",
@@ -87,88 +90,7 @@ export default {
       levelCard: {} as LevelCard,
       levelCardAnimator: {} as LevelCardAnimator,
       intersectable: [],
-      levels: [
-        {
-          content: {
-            title: "Level 1",
-            instructions: "Hit all the greens!",
-          },
-          roundTimeInSeconds: 5,
-          numberOfRounds: 5,
-        },
-        {
-          content: {
-            title: "Level 2",
-            instructions: "Beware the Changing Cubes!",
-          },
-          roundTimeInSeconds: 5,
-          numberOfRounds: 5,
-        },
-        {
-          content: {
-            title: "Level 3",
-            instructions: "Run away!"
-          },
-          roundTimeInSeconds: 5,
-          numberOfRounds: 5,
-        },
-        {
-          content: {
-            title: "Level 4",
-            instructions: "Scramble the Jets!"
-          },
-          roundTimeInSeconds: 5,
-          numberOfRounds: 5,
-        },
-        {
-          content: {
-            title: "Level 5",
-            instructions: "This is heavy doc!",
-          },
-          roundTimeInSeconds: 5,
-          numberOfRounds: 5,
-        },
-        {
-          content: {
-            title: "Level 6",
-            instructions: "Faster, Faster!",
-          },
-          roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
-        },
-        {
-          content: {
-            title: "Level 7",
-            instructions: "JK!",
-          },
-          roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
-        }, 
-        {
-          content: {
-            title: "Level 8",
-            instructions: "Cheese It!",
-          },
-          roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
-        },
-        {
-          content: {
-            title: "Level 9",
-            instructions: "All that Blue!",
-          },
-          roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
-        },  
-        {
-          content: {
-            title: "Level 10",
-            instructions: "Chaos",
-          },
-          roundTimeInSeconds: 2.5,
-          numberOfRounds: Number.POSITIVE_INFINITY
-        },
-      ],
+      levels: this.levelConfigurations(),
       game: {
         currentRound: 0,
         currentLevel: 0,
@@ -219,7 +141,7 @@ export default {
     this.timerBarAnimator = timerBarAnimator;
 
     const scoreBoard = createScoreboard({
-      text: 'Score',
+      text: this.t("score"),
       camera,
       color: 0x9966FF,
     });
@@ -227,7 +149,7 @@ export default {
     addToScene(scoreBoard, scene);
 
     const highScore = createScoreboard({
-      text: 'High Score',
+      text: this.t("high_score"),
       camera,
       color: 0x9966FF,
       position: {
@@ -339,7 +261,7 @@ export default {
         if (haventStartedLevel) return;
       }
 
-      if(isFullscreenIcon(intersected)) {
+      if (isFullscreenIcon(intersected)) {
         const fullscreenIcon = intersected;
         fullscreenIcon.toggle();
         this.toggleFullscreen();
@@ -573,6 +495,90 @@ export default {
       }
       console.log("existing fullscreen");
       this.exitFullScreen();
+    },
+    levelConfigurations(): LevelConfiguration[] {
+      return  [
+        {
+          content: {
+            title: this.t("level_1"),
+            instructions: this.t("level_1_instructions"),
+          },
+          roundTimeInSeconds: 5,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: this.t("level_2"),
+            instructions: this.t("level_2_instructions"),
+          },
+          roundTimeInSeconds: 5,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: this.t("level_3"),
+            instructions: this.t("level_3_instructions"),
+          },
+          roundTimeInSeconds: 5,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: this.t("level_4"),
+            instructions: this.t("level_4_instructions"),
+          },
+          roundTimeInSeconds: 5,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: this.t("level_5"),
+            instructions: this.t("level_5_instructions"),
+          },
+          roundTimeInSeconds: 5,
+          numberOfRounds: 5,
+        },
+        {
+          content: {
+            title: this.t("level_6"),
+            instructions: this.t("level_6_instructions"),
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        },
+        {
+          content: {
+            title: this.t("level_7"),
+            instructions: this.t("level_7_instructions"),
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        },
+        {
+          content: {
+            title: this.t("level_8"),
+            instructions: this.t("level_8_instructions"),
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        },
+        {
+          content: {
+            title: this.t("level_9"),
+            instructions: this.t("level_9_instructions"),
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        },
+        {
+          content: {
+            title: this.t("level_10"),
+            instructions: this.t("level_10_instructions"),
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: Number.POSITIVE_INFINITY
+        },
+      ];
     }
   },
   computed: {
@@ -628,8 +634,18 @@ export default {
         nullable: element,
         fallback: document.createElement('null')
       });
-    }
+    },
   },
+  watch: {
+    '$i18n.locale': function () {
+      nextTick(() => {
+        this.levels = this.levelConfigurations();
+        this.levelCardAnimator.updateContent(this.currentLevelContent);
+        this.scoreBoard.updatePrefix(this.t("score"));
+        this.highScore.updatePrefix(this.t("high_score"));
+      });
+    }
+  }
 };
 
 </script>
@@ -675,15 +691,81 @@ div.canvas-container {
 {
   "en": {
     "title": "Game",
-    "game": "Cube Up!"
+    "game": "Cube Up!",
+    "level_1": "Level 1",
+    "level_2": "Level 2",
+    "level_3": "Level 3",
+    "level_4": "Level 4",
+    "level_5": "Level 5",
+    "level_6": "Level 6",
+    "level_7": "Level 7",
+    "level_8": "Level 8",
+    "level_9": "Level 9",
+    "level_10": "Level 10",
+    "level_1_instructions": "Hit all the greens!",
+    "level_2_instructions": "Beware the Changing Cubes!",
+    "level_3_instructions": "Run away!",
+    "level_4_instructions": "Scramble the Jets!",
+    "level_5_instructions": "This is heavy doc!",
+    "level_6_instructions": "Faster, Faster!",
+    "level_7_instructions": "JK!",
+    "level_8_instructions": "Cheese It!",
+    "level_9_instructions": "All that Blue!",
+    "level_10_instructions": "Chaos",
+    "score": "Score:",
+    "high_score": "High Score:"
   },
   "es": {
     "title": "Juego",
-    "game": "Cubos Arriba!"
+    "game": "Cubos Arriba!",
+    "level_1": "1er Nivel",
+    "level_2": "2o Nivel",
+    "level_3": "3er Nivel",
+    "level_4": "4o Nivel",
+    "level_5": "5o Nivel",
+    "level_6": "6o Nivel",
+    "level_7": "7o Nivel",
+    "level_8": "8o Nivel",
+    "level_9": "9o Nivel",
+    "level_10": "10o Nivel",
+    "level_1_instructions": "Dale a los verdes!",
+    "level_2_instructions": "Cuidado, algunos cambian!",
+    "level_3_instructions": "Hecha correr!",
+    "level_4_instructions": "Codifiquen!",
+    "level_5_instructions": "Esto está pesado doc!",
+    "level_6_instructions": "Mas Rapido!",
+    "level_7_instructions": "No te creas!",
+    "level_8_instructions": "Desbándense!",
+    "level_9_instructions": "Ahora los azules!",
+    "level_10_instructions": "Caos",
+    "score": "Pts. :",
+    "high_score": "Pts. Alto:"
   },
   "ca": {
     "title": "Joc",
-    "game": "Cubs Amunt!"
+    "game": "Cubs Amunt!",
+    "level_1": "1r Nivell",
+    "level_2": "2n Nivell",
+    "level_3": "3r Nivell",
+    "level_4": "4t Nivell",
+    "level_5": "5è Nivell",
+    "level_6": "6è Nivell",
+    "level_7": "7è Nivell",
+    "level_8": "8è Nivell",
+    "level_9": "9è Nivell",
+    "level_10": "10è Nivell",
+    "level_1_instructions": "Colpeja tots els verds!",
+    "level_2_instructions": "Compte amb els cubs canviants!",
+    "level_3_instructions": "Fuig!",
+    "level_4_instructions": "Codifiquin!",
+    "level_5_instructions": "Esto está pesado doc!",
+    "level_6_instructions": "Més ràpid!",
+    "level_7_instructions": "No t'ho crees!",
+    "level_8_instructions": "Desbandin-se!",
+    "level_9_instructions": "Ara els blaus!",
+    "level_10_instructions": "Caos",
+    "score": "Pts.: ",
+    "high_score": "Pts. Alt:"
   }
 }
 </i18n>

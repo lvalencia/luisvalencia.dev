@@ -14,8 +14,12 @@ export class LevelCardAnimator {
     this.levelCard = levelCard;
   }
 
-  public updateContentAndShow(content: LevelContent) {
+  public updateContent(content: LevelContent) {
     this.levelCard.updateContent(content);
+  }
+
+  public updateContentAndShow(content: LevelContent) {
+    this.updateContent(content);
     this.levelCard.show();
   }
 }
