@@ -1,7 +1,8 @@
 import { fromMaybe } from "@luvle/utils";
 import { Text } from "troika-three-text";
+import { Euler, Vector3 } from "three";
 import type { Representable } from "./representable";
-import type { Euler, Object3D, Object3DEventMap, Vector3 } from "three";
+import type { Object3DEventMap, Object3D } from "three";
 
 interface ScoreboardArgs {
   text: string;
@@ -16,7 +17,8 @@ const url = new URL(
 const FontURI = url.href;
 
 export class Scoreboard implements Representable {
-  private readonly text: Text;
+  private readonly prefix: Text;
+  private readonly points: Text;
   private readonly prefixText: string;
   private readonly color: number;
   private score: number;
@@ -25,10 +27,10 @@ export class Scoreboard implements Representable {
     const {
       text,
       initialScore,
-      color
+      color,
     } = args;
 
-    this.prefixText = text;
+    this.prefixText = `${text}:`;
     this.color = fromMaybe({
       maybe: color,
       fallback: 0xf0f0f0
@@ -38,7 +40,8 @@ export class Scoreboard implements Representable {
       fallback: 0
     });
 
-    this.text = new Text();
+    this.prefix = new Text();
+    this.points = new Text();
     this.initializeText();
   }
 
@@ -47,35 +50,58 @@ export class Scoreboard implements Representable {
   }
 
   public getRepresentation(): Object3D<Object3DEventMap> {
-    return this.text;
+    return this.prefix;
   }
 
   private initializeText(): void {
-    this.text.text = this.scoreText;
-    this.text.font = FontURI;
-    this.text.color = this.color;
-    this.text.fontSize = 0.2;
+    this.prefix.text = this.prefixText;
+    this.prefix.anchorX = 'left';
+    this.prefix.anchorY = 'top';
+    this.prefix.font = FontURI;
+    this.prefix.color = this.color;
+    this.prefix.fontSize = 0.2;
+    this.prefix.sync();
+
+    this.points.text = this.score;
+    this.points.anchorX = 'left';
+    this.points.anchorY = 'top';
+    this.points.font = FontURI;
+    this.points.color = this.color;
+    this.points.fontSize = 0.2;
+
+    this.prefix.add(this.points);
+
+    this.prefix.addEventListener("synccomplete", () => {
+      const size = new Vector3();
+      this.prefix.geometry.boundingBox.getSize(size);
+      const padding = 0.02;
+      const prefixWidth = size.x + padding;
+  
+      this.points.position.set(prefixWidth, 0, 0);
+    });
+
   }
 
   public updateScore() {
-    this.text.text = this.scoreText;
+    this.points.text = this.score;
   }
   
   public applyChanges(): void {
-    this.text.sync();
+    this.points.sync();
   }
 
   public orientToward(point: Vector3): void {
-    this.text.lookAt(point);
+    this.prefix.lookAt(point);
+    this.points.lookAt(point);
   }
 
   // Getters / Setters
   public get position(): Vector3 {
-    return this.text.position;
+    return this.prefix.position;
   }
 
   public get rotation(): Euler {
-    return this.text.rotation;
+    return this.prefix.rotation;
   }
 
   public get scoreCount(): number {
@@ -84,9 +110,5 @@ export class Scoreboard implements Representable {
 
   public set scoreCount(score: number) {
     this.score = score;
-  }
-
-  private get scoreText(): string {
-    return `${this.prefixText}:${this.score}`;
   }
 }

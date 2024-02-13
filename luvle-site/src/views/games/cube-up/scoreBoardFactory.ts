@@ -3,7 +3,7 @@ import { Scoreboard } from "./scoreboard";
 import type { Camera } from "three";
 import type { SimpleVector } from "../shared/simpleVector";
 
-interface CreateScoreBoardArgs {
+interface CreateScoreboardArgs {
   text: string;
   initialScore?: number;
   color?: number;
@@ -17,7 +17,7 @@ const topLeft = {
   z: 0.2, 
 };
 
-export function createScoreBoard(args: CreateScoreBoardArgs): Scoreboard {
+export function createScoreboard(args: CreateScoreboardArgs): Scoreboard {
   const {
     text,
     camera,
@@ -30,14 +30,14 @@ export function createScoreBoard(args: CreateScoreBoardArgs): Scoreboard {
     } = topLeft
   } = args;
 
-  const scoreBoard = new Scoreboard({
+  const scoreboard = new Scoreboard({
     text,
     initialScore,
     color,
   });
 
-  setScoreBoardPositionRelativeToCamera({
-    scoreBoard,
+  setScoreboardPositionRelativeToCamera({
+    scoreboard,
     camera,
     position: {
       x,
@@ -46,20 +46,20 @@ export function createScoreBoard(args: CreateScoreBoardArgs): Scoreboard {
     }
   });
 
-  scoreBoard.applyChanges();
+  scoreboard.applyChanges();
 
-  return scoreBoard;
+  return scoreboard;
 }
 
-interface SetScoreBoardPositionRelativeToCamera {
-  scoreBoard: Scoreboard;
+interface SetScoreboardPositionRelativeToCamera {
+  scoreboard: Scoreboard;
   camera: Camera;
   position: SimpleVector;
 }
 
-function setScoreBoardPositionRelativeToCamera(args: SetScoreBoardPositionRelativeToCamera): void {
+function setScoreboardPositionRelativeToCamera(args: SetScoreboardPositionRelativeToCamera): void {
   const {
-    scoreBoard,
+    scoreboard,
     camera,
     position: {
       x,
@@ -68,11 +68,11 @@ function setScoreBoardPositionRelativeToCamera(args: SetScoreBoardPositionRelati
     }
   } = args;
 
-  scoreBoard.position.set(x,y,z);
+  scoreboard.position.set(x,y,z);
 
   /*
    * Inverse rotation of the angle of the camera;
    * Ideally, we calculate this value
    */ 
-  scoreBoard.rotation.x = degreesToRadians(-70);
+  scoreboard.rotation.x = degreesToRadians(-70);
 }

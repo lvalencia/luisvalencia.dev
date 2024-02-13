@@ -15,7 +15,7 @@ import { createCubes } from "./cube-up/cubeFactory";
 import { createTimerBar } from "./cube-up/timerBarFactory";
 import { TimerBarAnimator } from "./cube-up/timerBarAnimator";
 import { addPoints, renderNextTick } from "./cube-up/scoreboardAnimator";
-import { createScoreBoard } from "./cube-up/scoreboardFactory";
+import { createScoreboard } from "./cube-up/scoreboardFactory";
 import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
@@ -194,7 +194,7 @@ export default {
     });
     this.timerBarAnimator = timerBarAnimator;
 
-    const scoreBoard = createScoreBoard({
+    const scoreBoard = createScoreboard({
       text: 'Score',
       camera,
       color: 0x9966FF,
@@ -202,12 +202,12 @@ export default {
     this.scoreBoard = scoreBoard;
     addToScene(scoreBoard, scene);
 
-    const highScore = createScoreBoard({
+    const highScore = createScoreboard({
       text: 'High Score',
       camera,
       color: 0x9966FF,
       position: {
-        x: 0.2,
+        x: 0.16,
         y: 3,
         z: 0.2,
       },
