@@ -115,7 +115,7 @@ export default {
         {
           content: {
             title: "Level 4",
-            instructions: "Scramble!"
+            instructions: "Scramble the Jets!"
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
@@ -139,6 +139,30 @@ export default {
         {
           content: {
             title: "Level 7",
+            instructions: "JK!",
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        }, 
+        {
+          content: {
+            title: "Level 8",
+            instructions: "Cheese It!",
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        },
+        {
+          content: {
+            title: "Level 9",
+            instructions: "All that Blue!",
+          },
+          roundTimeInSeconds: 2.5,
+          numberOfRounds: 5
+        },  
+        {
+          content: {
+            title: "Level 10",
             instructions: "Chaos",
           },
           roundTimeInSeconds: 2.5,
