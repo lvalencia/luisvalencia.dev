@@ -3,9 +3,9 @@ import type { GameSnippet } from "./gameSnippets";
 
 const gameSnippets: GameSnippet[] = [
   {
-    title: "_cube_up_title",
-    content: "_cube_up_content",
-    image: "cube_up_main.gif",
+    title: "cube_up_title",
+    content: "cube_up_content",
+    image: "cube_up_gif",
     link: {
       id: "cube-up-link",
       href: "/games/cube-up",

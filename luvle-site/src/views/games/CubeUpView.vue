@@ -1,4 +1,5 @@
 <script lang="ts">
+import { nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
@@ -27,7 +28,7 @@ import type { Scoreboard } from "./cube-up/scoreboard";
 import type { LevelContent } from "./cube-up/levelCard";
 import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
-import { nextTick } from "vue";
+import type { ToggleableIcon } from "./cube-up/toggleableIcon";
 
 interface LevelConfiguration {
   content: LevelContent;
@@ -195,11 +196,9 @@ export default {
     this.intersectable.push(soundIcon.getRepresentation());
     addToScene(soundIcon, scene);
 
-    if (!isMobileDevice()) {
-      const fullscreenIcon = new FullscreenIcon();
-      this.intersectable.push(fullscreenIcon.getRepresentation());
-      addToScene(fullscreenIcon, scene);
-    }
+    const fullscreenIcon = new FullscreenIcon();
+    this.intersectable.push(fullscreenIcon.getRepresentation());
+    addToScene(fullscreenIcon, scene);
 
     // Interaction
     this.canvas.addEventListener("click", this.onCanvasClick);
@@ -303,7 +302,7 @@ export default {
         submitButton.pressed();
       }
     },
-    getIntersectedObject(event: MouseEvent): Maybe<Cube | SubmitButton | SoundIcon> {
+    getIntersectedObject(event: MouseEvent): Maybe<Cube | ToggleableIcon> {
       const rect = this.canvas.getBoundingClientRect();
 
       // Position relative to canvas
@@ -334,9 +333,11 @@ export default {
         this.intersectable,
         false
       );
+
       if (intersects.length > 0) {
         return intersects[0].object.userData.object;
       }
+
       return undefined;
     },
     handleInput({ key }: KeyboardEvent) {
@@ -481,9 +482,39 @@ export default {
       this.container.classList.remove('large');
     },
     makeFullScreen() {
+      if (isMobileDevice()) {
+        const appContainer = document.getElementById('app')!;
+        const gamesContaianer = document.getElementsByClassName('games')[0];
+        const header = document.getElementsByTagName('header')[0];
+
+        [
+          appContainer,
+          header,
+          gamesContaianer
+        ].forEach((element) => {
+          element.classList.add('fullscreen');
+        })
+
+        return;
+      }
       document.getElementsByClassName('games')[0].requestFullscreen();
     },
     exitFullScreen() {
+      if (isMobileDevice()) {
+        const appContainer = document.getElementById('app')!;
+        const gamesContaianer = document.getElementsByClassName('games')[0];
+        const header = document.getElementsByTagName('header')[0];
+
+        [
+          appContainer,
+          header,
+          gamesContaianer
+        ].forEach((element) => {
+          element.classList.remove('fullscreen');
+        })
+
+        return;
+      }
       document.exitFullscreen();
     },
     toggleFullscreen() {
@@ -661,6 +692,26 @@ export default {
 </template>
 
 <style scoped lang="scss">
+
+div.games {
+  &.fullscreen {
+    h1, h2 {
+      display: none
+    }
+    div.canvas-container {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 25%;
+      bottom: 0;
+      margin: 0;
+      @media screen and (orientation:landscape) {
+        top: 0;
+        height: 100%;
+      }
+    }
+  }
+}
 div.canvas-container {
   max-height: 720px;
   max-width: 1280px;
