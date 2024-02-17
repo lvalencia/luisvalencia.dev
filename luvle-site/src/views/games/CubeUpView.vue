@@ -29,11 +29,24 @@ import type { LevelContent } from "./cube-up/levelCard";
 import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 import type { ToggleableIcon } from "./cube-up/toggleableIcon";
+import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
+
+enum GameBehavior {
+  SELECT_GREENS = 1,
+  CHANGE_RANDOM = 2,
+  SELECT_BLUES = 4,
+  LAST_ONE_RUNS = 8,
+  CHANGE_COLORS_ON_TOUCH = 16,
+  FAKE_OUT = 32,
+  ALL_RUN = 64,
+  CUBES_ARE_HEAVY = 128,
+}
 
 interface LevelConfiguration {
   content: LevelContent;
   roundTimeInSeconds: number;
   numberOfRounds: number;
+  behviors: GameBehavior[];
 }
 
 interface GameViewData {
@@ -222,7 +235,7 @@ export default {
       });
 
       if (this.noMoreCubesThatWeNeedToPress) {
-        this.submitButton.indicateShouldPress();
+        this.submitButton.indicateShouldPress(this.currentPointsState);
       }
 
       const countdownDone = timerBarAnimator.countdown(time);
@@ -280,17 +293,23 @@ export default {
 
       if (isCube(intersected)) {
         const cube = intersected;
-        switch (cube.state) {
-          case CubeState.DONT_PRESS:
+        
+        const result = interactionResult({
+          cube,
+          loseState: CubeState.DONT_PRESS,
+          pointsState: this.currentPointsState
+        });
+
+        switch (result) {
+          case InteractionResult.LOST:
             this.loseAnimation();
             break;
-          case CubeState.SHOULD_PRESS:
+          case InteractionResult.POINTS:
             this.soundBoard.points();
             this.addPoints();
             cube.pressed();
             break;
-          case CubeState.PRESSED:
-          case CubeState.NOT_PRESSED:
+          case InteractionResult.NO_POINTS:
             this.soundBoard.noPoints();
             cube.pressed();
             break;
@@ -535,7 +554,10 @@ export default {
             instructions: this.t("level_1_instructions"),
           },
           roundTimeInSeconds: 5,
-          numberOfRounds: 5,
+          numberOfRounds: 3,
+          behviors: [
+            GameBehavior.SELECT_GREENS
+          ]
         },
         {
           content: {
@@ -544,6 +566,10 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_GREENS,
+            GameBehavior.CHANGE_RANDOM
+          ]
         },
         {
           content: {
@@ -552,6 +578,10 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_GREENS,
+            GameBehavior.LAST_ONE_RUNS,
+          ]
         },
         {
           content: {
@@ -560,6 +590,10 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_GREENS,
+            GameBehavior.CHANGE_COLORS_ON_TOUCH
+          ]
         },
         {
           content: {
@@ -568,6 +602,10 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_GREENS,
+            GameBehavior.CUBES_ARE_HEAVY,
+          ]
         },
         {
           content: {
@@ -575,7 +613,10 @@ export default {
             instructions: this.t("level_6_instructions"),
           },
           roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
+          numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_GREENS
+          ]
         },
         {
           content: {
@@ -583,7 +624,11 @@ export default {
             instructions: this.t("level_7_instructions"),
           },
           roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
+          numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_GREENS,
+            GameBehavior.FAKE_OUT
+          ]
         },
         {
           content: {
@@ -591,7 +636,11 @@ export default {
             instructions: this.t("level_8_instructions"),
           },
           roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
+          numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_GREENS,
+            GameBehavior.ALL_RUN
+          ]
         },
         {
           content: {
@@ -599,7 +648,10 @@ export default {
             instructions: this.t("level_9_instructions"),
           },
           roundTimeInSeconds: 2.5,
-          numberOfRounds: 5
+          numberOfRounds: 5,
+          behviors: [
+            GameBehavior.SELECT_BLUES
+          ]
         },
         {
           content: {
@@ -607,7 +659,15 @@ export default {
             instructions: this.t("level_10_instructions"),
           },
           roundTimeInSeconds: 2.5,
-          numberOfRounds: Number.POSITIVE_INFINITY
+          numberOfRounds: Number.POSITIVE_INFINITY,
+          behviors: [
+            GameBehavior.SELECT_GREENS,
+            GameBehavior.CHANGE_RANDOM,
+            GameBehavior.CHANGE_COLORS_ON_TOUCH,
+            GameBehavior.CUBES_ARE_HEAVY,
+            GameBehavior.ALL_RUN,
+            GameBehavior.LAST_ONE_RUNS,
+          ]
         },
       ];
     }
@@ -618,7 +678,7 @@ export default {
     },
     noMoreCubesThatWeNeedToPress(): boolean {
       const noMoreCubesThatWeNeedToPress =
-        this.cubes.filter((cube) => cube.state === CubeState.SHOULD_PRESS)
+        this.cubes.filter((cube) => cube.state === this.currentPointsState)
           .length === 0;
       return noMoreCubesThatWeNeedToPress && this.canInteract;
     },
@@ -640,20 +700,29 @@ export default {
 
       return 0;
     },
+    currentPointsState(): CubeState {
+      if (this.currentLevel.behviors.includes(GameBehavior.SELECT_BLUES)) {
+        return CubeState.NOT_PRESSED;
+      }
+      return CubeState.SHOULD_PRESS;
+    },
     canInteract(): boolean {
       return this.game.roundIsActive;
     },
     shouldIdleBreathe(): boolean {
       return !this.game.roundIsActive;
     },
+    currentLevel(): LevelConfiguration {
+      return this.levels[this.game.currentLevel];
+    },
     currentLevelContent(): LevelContent {
-      return this.levels[this.game.currentLevel].content;
+      return this.currentLevel.content;
     },
     currentRoundTimeInSeconds(): number {
-      return this.levels[this.game.currentLevel].roundTimeInSeconds;
+      return this.currentLevel.roundTimeInSeconds;
     },
     numberOfRoundsInCurrentLevel(): number {
-      return this.levels[this.game.currentLevel].numberOfRounds;
+      return this.currentLevel.numberOfRounds;
     },
     levelIsOver(): boolean {
       return this.game.currentRound >= this.numberOfRoundsInCurrentLevel;
@@ -756,7 +825,7 @@ div.canvas-container {
     "level_1_instructions": "Hit all the greens!",
     "level_2_instructions": "Beware the Changing Cubes!",
     "level_3_instructions": "Run away!",
-    "level_4_instructions": "Scramble the Jets!",
+    "level_4_instructions": "Oooh the Colors!",
     "level_5_instructions": "This is heavy doc!",
     "level_6_instructions": "Faster, Faster!",
     "level_7_instructions": "JK!",

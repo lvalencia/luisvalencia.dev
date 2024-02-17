@@ -67,8 +67,8 @@ export class SubmitButton implements Representable {
     this.onClick();
   }
 
-  public indicateShouldPress(): void {
-    this.cube.state = CubeState.SHOULD_PRESS;
+  public indicateShouldPress(cubeState: CubeState): void {
+    this.cube.state = cubeState;
   }
 
   public indicateShouldNotPress(): void {
