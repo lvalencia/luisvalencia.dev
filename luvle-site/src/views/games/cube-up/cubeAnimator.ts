@@ -29,6 +29,9 @@ interface AnimateShakingArgs extends AnimateArgs {
 }
 
 interface AnimateFlipArgs extends Omit<AnimateShakingArgs, 'time'> {
+  intervalTiming?: number;
+  minTimeToFlip?: number;
+  maxTimeToFlip?: number;
   endState: CubeState;
 }
 
@@ -142,6 +145,9 @@ export class CubeAnimator {
       cube,
       endState,
       shakeOverrides,
+      intervalTiming,
+      minTimeToFlip,
+      maxTimeToFlip,
     } = args;
     
     const {
@@ -168,6 +174,19 @@ export class CubeAnimator {
       } 
     });
 
+    const intervalTime = fromMaybe({
+      maybe: intervalTiming,
+      fallback: 25
+    });
+    const minFlipTime = fromMaybe({
+      maybe: minTimeToFlip,
+      fallback: 500
+    });
+    const maxFipTime = fromMaybe({
+      maybe: maxTimeToFlip,
+      fallback: 2000
+    });
+
     const interval = setInterval(() => {
       // Shake
       cube.position.x += (Math.random() - 0.5) * shakeIntensity;
@@ -178,11 +197,11 @@ export class CubeAnimator {
       const scaleMax = cube.lastSetScale.x;
       const scale = scaleMax + Math.random() * (shakeScaleIncrease - scaleMax); // Linearly interpolate scale
       cube.scale.set(scale, scale, scale);
-    }, 25);
+    }, intervalTime);
 
     this.flipIntervals[String(interval)] = undefined;
 
-    const animationTime = getRandomIntInclusive(500, 2000);
+    const animationTime = getRandomIntInclusive(minFlipTime, maxFipTime);
 
     setTimeout(() => {
       clearInterval(interval);

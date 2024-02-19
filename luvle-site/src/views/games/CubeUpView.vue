@@ -14,7 +14,7 @@ import { createScoreboard } from "./cube-up/scoreboardFactory";
 import { createSubmitButton } from "./cube-up/submitButtonFactory";
 import { isSubmitButton } from "./cube-up/submitButton";
 import { SubmitButtonAnimator } from "./cube-up/submitButtonAnimator";
-import { stringIsSomething, fromNullable } from "@luvle/utils";
+import { stringIsSomething, fromNullable, removeIfFound } from "@luvle/utils";
 import { LevelCard } from "./cube-up/levelCard";
 import { LevelCardAnimator } from "./cube-up/levelCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
@@ -30,7 +30,8 @@ import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 import type { ToggleableIcon } from "./cube-up/toggleableIcon";
 import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
-import { selectRandomFrom } from "@/helpers/random";
+import { selectRandomFrom, popRandomFrom } from "@/helpers/random";
+import { isEmpty } from "underscore";
 
 enum GameBehavior {
   SELECT_GREENS = 1,
@@ -312,10 +313,12 @@ export default {
             this.soundBoard.points();
             this.addPoints();
             cube.pressed();
+            this.scrambleCubes();
             break;
           case InteractionResult.NO_POINTS:
             this.soundBoard.noPoints();
             cube.pressed();
+            this.scrambleCubes();
             break;
         }
       }
@@ -481,6 +484,58 @@ export default {
           cube: toFlip,
           endState: this.currentPointsState,
         });
+      }
+    },
+    scrambleCubes() {
+      if (this.shouldScrambleColors) {
+        const unpressed = this.cubes.filter((cube) => {
+          return cube.state !== CubeState.PRESSED;
+        });
+
+        let toPress = this.cubes.filter((cube) => {
+          return cube.state === this.currentPointsState;
+        }).length;
+
+        while (!isEmpty(unpressed)) {
+          const unpressedCube = popRandomFrom(unpressed);
+          const needsShouldPress = toPress > 0;
+
+          const animationArgs = {
+            intervalTiming: 10,
+            minTimeToFlip: 25,
+            maxTimeToFlip: 100
+          }
+
+          if (needsShouldPress) {
+            this.cubeAnimator.flip({
+              ...animationArgs,
+              cube: unpressedCube as Cube,
+              endState: this.currentPointsState,
+            });
+            toPress -= 1;
+            continue;
+          }
+
+          let availableStates = [
+              CubeState.NOT_PRESSED,
+              CubeState.SHOULD_PRESS,
+              CubeState.DONT_PRESS,
+          ];
+          let invalidStates = [
+            unpressedCube.state,
+            this.currentPointsState
+          ];
+
+          invalidStates.forEach((state) => {
+            availableStates = removeIfFound(state, availableStates);
+          })
+
+          this.cubeAnimator.flip({
+            ...animationArgs,
+            cube: unpressedCube as Cube,
+            endState: selectRandomFrom(availableStates),
+          });
+        }
       }
     },
     displayNextLevelCard() {
@@ -728,7 +783,10 @@ export default {
       return CubeState.SHOULD_PRESS;
     },
     shouldFlipCubes(): boolean {
-      return (this.currentLevel.behviors.includes(GameBehavior.CHANGE_RANDOM));
+      return this.currentLevel.behviors.includes(GameBehavior.CHANGE_RANDOM);
+    },
+    shouldScrambleColors(): boolean {
+      return this.currentLevel.behviors.includes(GameBehavior.CHANGE_COLORS_ON_TOUCH);
     },
     canInteract(): boolean {
       return this.game.roundIsActive;

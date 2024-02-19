@@ -7,3 +7,8 @@ export function getRandomIntInclusive(lower: number, upper: number): number {
 export function selectRandomFrom<T>(array: T[]): T {
   return array[getRandomIntInclusive(0, array.length - 1)];
 }
+
+export function popRandomFrom<T>(array: T[]): T {
+  const index = getRandomIntInclusive(0, array.length - 1);
+  return array.splice(index, 1)[0];
+}
