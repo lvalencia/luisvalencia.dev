@@ -1,3 +1,4 @@
+import { getRandomIntInclusive } from "@/helpers/random";
 import { fromMaybe } from "@luvle/utils";
 import { CubeState, type Cube } from "./cube";
 
@@ -27,10 +28,15 @@ interface AnimateShakingArgs extends AnimateArgs {
   shakeOverrides?: ShakeValues
 }
 
+interface AnimateFlipArgs extends Omit<AnimateShakingArgs, 'time'> {
+  endState: CubeState;
+}
+
 export class CubeAnimator {
   private shakingDurationInMillis: number;
   private shakeIntensity: number;
   private shakeScaleIncrease: number;
+  private flipIntervals: Record<string, unknown> = {}; 
 
   constructor(args: CubeAnimatorArgs = {}) {
     const {
@@ -129,6 +135,68 @@ export class CubeAnimator {
       x, y, z
     } = cube.lastSetScale;
     cube.scale.set(x, y, z);
+  }
+
+  public flip(args: AnimateFlipArgs): void {
+    const {
+      cube,
+      endState,
+      shakeOverrides,
+    } = args;
+    
+    const {
+      x: posX,
+      y: posY,
+      z: posZ
+    } = cube.position;
+
+    const {
+      x: scaleX,
+      y: scaleY,
+      z: scaleZ
+    } = cube.scale;
+
+    const {
+      shakeIntensity,
+      shakeScaleIncrease
+    } = fromMaybe({
+      maybe: shakeOverrides,
+      fallback: {
+        shakingDurationInMillis: this.shakingDurationInMillis,
+        shakeIntensity: this.shakeIntensity,
+        shakeScaleIncrease: this.shakeScaleIncrease, 
+      } 
+    });
+
+    const interval = setInterval(() => {
+      // Shake
+      cube.position.x += (Math.random() - 0.5) * shakeIntensity;
+      cube.position.y += (Math.random() - 0.5) * shakeIntensity;
+      cube.position.z += (Math.random() - 0.5) * shakeIntensity;
+
+      // Scale
+      const scaleMax = cube.lastSetScale.x;
+      const scale = scaleMax + Math.random() * (shakeScaleIncrease - scaleMax); // Linearly interpolate scale
+      cube.scale.set(scale, scale, scale);
+    }, 25);
+
+    this.flipIntervals[String(interval)] = undefined;
+
+    const animationTime = getRandomIntInclusive(500, 2000);
+
+    setTimeout(() => {
+      clearInterval(interval);
+      delete this.flipIntervals[String(interval)];
+
+      cube.position.set(posX, posY, posZ);
+      cube.scale.set(scaleX, scaleY, scaleZ);
+      cube.state = endState;
+    }, animationTime);
+  }
+  public cancelFlips(): void {
+    Object.keys(this.flipIntervals).forEach((interval) => {
+      clearInterval(Number(interval));
+    });
   }
 }
 

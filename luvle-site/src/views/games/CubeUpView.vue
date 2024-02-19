@@ -30,6 +30,7 @@ import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 import type { ToggleableIcon } from "./cube-up/toggleableIcon";
 import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
+import { selectRandomFrom } from "@/helpers/random";
 
 enum GameBehavior {
   SELECT_GREENS = 1,
@@ -236,6 +237,8 @@ export default {
 
       if (this.noMoreCubesThatWeNeedToPress) {
         this.submitButton.indicateShouldPress(this.currentPointsState);
+      } else {
+        this.submitButton.indicateShouldNotPress();
       }
 
       const countdownDone = timerBarAnimator.countdown(time);
@@ -286,6 +289,7 @@ export default {
         this.soundBoard.stopWind();
         this.soundBoard.startLevelBackground();
         this.game.roundIsActive = true;
+        this.prepCubeToFlip();
         this.startCountDown();
 
         return;
@@ -293,7 +297,7 @@ export default {
 
       if (isCube(intersected)) {
         const cube = intersected;
-        
+
         const result = interactionResult({
           cube,
           loseState: CubeState.DONT_PRESS,
@@ -449,6 +453,10 @@ export default {
         this.startCountDown();
       }
 
+      if (this.game.roundIsActive) {
+        this.prepCubeToFlip();
+      }
+
       this.submitButton.indicateShouldNotPress();
       this.updateHighScore();
     },
@@ -463,6 +471,18 @@ export default {
       this.displayNextLevelCard();
       this.soundBoard.startWind();
     },
+    prepCubeToFlip() {
+      if (this.shouldFlipCubes) {
+        const nonScoringCubes = this.cubes.filter((cube) => {
+          return cube.state !== this.currentPointsState;
+        })
+        const toFlip = selectRandomFrom(nonScoringCubes) as Cube;
+        this.cubeAnimator.flip({
+          cube: toFlip,
+          endState: this.currentPointsState,
+        });
+      }
+    },
     displayNextLevelCard() {
       this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
     },
@@ -474,6 +494,7 @@ export default {
       this.scoreBoard.scoreCount = 0;
       this.game.currentRound = 0;
       this.game.currentLevel = 0;
+      this.cubeAnimator.cancelFlips();
       this.timerBarAnimator.pause();
       this.timerBarAnimator.reset();
       this.displayNextLevelCard();
@@ -547,7 +568,7 @@ export default {
       this.exitFullScreen();
     },
     levelConfigurations(): LevelConfiguration[] {
-      return  [
+      return [
         {
           content: {
             title: this.t("level_1"),
@@ -706,6 +727,9 @@ export default {
       }
       return CubeState.SHOULD_PRESS;
     },
+    shouldFlipCubes(): boolean {
+      return (this.currentLevel.behviors.includes(GameBehavior.CHANGE_RANDOM));
+    },
     canInteract(): boolean {
       return this.game.roundIsActive;
     },
@@ -761,12 +785,14 @@ export default {
 </template>
 
 <style scoped lang="scss">
-
 div.games {
   &.fullscreen {
-    h1, h2 {
+
+    h1,
+    h2 {
       display: none
     }
+
     div.canvas-container {
       position: fixed;
       left: 0;
@@ -774,6 +800,7 @@ div.games {
       top: 25%;
       bottom: 0;
       margin: 0;
+
       @media screen and (orientation:landscape) {
         top: 0;
         height: 100%;
@@ -781,6 +808,7 @@ div.games {
     }
   }
 }
+
 div.canvas-container {
   max-height: 720px;
   max-width: 1280px;
