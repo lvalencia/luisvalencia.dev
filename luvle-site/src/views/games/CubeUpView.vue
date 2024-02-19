@@ -339,7 +339,6 @@ export default {
         const submitButton = intersected;
         if (this.cubesAreHeavy) {
           this.cameraAnimator.shake({
-            shakeIntensity: 0.25,
             minDuration: 200,
             maxDuration: 350,
           });
@@ -684,7 +683,7 @@ export default {
             title: this.t("level_4"),
             instructions: this.t("level_4_instructions"),
           },
-          roundTimeInSeconds: 5,
+          roundTimeInSeconds: 7,
           numberOfRounds: 5,
           behviors: [
             GameBehavior.SELECT_GREENS,
@@ -708,7 +707,7 @@ export default {
             title: this.t("level_6"),
             instructions: this.t("level_6_instructions"),
           },
-          roundTimeInSeconds: 2.5,
+          roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
           behviors: [
             GameBehavior.SELECT_GREENS
@@ -719,7 +718,7 @@ export default {
             title: this.t("level_7"),
             instructions: this.t("level_7_instructions"),
           },
-          roundTimeInSeconds: 2.5,
+          roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
           behviors: [
             GameBehavior.SELECT_GREENS,
@@ -731,7 +730,7 @@ export default {
             title: this.t("level_8"),
             instructions: this.t("level_8_instructions"),
           },
-          roundTimeInSeconds: 2.5,
+          roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
           behviors: [
             GameBehavior.SELECT_GREENS,
@@ -743,7 +742,7 @@ export default {
             title: this.t("level_9"),
             instructions: this.t("level_9_instructions"),
           },
-          roundTimeInSeconds: 2.5,
+          roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
           behviors: [
             GameBehavior.SELECT_BLUES
@@ -754,7 +753,7 @@ export default {
             title: this.t("level_10"),
             instructions: this.t("level_10_instructions"),
           },
-          roundTimeInSeconds: 2.5,
+          roundTimeInSeconds: 4,
           numberOfRounds: Number.POSITIVE_INFINITY,
           behviors: [
             GameBehavior.SELECT_GREENS,
