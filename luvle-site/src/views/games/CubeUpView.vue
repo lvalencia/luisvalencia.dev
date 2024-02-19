@@ -32,6 +32,7 @@ import type { ToggleableIcon } from "./cube-up/toggleableIcon";
 import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
 import { selectRandomFrom, popRandomFrom } from "@/helpers/random";
 import { isEmpty } from "underscore";
+import { CameraAnimator } from "./cube-up/cameraAnimator";
 
 enum GameBehavior {
   SELECT_GREENS = 1,
@@ -55,6 +56,7 @@ interface GameViewData {
   sceneId: string;
   canvas: HTMLCanvasElement;
   camera: PerspectiveCamera;
+  cameraAnimator: CameraAnimator;
   raycaster: Raycaster;
   scene: Scene;
   mouse: Vector2;
@@ -93,6 +95,7 @@ export default {
       sceneId: "scene",
       canvas: {} as HTMLCanvasElement,
       camera: {} as PerspectiveCamera,
+      cameraAnimator: {} as CameraAnimator,
       raycaster: new Raycaster(),
       mouse: new Vector2(),
       scene: {} as Scene,
@@ -129,6 +132,10 @@ export default {
     });
     this.scene = scene;
     this.camera = camera;
+
+    this.cameraAnimator = new CameraAnimator({
+      camera
+    });
 
     // Create and Add Objects to Scene
     const cubes: Cube[] = createCubes({
@@ -194,6 +201,7 @@ export default {
     });
 
     this.soundBoard = new SoundBoard();
+    this.soundBoard.setIsHeavy(this.cubesAreHeavy);
 
     const levelCard = new LevelCard({
       color: 0xffffff,
@@ -305,6 +313,10 @@ export default {
           pointsState: this.currentPointsState
         });
 
+        if (this.cubesAreHeavy) {
+          this.cameraAnimator.shake();
+        }
+
         switch (result) {
           case InteractionResult.LOST:
             this.loseAnimation();
@@ -325,6 +337,13 @@ export default {
 
       if (isSubmitButton(intersected)) {
         const submitButton = intersected;
+        if (this.cubesAreHeavy) {
+          this.cameraAnimator.shake({
+            shakeIntensity: 0.25,
+            minDuration: 200,
+            maxDuration: 350,
+          });
+        }
         submitButton.pressed();
       }
     },
@@ -459,6 +478,7 @@ export default {
       if (this.game.roundIsActive) {
         this.prepCubeToFlip();
       }
+      this.soundBoard.setIsHeavy(this.cubesAreHeavy);
 
       this.submitButton.indicateShouldNotPress();
       this.updateHighScore();
@@ -787,6 +807,9 @@ export default {
     },
     shouldScrambleColors(): boolean {
       return this.currentLevel.behviors.includes(GameBehavior.CHANGE_COLORS_ON_TOUCH);
+    },
+    cubesAreHeavy(): boolean {
+      return this.currentLevel.behviors.includes(GameBehavior.CUBES_ARE_HEAVY);
     },
     canInteract(): boolean {
       return this.game.roundIsActive;

@@ -187,6 +187,7 @@ export class CubeAnimator {
       fallback: 2000
     });
 
+    // There's some duplication with shaking; might want to DRY this out
     const interval = setInterval(() => {
       // Shake
       cube.position.x += (Math.random() - 0.5) * shakeIntensity;
@@ -212,6 +213,7 @@ export class CubeAnimator {
       cube.state = endState;
     }, animationTime);
   }
+  
   public cancelFlips(): void {
     Object.keys(this.flipIntervals).forEach((interval) => {
       clearInterval(Number(interval));

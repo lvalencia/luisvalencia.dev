@@ -40,10 +40,12 @@ function uriForAudio(audioFile: string): string {
 export class SoundBoard {
   private readonly winEffect: Silenceable;
   private readonly loseEffect: Silenceable;
-  private readonly pointsEffet: Silenceable;
-  private readonly noPointsEffet: Silenceable;
+  private readonly pointsEffect: Silenceable;
+  private readonly pointsEffectHeavy: Silenceable;
+  private readonly noPointsEffect: Silenceable;
   private readonly wind: Silenceable;
   private readonly backgroundMusic: Silenceable;
+  private isHeavy: boolean = false;
 
   constructor(args: SoundboardArgs = {}) {
     const {
@@ -92,7 +94,7 @@ export class SoundBoard {
       })
     });
 
-    this.pointsEffet = new Silenceable({
+    this.pointsEffect = new Silenceable({
       silenced: isSilent,
         track: new Randomizer({
         tracks: [
@@ -107,6 +109,40 @@ export class SoundBoard {
           }),
         ]
       })
+    });
+
+    this.pointsEffectHeavy = new Silenceable({
+      silenced: isSilent,
+      track: new Randomizer({
+        tracks: [
+          new Howl({
+            src: [uriForAudio('bonk.mp3')]
+          }),
+          new Howl({
+            src: [uriForAudio('tonk.mp3')]
+          }),
+          new Howl({
+            src: [uriForAudio('plonk.mp3')]
+          }),
+        ]
+      })
+    });
+
+    this.noPointsEffect = new Silenceable({
+      silenced: isSilent,
+      track: new Randomizer({
+        tracks: [
+          new Howl({
+            src: [uriForAudio('derp.mp3')]
+          }),
+          new Howl({
+            src: [uriForAudio('no.mp3')]
+          }),
+          new Howl({
+            src: [uriForAudio('quitIt.mp3')]
+          }),
+        ]
+      }),
     });
 
     this.wind = new Silenceable({
@@ -126,40 +162,6 @@ export class SoundBoard {
       })
     });
 
-    this.pointsEffet = new Silenceable({
-      silenced: isSilent,
-      track: new Randomizer({
-        tracks: [
-          new Howl({
-            src: [uriForAudio('bink.mp3')]
-          }),
-          new Howl({
-            src: [uriForAudio('tink.mp3')]
-          }),
-          new Howl({
-            src: [uriForAudio('plink.mp3')]
-          }),
-        ]
-      })
-    });
-
-    this.noPointsEffet = new Silenceable({
-      silenced: isSilent,
-      track: new Randomizer({
-        tracks: [
-          new Howl({
-            src: [uriForAudio('derp.mp3')]
-          }),
-          new Howl({
-            src: [uriForAudio('no.mp3')]
-          }),
-          new Howl({
-            src: [uriForAudio('quitIt.mp3')]
-          }),
-        ]
-      }),
-    });
-
     this.backgroundMusic = new Silenceable({
       silenced: isSilent,
       track: new Howl({
@@ -172,18 +174,22 @@ export class SoundBoard {
   public stop(): void {
     this.winEffect.stop();
     this.loseEffect.stop();
-    this.pointsEffet.stop();
-    this.noPointsEffet.stop();
+    this.pointsEffect.stop();
+    this.noPointsEffect.stop();
     this.wind.stop();
     this.backgroundMusic.stop();
   }
   
   public noPoints(): void {
-    this.noPointsEffet.play();
+    this.noPointsEffect.play();
   }
 
   public points(): void {
-    this.pointsEffet.play();
+    if (this.isHeavy) {
+      this.pointsEffectHeavy.play();
+      return;
+    }
+    this.pointsEffect.play();
   }
 
   public lost(): void {
@@ -209,12 +215,16 @@ export class SoundBoard {
   public stopLevelBackground(): void {
     this.backgroundMusic.stop();
   }
+  
+  public setIsHeavy(isHeavy: boolean): void {
+    this.isHeavy = isHeavy;
+  }
 
   public get silenced(): boolean {
     return this.winEffect.silenced &&
     this.loseEffect.silenced &&
-    this.pointsEffet.silenced &&
-    this.noPointsEffet.silenced &&
+    this.pointsEffect.silenced &&
+    this.noPointsEffect.silenced &&
     this.wind.silenced &&
     this.backgroundMusic.silenced;
   }
@@ -222,8 +232,8 @@ export class SoundBoard {
   public set silenced(silenced: boolean) {
     this.winEffect.silenced = silenced;
     this.loseEffect.silenced = silenced;
-    this.pointsEffet.silenced = silenced;
-    this.noPointsEffet.silenced = silenced;
+    this.pointsEffect.silenced = silenced;
+    this.noPointsEffect.silenced = silenced;
     this.wind.silenced = silenced;
     this.backgroundMusic.silenced = silenced;
   }
