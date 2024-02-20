@@ -35,11 +35,25 @@ interface AnimateFlipArgs extends Omit<AnimateShakingArgs, 'time'> {
   endState: CubeState;
 }
 
+interface FlipInterval {
+  type: 'Interval',
+  id: number;
+}
+
+interface FlipTimeout {
+  type: 'Timeout',
+  id: number
+}
+
+type FlipInfo = FlipInterval | FlipTimeout;
+
+type FlipData = Record<string, FlipInfo>;
+
 export class CubeAnimator {
   private shakingDurationInMillis: number;
   private shakeIntensity: number;
   private shakeScaleIncrease: number;
-  private flipIntervals: Record<string, unknown> = {}; 
+  private flipData: FlipData = {};
 
   constructor(args: CubeAnimatorArgs = {}) {
     const {
@@ -200,24 +214,38 @@ export class CubeAnimator {
       cube.scale.set(scale, scale, scale);
     }, intervalTime);
 
-    this.flipIntervals[String(interval)] = undefined;
+    this.flipData[String(interval)] = {
+      type: 'Interval',
+      id: interval as unknown as number
+    };
 
     const animationTime = getRandomIntInclusive(minFlipTime, maxFipTime);
 
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       clearInterval(interval);
-      delete this.flipIntervals[String(interval)];
+      delete this.flipData[String(interval)];
+      delete this.flipData[String(timeout)];
 
       cube.position.set(posX, posY, posZ);
       cube.scale.set(scaleX, scaleY, scaleZ);
       cube.state = endState;
     }, animationTime);
+
+    this.flipData[String(timeout)] = {
+      type: 'Timeout',
+      id: timeout as unknown as number
+    };
   }
   
   public cancelFlips(): void {
-    Object.keys(this.flipIntervals).forEach((interval) => {
-      clearInterval(Number(interval));
-    });
+    for (const [_, {type, id}] of Object.entries(this.flipData)) {
+      if (type === 'Interval') {
+        clearInterval(id);
+      }
+      if (type === 'Timeout') {
+        clearTimeout(id);
+      }
+    }
   }
 }
 
