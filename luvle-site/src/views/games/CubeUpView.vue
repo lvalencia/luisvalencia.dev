@@ -30,7 +30,7 @@ import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 import type { ToggleableIcon } from "./cube-up/toggleableIcon";
 import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
-import { selectRandomFrom, popRandomFrom } from "@/helpers/random";
+import { selectRandomFrom, popRandomFrom, getRandomIntInclusive } from "@/helpers/random";
 import { isEmpty } from "underscore";
 import { CameraAnimator } from "./cube-up/cameraAnimator";
 
@@ -49,7 +49,7 @@ interface LevelConfiguration {
   content: LevelContent;
   roundTimeInSeconds: number;
   numberOfRounds: number;
-  behviors: GameBehavior[];
+  behaviors: GameBehavior[];
 }
 
 interface GameViewData {
@@ -76,6 +76,7 @@ interface GameViewData {
     currentLevel: number;
     roundIsActive: boolean;
     isFullScreen: boolean;
+    fakeOutCount: number;
   };
 }
 
@@ -115,6 +116,7 @@ export default {
         currentLevel: 0,
         roundIsActive: false,
         isFullScreen: false,
+        fakeOutCount: 0,
       },
     };
   },
@@ -148,6 +150,7 @@ export default {
     this.intersectable.push(
       ...this.cubes.map((cube) => cube.getRepresentation())
     );
+    this.prepFakeOut();
 
     const cubeAnimator = new CubeAnimator();
     this.cubeAnimator = cubeAnimator;
@@ -333,6 +336,8 @@ export default {
             this.scrambleCubes();
             break;
         }
+
+        this.fakeOut();
       }
 
       if (isSubmitButton(intersected)) {
@@ -466,6 +471,7 @@ export default {
         cube.reset();
       });
       this.cubeAnimator.reset();
+      this.prepFakeOut();
 
       if (this.levelIsOver) {
         this.prepNextLevel();
@@ -489,6 +495,7 @@ export default {
     prepNextLevel() {
       this.game.currentRound = 0;
       this.game.currentLevel += 1;
+      this.game.fakeOutCount = 0;
       this.soundBoard.stopLevelBackground();
       this.displayNextLevelCard();
       this.soundBoard.startWind();
@@ -536,9 +543,9 @@ export default {
           }
 
           let availableStates = [
-              CubeState.NOT_PRESSED,
-              CubeState.SHOULD_PRESS,
-              CubeState.DONT_PRESS,
+            CubeState.NOT_PRESSED,
+            CubeState.SHOULD_PRESS,
+            CubeState.DONT_PRESS,
           ];
           let invalidStates = [
             unpressedCube.state,
@@ -557,6 +564,41 @@ export default {
         }
       }
     },
+    prepFakeOut() {
+      if (this.shouldFakeOut) {
+        this.game.fakeOutCount = getRandomIntInclusive(1, 3);
+        const pointScoringCubes = this.cubes.filter((cube) => {
+          return cube.state === this.currentPointsState;
+        });
+        popRandomFrom(pointScoringCubes);
+        pointScoringCubes.forEach((cube) => {
+          const availableStates = removeIfFound(this.currentPointsState, [
+            CubeState.NOT_PRESSED,
+            CubeState.SHOULD_PRESS,
+            CubeState.DONT_PRESS,
+          ]);
+          cube.state = selectRandomFrom(availableStates);
+        });
+      }
+    },
+    fakeOut() {
+      const shouldFakeout = this.shouldFakeOut && this.game.fakeOutCount > 0;
+      if (shouldFakeout) {
+        this.game.fakeOutCount -= 1;
+
+        const unpressed = this.cubes.filter((cube) => {
+          return cube.state !== CubeState.PRESSED;
+        });
+        const unpressedCube = selectRandomFrom(unpressed);
+        this.cubeAnimator.flip({
+          cube: unpressedCube as Cube,
+          endState: this.currentPointsState,
+          intervalTiming: 10,
+          minTimeToFlip: 25,
+          maxTimeToFlip: 100
+        });
+      }
+    },
     displayNextLevelCard() {
       this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
     },
@@ -564,10 +606,11 @@ export default {
       this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
     },
     resetGame() {
-      this.game.roundIsActive = false;
       this.scoreBoard.scoreCount = 0;
+      this.game.roundIsActive = false;
       this.game.currentRound = 0;
       this.game.currentLevel = 0;
+      this.game.fakeOutCount = 0;
       this.cubeAnimator.cancelFlips();
       this.timerBarAnimator.pause();
       this.timerBarAnimator.reset();
@@ -650,7 +693,7 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 3,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS
           ]
         },
@@ -661,7 +704,7 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.CHANGE_RANDOM
           ]
@@ -673,7 +716,7 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.LAST_ONE_RUNS,
           ]
@@ -685,7 +728,7 @@ export default {
           },
           roundTimeInSeconds: 7,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.CHANGE_COLORS_ON_TOUCH
           ]
@@ -697,7 +740,7 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.CUBES_ARE_HEAVY,
           ]
@@ -709,7 +752,7 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS
           ]
         },
@@ -720,7 +763,7 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.FAKE_OUT
           ]
@@ -732,7 +775,7 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.ALL_RUN
           ]
@@ -744,7 +787,7 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_BLUES
           ]
         },
@@ -755,7 +798,7 @@ export default {
           },
           roundTimeInSeconds: 4,
           numberOfRounds: Number.POSITIVE_INFINITY,
-          behviors: [
+          behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.CHANGE_RANDOM,
             GameBehavior.CHANGE_COLORS_ON_TOUCH,
@@ -796,19 +839,22 @@ export default {
       return 0;
     },
     currentPointsState(): CubeState {
-      if (this.currentLevel.behviors.includes(GameBehavior.SELECT_BLUES)) {
+      if (this.currentLevelBehaviors.includes(GameBehavior.SELECT_BLUES)) {
         return CubeState.NOT_PRESSED;
       }
       return CubeState.SHOULD_PRESS;
     },
     shouldFlipCubes(): boolean {
-      return this.currentLevel.behviors.includes(GameBehavior.CHANGE_RANDOM);
+      return this.currentLevelBehaviors.includes(GameBehavior.CHANGE_RANDOM);
     },
     shouldScrambleColors(): boolean {
-      return this.currentLevel.behviors.includes(GameBehavior.CHANGE_COLORS_ON_TOUCH);
+      return this.currentLevelBehaviors.includes(GameBehavior.CHANGE_COLORS_ON_TOUCH);
     },
     cubesAreHeavy(): boolean {
-      return this.currentLevel.behviors.includes(GameBehavior.CUBES_ARE_HEAVY);
+      return this.currentLevelBehaviors.includes(GameBehavior.CUBES_ARE_HEAVY);
+    },
+    shouldFakeOut(): boolean {
+      return this.currentLevelBehaviors.includes(GameBehavior.FAKE_OUT);
     },
     canInteract(): boolean {
       return this.game.roundIsActive;
@@ -827,6 +873,9 @@ export default {
     },
     numberOfRoundsInCurrentLevel(): number {
       return this.currentLevel.numberOfRounds;
+    },
+    currentLevelBehaviors(): GameBehavior[] {
+      return this.currentLevel.behaviors;
     },
     levelIsOver(): boolean {
       return this.game.currentRound >= this.numberOfRoundsInCurrentLevel;

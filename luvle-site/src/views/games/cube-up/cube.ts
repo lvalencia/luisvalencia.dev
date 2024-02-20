@@ -31,8 +31,6 @@ const CubeStates = [
   CubeState.DONT_PRESS,
 ];
 
-
-
 interface CubeArgs {
   cubeState?: CubeState;
   material?: MeshStandardMaterial;
