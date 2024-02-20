@@ -147,7 +147,6 @@ export class CubeAnimator {
 
     // Stop and Reset Shaking Animation
     cube.lastPressed = 0;
-    cube.position = cube.lastSetPosition;
     const {
       x, y, z
     } = cube.lastSetScale;

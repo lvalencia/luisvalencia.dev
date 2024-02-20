@@ -30,6 +30,7 @@ function setPosition(submitButton: SubmitButton): void {
     y: 0, 
     z: 1.25
   };
+  submitButton.cube.initialSetPosition = submitButton.cube.position;
   submitButton.rotation.y = degreesToRadians(45);
   submitButton.rotation.x = degreesToRadians(20);
   submitButton.rotation.z = degreesToRadians(0);

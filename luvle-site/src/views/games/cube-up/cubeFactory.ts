@@ -55,6 +55,8 @@ function setCubePosition(args: CubePoisitionArgs): void {
     y,
     z,
   };
+
+  cube.initialSetPosition = cube.position;
 }
 const jitterIntensity = 0.2;
 function stylizeCube(cube: Cube): void {

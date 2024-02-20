@@ -49,9 +49,9 @@ export class SubmitButton implements Representable {
 
     this._cube = new Cube({
       cubeState: initialCubeState,
-
     });
-    this._cube.userData = {
+
+    this.cube.userData = {
       object: this
     };
 
@@ -73,6 +73,10 @@ export class SubmitButton implements Representable {
 
   public indicateShouldNotPress(): void {
     this.cube.state = CubeState.DONT_PRESS;
+  }
+
+  public resetPosition(): void {
+    this.cube.position = this.cube.initialSetPosition;
   }
 
   public get cube(): Cube {

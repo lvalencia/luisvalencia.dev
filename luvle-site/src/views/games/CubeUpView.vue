@@ -21,6 +21,10 @@ import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
 import { CubeAnimator, toggleLose, toggleWin } from "./cube-up/cubeAnimator";
 import { FullscreenIcon, isFullscreenIcon } from "./cube-up/fullscreenIcon";
 import { isMobileDevice } from "@/helpers/mobile";
+import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
+import { selectRandomFrom, popRandomFrom, getRandomIntInclusive } from "@/helpers/random";
+import { isEmpty } from "underscore";
+import { CameraAnimator } from "./cube-up/cameraAnimator";
 import type { ShakeValues } from "./cube-up/cubeAnimator";
 import type { SubmitButton } from "./cube-up/submitButton";
 import type { Cube } from "./cube-up/cube";
@@ -29,10 +33,7 @@ import type { LevelContent } from "./cube-up/levelCard";
 import type { Maybe, Nullable } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 import type { ToggleableIcon } from "./cube-up/toggleableIcon";
-import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
-import { selectRandomFrom, popRandomFrom, getRandomIntInclusive } from "@/helpers/random";
-import { isEmpty } from "underscore";
-import { CameraAnimator } from "./cube-up/cameraAnimator";
+import { RandomWalker } from "./cube-up/randomWalker";
 
 enum GameBehavior {
   SELECT_GREENS = 1,
@@ -62,6 +63,7 @@ interface GameViewData {
   mouse: Vector2;
   cubes: Cube[];
   cubeAnimator: CubeAnimator;
+  randomWalker: RandomWalker;
   timerBarAnimator: TimerBarAnimator;
   scoreBoard: Scoreboard;
   soundBoard: SoundBoard;
@@ -102,6 +104,7 @@ export default {
       scene: {} as Scene,
       cubes: [],
       cubeAnimator: {} as CubeAnimator,
+      randomWalker: {} as RandomWalker,
       timerBarAnimator: {} as TimerBarAnimator,
       scoreBoard: {} as Scoreboard,
       soundBoard: {} as SoundBoard,
@@ -154,6 +157,11 @@ export default {
 
     const cubeAnimator = new CubeAnimator();
     this.cubeAnimator = cubeAnimator;
+
+    const randomWalker = new RandomWalker({
+      walkables: this.getWalkables()
+    });
+    this.randomWalker = randomWalker;
 
     const timerBar = createTimerBar({
       camera
@@ -253,6 +261,10 @@ export default {
         this.submitButton.indicateShouldNotPress();
       }
 
+      if (this.shouldRandomWalk) {
+        this.randomWalker.walk();
+      }
+
       const countdownDone = timerBarAnimator.countdown(time);
       if (countdownDone) {
         this.loseAnimation();
@@ -338,6 +350,9 @@ export default {
         }
 
         this.fakeOut();
+        if (this.lastOneShouldRun && this.onlyOneLeft) {
+          this.randomWalker.setWalkables(this.getWalkables());
+        }
       }
 
       if (isSubmitButton(intersected)) {
@@ -467,11 +482,13 @@ export default {
     },
     prepNextRound() {
       this.timerBarAnimator.reset();
+      this.submitButton.resetPosition();
       this.cubes.forEach((cube) => {
         cube.reset();
       });
       this.cubeAnimator.reset();
       this.prepFakeOut();
+      this.prepareRandomWalk();
 
       if (this.levelIsOver) {
         this.prepNextLevel();
@@ -599,6 +616,20 @@ export default {
         });
       }
     },
+    prepareRandomWalk() {
+      if (this.allShouldRun || this.lastOneShouldRun && this.onlyOneLeft) {
+        this.randomWalker.setWalkables(this.getWalkables());
+      }
+    },
+    getWalkables(): Object3D<Object3DEventMap>[] {
+      if (this.allShouldRun) {
+        return this.cubes.map((cube) => cube.getRepresentation());
+      }
+      if (this.lastOneShouldRun && this.onlyOneLeft) {
+        return this.cubes.filter((cube) => cube.state === this.currentPointsState).map((cube) => cube.getRepresentation());
+      }
+      return [];
+    },
     displayNextLevelCard() {
       this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
     },
@@ -614,9 +645,14 @@ export default {
       this.cubeAnimator.cancelFlips();
       this.timerBarAnimator.pause();
       this.timerBarAnimator.reset();
+      this.prepareRandomWalk();
       this.displayNextLevelCard();
       this.soundBoard.stopLevelBackground();
       this.soundBoard.startWind();
+      this.submitButton.resetPosition();
+      this.cubes.forEach((cube) => {
+        cube.reset();
+      });
       renderNextTick(this.sessionScoreBoard);
     },
     updateHighScore() {
@@ -677,11 +713,9 @@ export default {
     toggleFullscreen() {
       this.game.isFullScreen = !this.game.isFullScreen;
       if (this.game.isFullScreen) {
-        console.log("entering fullscreen");
         this.makeFullScreen();
         return;
       }
-      console.log("existing fullscreen");
       this.exitFullScreen();
     },
     levelConfigurations(): LevelConfiguration[] {
@@ -773,7 +807,7 @@ export default {
             title: this.t("level_8"),
             instructions: this.t("level_8_instructions"),
           },
-          roundTimeInSeconds: 2.8,
+          roundTimeInSeconds: 4,
           numberOfRounds: 5,
           behaviors: [
             GameBehavior.SELECT_GREENS,
@@ -855,6 +889,26 @@ export default {
     },
     shouldFakeOut(): boolean {
       return this.currentLevelBehaviors.includes(GameBehavior.FAKE_OUT);
+    },
+    lastOneShouldRun(): boolean {
+      return this.currentLevelBehaviors.includes(GameBehavior.LAST_ONE_RUNS);
+    },
+    allShouldRun(): boolean {
+      return this.currentLevelBehaviors.includes(GameBehavior.ALL_RUN);
+    },
+    shouldRandomWalk(): boolean {
+      if (this.allShouldRun) {
+        return this.game.roundIsActive;
+      }
+      if (this.lastOneShouldRun) {
+        return this.game.roundIsActive && this.onlyOneLeft;
+      }
+      return false;
+    },
+    onlyOneLeft(): boolean {
+      return this.cubes.filter((cube) => {
+          return cube.state === this.currentPointsState
+        }).length == 1;
     },
     canInteract(): boolean {
       return this.game.roundIsActive;

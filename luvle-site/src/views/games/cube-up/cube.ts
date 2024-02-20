@@ -46,7 +46,7 @@ export class Cube implements Representable {
   private readonly frequency: number;
   private cubeState: CubeState;
   private pressedAt: number;
-  private lastPosition: SimpleVector;
+  private initialPosition: SimpleVector;
   private lastScale: Vector3;
 
   constructor(args: CubeArgs = {}) {
@@ -85,11 +85,11 @@ export class Cube implements Representable {
 
     const { x, y, z } = this.mesh.position;
 
-    this.lastPosition = {
+    this.initialPosition = {
       x,
       y,
-      z,
-    };
+      z
+    }
 
     this.lastScale = this.mesh.scale.clone();
 
@@ -114,7 +114,7 @@ export class Cube implements Representable {
   public reset(): void {
     this.cubeState = selectRandomFrom(CubeStates);
     this.material.color.set(this.cubeState);
-    this.position = this.lastPosition;
+    this.position = this.initialPosition;
   }
 
   // Interactions
@@ -165,16 +165,19 @@ export class Cube implements Representable {
   }
 
   public set position({ x, y, z }: SimpleVector) {
-    this.lastPosition = {
+    this.mesh.position.set(x, y, z);
+  }
+
+  public set initialSetPosition({ x, y, z }: SimpleVector) {
+    this.initialPosition = {
       x,
       y,
       z,
     };
-    this.mesh.position.set(x, y, z);
   }
 
-  public get lastSetPosition():  SimpleVector {
-    return this.lastPosition;
+  public get initialSetPosition(): SimpleVector {
+    return this.initialPosition;
   }
 
   public get scale(): Vector3 {
