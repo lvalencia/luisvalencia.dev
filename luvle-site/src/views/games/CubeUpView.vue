@@ -2,6 +2,7 @@
 import { nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import Enlarger from "@/components/stylers/Enlarger.vue";
+import { exitFullScreen, makeFullScreen } from "@/helpers/fullScreen";
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
 import { Scene, PerspectiveCamera, Raycaster, Vector2 } from "three";
@@ -21,7 +22,6 @@ import { LevelCardAnimator } from "./cube-up/levelCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
 import { CubeAnimator, toggleLose, toggleWin } from "./cube-up/cubeAnimator";
 import { FullscreenIcon, isFullscreenIcon } from "./cube-up/fullscreenIcon";
-import { isMobileDevice } from "@/helpers/mobile";
 import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
 import { selectRandomFrom, popRandomFrom, getRandomIntInclusive } from "@/helpers/random";
 import { isEmpty } from "underscore";
@@ -276,7 +276,7 @@ export default {
       if (isFullscreenIcon(intersected)) {
         const fullscreenIcon = intersected;
         fullscreenIcon.toggle();
-        this.toggleFullscreen();
+        this.toggleFullScreen();
         if (haventStartedLevel)
           return;
       }
@@ -726,47 +726,13 @@ export default {
         },
       ];
     },
-    // Fullscreen Functionality 
-    // (Pull out into Vue Component and Wrap CubeUpView)
-    makeFullScreen() {
-      if (isMobileDevice()) {
-        const appContainer = document.getElementById('app')!;
-        const gamesContaianer = document.getElementsByClassName('games')[0];
-        const header = document.getElementsByTagName('header')[0];
-        [
-          appContainer,
-          header,
-          gamesContaianer
-        ].forEach((element) => {
-          element.classList.add('fullscreen');
-        });
-        return;
-      }
-      document.getElementsByClassName('games')[0].requestFullscreen();
-    },
-    exitFullScreen() {
-      if (isMobileDevice()) {
-        const appContainer = document.getElementById('app')!;
-        const gamesContaianer = document.getElementsByClassName('games')[0];
-        const header = document.getElementsByTagName('header')[0];
-        [
-          appContainer,
-          header,
-          gamesContaianer
-        ].forEach((element) => {
-          element.classList.remove('fullscreen');
-        });
-        return;
-      }
-      document.exitFullscreen();
-    },
-    toggleFullscreen() {
+    toggleFullScreen() {
       this.game.isFullScreen = !this.game.isFullScreen;
       if (this.game.isFullScreen) {
-        this.makeFullScreen();
+        makeFullScreen(this.$refs.container as Element);
         return;
       }
-      this.exitFullScreen();
+      exitFullScreen(this.$refs.container as Element);
     },
   },
   computed: {
@@ -879,7 +845,7 @@ export default {
 </script>
 
 <template>
-  <div class="games">
+  <div class="games" ref="container">
     <h1>{{ t("title") }}</h1>
     <h2>{{ t("game") }}</h2>
     <div class="canvas-container">
