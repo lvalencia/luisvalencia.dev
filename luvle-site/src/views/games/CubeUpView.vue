@@ -153,15 +153,9 @@ export default {
     this.intersectable.push(
       ...this.cubes.map((cube) => cube.getRepresentation())
     );
-    this.prepFakeOut();
 
     const cubeAnimator = new CubeAnimator();
     this.cubeAnimator = cubeAnimator;
-
-    const randomWalker = new RandomWalker({
-      walkables: this.getWalkables()
-    });
-    this.randomWalker = randomWalker;
 
     const timerBar = createTimerBar({
       camera
@@ -212,19 +206,17 @@ export default {
     });
 
     this.soundBoard = new SoundBoard();
-    this.soundBoard.setIsHeavy(this.cubesAreHeavy);
 
     const levelCard = new LevelCard({
       color: 0xffffff,
     });
     this.levelCard = levelCard;
     addToScene(levelCard, scene);
+
     const levelCardAnimator = new LevelCardAnimator({
       levelCard,
     });
     this.levelCardAnimator = levelCardAnimator;
-    levelCardAnimator.updateContentAndShow(this.currentLevelContent);
-    this.soundBoard.startWind();
 
     const soundIcon = new SoundIcon();
     this.intersectable.push(soundIcon.getRepresentation());
@@ -234,7 +226,19 @@ export default {
     this.intersectable.push(fullscreenIcon.getRepresentation());
     addToScene(fullscreenIcon, scene);
 
-    // Interaction
+    // Behaviors Setup
+    this.prepFakeOut();
+
+    const randomWalker = new RandomWalker({
+      walkables: this.getWalkables()
+    });
+    this.randomWalker = randomWalker;
+    
+    this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
+    this.soundBoard.setIsHeavy(this.cubesAreHeavy);
+    this.soundBoard.startWind();
+
+    // Interaction Setup
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
 
@@ -284,10 +288,12 @@ export default {
 
     this.canvas.removeEventListener("click", this.onCanvasClick);
     this.canvas.removeEventListener("keydown", this.handleInput);
+
     this.soundBoard.stop();
     this.soundBoard.silenced = true;
   },
   methods: {
+    // Game Interaction
     onCanvasClick(event: MouseEvent) {
       const haventStartedLevel = !this.game.roundIsActive;
       const intersected = this.getIntersectedObject(event);
@@ -419,6 +425,7 @@ export default {
           break;
       }
     },
+    // Game Animations
     animateLevelEnd(values: ShakeValues, animation: () => void, endActions: () => void = () => { }) {
       this.endRound();
 
@@ -476,10 +483,7 @@ export default {
         },
       );
     },
-    addPoints() {
-      addPoints(this.sessionScoreBoard, 50);
-      this.updateHighScore();
-    },
+    // Game Level and Round Behavior
     prepNextRound() {
       this.timerBarAnimator.reset();
       this.submitButton.resetPosition();
@@ -517,6 +521,7 @@ export default {
       this.displayNextLevelCard();
       this.soundBoard.startWind();
     },
+    // Game Behavior Implementation
     prepCubeToFlip() {
       if (this.shouldFlipCubes) {
         const nonScoringCubes = this.cubes.filter((cube) => {
@@ -630,6 +635,11 @@ export default {
       }
       return [];
     },
+    // Game Actions
+    addPoints() {
+      addPoints(this.sessionScoreBoard, 50);
+      this.updateHighScore();
+    },
     displayNextLevelCard() {
       this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
     },
@@ -674,50 +684,7 @@ export default {
     resetMaxPageWidth() {
       this.container.classList.remove('large');
     },
-    makeFullScreen() {
-      if (isMobileDevice()) {
-        const appContainer = document.getElementById('app')!;
-        const gamesContaianer = document.getElementsByClassName('games')[0];
-        const header = document.getElementsByTagName('header')[0];
-
-        [
-          appContainer,
-          header,
-          gamesContaianer
-        ].forEach((element) => {
-          element.classList.add('fullscreen');
-        })
-
-        return;
-      }
-      document.getElementsByClassName('games')[0].requestFullscreen();
-    },
-    exitFullScreen() {
-      if (isMobileDevice()) {
-        const appContainer = document.getElementById('app')!;
-        const gamesContaianer = document.getElementsByClassName('games')[0];
-        const header = document.getElementsByTagName('header')[0];
-
-        [
-          appContainer,
-          header,
-          gamesContaianer
-        ].forEach((element) => {
-          element.classList.remove('fullscreen');
-        })
-
-        return;
-      }
-      document.exitFullscreen();
-    },
-    toggleFullscreen() {
-      this.game.isFullScreen = !this.game.isFullScreen;
-      if (this.game.isFullScreen) {
-        this.makeFullScreen();
-        return;
-      }
-      this.exitFullScreen();
-    },
+    // Game Configuration
     levelConfigurations(): LevelConfiguration[] {
       return [
         {
@@ -842,42 +809,56 @@ export default {
           ]
         },
       ];
-    }
+    },
+    // Fullscreen Functionality 
+    // (Pull out into Vue Component and Wrap CubeUpView)
+    makeFullScreen() {
+      if (isMobileDevice()) {
+        const appContainer = document.getElementById('app')!;
+        const gamesContaianer = document.getElementsByClassName('games')[0];
+        const header = document.getElementsByTagName('header')[0];
+
+        [
+          appContainer,
+          header,
+          gamesContaianer
+        ].forEach((element) => {
+          element.classList.add('fullscreen');
+        })
+
+        return;
+      }
+      document.getElementsByClassName('games')[0].requestFullscreen();
+    },
+    exitFullScreen() {
+      if (isMobileDevice()) {
+        const appContainer = document.getElementById('app')!;
+        const gamesContaianer = document.getElementsByClassName('games')[0];
+        const header = document.getElementsByTagName('header')[0];
+
+        [
+          appContainer,
+          header,
+          gamesContaianer
+        ].forEach((element) => {
+          element.classList.remove('fullscreen');
+        })
+
+        return;
+      }
+      document.exitFullscreen();
+    },
+    toggleFullscreen() {
+      this.game.isFullScreen = !this.game.isFullScreen;
+      if (this.game.isFullScreen) {
+        this.makeFullScreen();
+        return;
+      }
+      this.exitFullScreen();
+    },
   },
   computed: {
-    didWin(): boolean {
-      return this.noMoreCubesThatWeNeedToPress;
-    },
-    noMoreCubesThatWeNeedToPress(): boolean {
-      const noMoreCubesThatWeNeedToPress =
-        this.cubes.filter((cube) => cube.state === this.currentPointsState)
-          .length === 0;
-      return noMoreCubesThatWeNeedToPress && this.canInteract;
-    },
-    sessionScoreBoard(): Scoreboard {
-      return this.scoreBoard as Scoreboard;
-    },
-    highScoreBoard(): Scoreboard {
-      return this.highScore as Scoreboard;
-    },
-    savedHighScore(): number {
-      const score = fromNullable({
-        nullable: localStorage.getItem(SAVED_HIGH_SCORE_KEY),
-        fallback: ""
-      });
-
-      if (stringIsSomething(score)) {
-        return Number(score);
-      }
-
-      return 0;
-    },
-    currentPointsState(): CubeState {
-      if (this.currentLevelBehaviors.includes(GameBehavior.SELECT_BLUES)) {
-        return CubeState.NOT_PRESSED;
-      }
-      return CubeState.SHOULD_PRESS;
-    },
+    // Game Behavior
     shouldFlipCubes(): boolean {
       return this.currentLevelBehaviors.includes(GameBehavior.CHANGE_RANDOM);
     },
@@ -910,12 +891,51 @@ export default {
           return cube.state === this.currentPointsState
         }).length == 1;
     },
+    currentPointsState(): CubeState {
+      if (this.currentLevelBehaviors.includes(GameBehavior.SELECT_BLUES)) {
+        return CubeState.NOT_PRESSED;
+      }
+      return CubeState.SHOULD_PRESS;
+    },
+    // Game State
     canInteract(): boolean {
       return this.game.roundIsActive;
     },
     shouldIdleBreathe(): boolean {
       return !this.game.roundIsActive;
     },
+    didWin(): boolean {
+      return this.noMoreCubesThatWeNeedToPress;
+    },
+    noMoreCubesThatWeNeedToPress(): boolean {
+      const noMoreCubesThatWeNeedToPress =
+        this.cubes.filter((cube) => cube.state === this.currentPointsState)
+          .length === 0;
+      return noMoreCubesThatWeNeedToPress && this.canInteract;
+    },
+    levelIsOver(): boolean {
+      return this.game.currentRound >= this.numberOfRoundsInCurrentLevel;
+    },
+    // Game Objects
+    sessionScoreBoard(): Scoreboard {
+      return this.scoreBoard as Scoreboard;
+    },
+    highScoreBoard(): Scoreboard {
+      return this.highScore as Scoreboard;
+    },
+    savedHighScore(): number {
+      const score = fromNullable({
+        nullable: localStorage.getItem(SAVED_HIGH_SCORE_KEY),
+        fallback: ""
+      });
+
+      if (stringIsSomething(score)) {
+        return Number(score);
+      }
+
+      return 0;
+    },
+    // Game Configuration
     currentLevel(): LevelConfiguration {
       return this.levels[this.game.currentLevel];
     },
@@ -931,9 +951,7 @@ export default {
     currentLevelBehaviors(): GameBehavior[] {
       return this.currentLevel.behaviors;
     },
-    levelIsOver(): boolean {
-      return this.game.currentRound >= this.numberOfRoundsInCurrentLevel;
-    },
+    // FullScreen Objects
     container(): Element {
       const element: Nullable<Element> = document.querySelector('#app > div.grid-container');
 
