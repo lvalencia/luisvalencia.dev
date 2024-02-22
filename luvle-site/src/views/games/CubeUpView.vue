@@ -418,14 +418,14 @@ export default {
     },
     // Game Level and Round Behavior
     prepNextRound() {
+      // Reset Objects
       this.timerBarAnimator.reset();
       this.submitButton.resetPosition();
       this.cubes.forEach((cube) => {
         cube.reset();
       });
       this.cubeAnimator.reset();
-      this.prepFakeOut();
-      this.prepareRandomWalk();
+  
       if (this.levelIsOver) {
         this.prepNextLevel();
       }
@@ -433,11 +433,15 @@ export default {
         this.game.roundIsActive = true;
         this.startCountDown();
       }
+
+      this.prepFakeOut();
+      this.prepareRandomWalk();
       if (this.game.roundIsActive) {
         this.prepCubeToFlip();
       }
       this.soundBoard.setIsHeavy(this.cubesAreHeavy);
       this.submitButton.indicateShouldNotPress();
+
       this.updateHighScore();
     },
     endRound(): void {
@@ -857,6 +861,7 @@ export default {
 
 <style scoped lang="scss">
 .fullscreen {
+
   h1,
   h2 {
     display: none
@@ -921,12 +926,12 @@ div.canvas-container {
     "level_1_instructions": "Hit all the greens!",
     "level_2_instructions": "Beware the Changing Cubes!",
     "level_3_instructions": "Run away!",
-    "level_4_instructions": "Oooh the Colors!",
+    "level_4_instructions": "Scramble the Colors!",
     "level_5_instructions": "This is heavy doc!",
     "level_6_instructions": "Faster, Faster!",
     "level_7_instructions": "JK!",
     "level_8_instructions": "Cheese It!",
-    "level_9_instructions": "All that Blue!",
+    "level_9_instructions": "Hit all the Blues!",
     "level_10_instructions": "Chaos",
     "score": "Score:",
     "high_score": "High Score:"
@@ -947,7 +952,7 @@ div.canvas-container {
     "level_1_instructions": "Dale a los verdes!",
     "level_2_instructions": "Cuidado, algunos cambian!",
     "level_3_instructions": "Hecha correr!",
-    "level_4_instructions": "Codifiquen!",
+    "level_4_instructions": "Revlueve los colores!",
     "level_5_instructions": "Esto está pesado doc!",
     "level_6_instructions": "Mas Rapido!",
     "level_7_instructions": "No te creas!",
@@ -973,7 +978,7 @@ div.canvas-container {
     "level_1_instructions": "Colpeja tots els verds!",
     "level_2_instructions": "Compte amb els cubs canviants!",
     "level_3_instructions": "Fuig!",
-    "level_4_instructions": "Codifiquin!",
+    "level_4_instructions": "Barreja els colors!",
     "level_5_instructions": "Esto está pesado doc!",
     "level_6_instructions": "Més ràpid!",
     "level_7_instructions": "No t'ho crees!",

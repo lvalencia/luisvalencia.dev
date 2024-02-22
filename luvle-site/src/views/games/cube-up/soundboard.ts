@@ -224,6 +224,7 @@ export class SoundBoard {
     return this.winEffect.silenced &&
     this.loseEffect.silenced &&
     this.pointsEffect.silenced &&
+    this.pointsEffectHeavy.silenced &&
     this.noPointsEffect.silenced &&
     this.wind.silenced &&
     this.backgroundMusic.silenced;
@@ -233,6 +234,7 @@ export class SoundBoard {
     this.winEffect.silenced = silenced;
     this.loseEffect.silenced = silenced;
     this.pointsEffect.silenced = silenced;
+    this.pointsEffectHeavy.silenced = silenced;
     this.noPointsEffect.silenced = silenced;
     this.wind.silenced = silenced;
     this.backgroundMusic.silenced = silenced;
