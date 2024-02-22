@@ -143,6 +143,7 @@ export default {
       rows: [3, 4, 3],
     });
     this.cubes = cubes;
+    this.guaranteeAtLeastOnePointScoringCube();
     cubes.forEach((cube) => {
       addToScene(cube, scene);
     });
@@ -316,9 +317,8 @@ export default {
             break;
         }
         this.fakeOut();
-        if (this.lastOneShouldRun && this.onlyOneLeft) {
-          this.randomWalker.setWalkables(this.getWalkables());
-        }
+        this.prepLastOneRuns();
+
       }
       if (isSubmitButton(intersected)) {
         const submitButton = intersected;
@@ -424,6 +424,7 @@ export default {
       this.cubes.forEach((cube) => {
         cube.reset();
       });
+      this.guaranteeAtLeastOnePointScoringCube();
       this.cubeAnimator.reset();
   
       if (this.levelIsOver) {
@@ -436,6 +437,7 @@ export default {
 
       this.prepFakeOut();
       this.prepareRandomWalk();
+      this.prepLastOneRuns();
       if (this.game.roundIsActive) {
         this.prepCubeToFlip();
       }
@@ -443,6 +445,15 @@ export default {
       this.submitButton.indicateShouldNotPress();
 
       this.updateHighScore();
+    },
+    guaranteeAtLeastOnePointScoringCube() {
+      const atLeastOnePointScoringCube = this.cubes.filter((cube) => {
+        return cube.state === this.currentPointsState
+      }).length > 0;
+      if (!atLeastOnePointScoringCube) {
+        const cube = selectRandomFrom(this.cubes);
+        cube.state = this.currentPointsState;
+      }
     },
     endRound(): void {
       this.game.roundIsActive = false;
@@ -548,8 +559,13 @@ export default {
         });
       }
     },
+    prepLastOneRuns() {
+      if (this.lastOneShouldRun && this.onlyOneLeft) {
+          this.randomWalker.setWalkables(this.getWalkables());
+        }
+    },
     prepareRandomWalk() {
-      if (this.allShouldRun || this.lastOneShouldRun && this.onlyOneLeft) {
+      if (this.allShouldRun) {
         this.randomWalker.setWalkables(this.getWalkables());
       }
     },
@@ -583,6 +599,7 @@ export default {
       this.timerBarAnimator.pause();
       this.timerBarAnimator.reset();
       this.prepareRandomWalk();
+      this.prepLastOneRuns();
       this.displayNextLevelCard();
       this.soundBoard.stopLevelBackground();
       this.soundBoard.startWind();
