@@ -318,7 +318,6 @@ export default {
         }
         this.fakeOut();
         this.prepLastOneRuns();
-
       }
       if (isSubmitButton(intersected)) {
         const submitButton = intersected;
@@ -426,7 +425,7 @@ export default {
       });
       this.guaranteeAtLeastOnePointScoringCube();
       this.cubeAnimator.reset();
-  
+
       if (this.levelIsOver) {
         this.prepNextLevel();
       }
@@ -561,8 +560,8 @@ export default {
     },
     prepLastOneRuns() {
       if (this.lastOneShouldRun && this.onlyOneLeft) {
-          this.randomWalker.setWalkables(this.getWalkables());
-        }
+        this.randomWalker.setWalkables(this.getWalkables());
+      }
     },
     prepareRandomWalk() {
       if (this.allShouldRun) {
@@ -734,12 +733,11 @@ export default {
             title: this.t("level_10"),
             instructions: this.t("level_10_instructions"),
           },
-          roundTimeInSeconds: 4,
+          roundTimeInSeconds: 6,
           numberOfRounds: Number.POSITIVE_INFINITY,
           behaviors: [
             GameBehavior.SELECT_GREENS,
             GameBehavior.CHANGE_RANDOM,
-            GameBehavior.CHANGE_COLORS_ON_TOUCH,
             GameBehavior.CUBES_ARE_HEAVY,
             GameBehavior.ALL_RUN,
             GameBehavior.LAST_ONE_RUNS,
