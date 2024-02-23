@@ -624,7 +624,7 @@ export default {
     },
     prepFakeOut() {
       if (this.shouldFakeOut) {
-        this.game.fakeOutCount = getRandomIntInclusive(1, 3);
+        this.game.fakeOutCount = getRandomIntInclusive(1, 2);
 
         const pointScoringCubes = this.cubes.filter((cube) => {
           return cube.state === this.currentPointsState;
@@ -751,10 +751,16 @@ export default {
       });
 
       this.timerBarAnimator.pause(performance.now());
+
+      this.soundBoard.stopLevelBackground();
+      this.soundBoard.startWind();
     },
     unpause() {
       this.levelCard.hide();
       this.timerBarAnimator.resume();
+
+      this.soundBoard.stopWind();
+      this.soundBoard.startLevelBackground();
     },
     // Game Configuration
     levelConfigurations(): LevelConfiguration[] {
