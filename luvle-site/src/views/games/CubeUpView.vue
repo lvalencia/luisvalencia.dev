@@ -430,15 +430,18 @@ export default {
           else {
             this.loseAnimation();
           }
+
           break;
         case Keys.Escape:
           if (!this.game.roundIsActive) { break; }
+
           this.togglePaused();
           if (this.isPaused) {
             this.pause();
           } else {
             this.unpause();
           }
+
           break;
       }
     },
@@ -459,9 +462,12 @@ export default {
       const flashInterval = setInterval(animation, 250);
       setTimeout(() => {
         clearInterval(flashInterval);
+
         this.prepNextRound();
+
         this.canvas.addEventListener("click", this.onCanvasClick);
         this.canvas.addEventListener("keydown", this.handleInput);
+
         endActions();
       }, values.shakingDurationInMillis);
     },
@@ -482,6 +488,7 @@ export default {
     },
     winAnimation() {
       this.soundBoard.win();
+      this.awardExtraPoints();
 
       this.animateLevelEnd({
         shakingDurationInMillis: 1500,
@@ -675,9 +682,24 @@ export default {
       return [];
     },
     // Game Actions
-    addPoints() {
-      addPoints(this.sessionScoreBoard, 50);
+    addPoints(points: number = 50) {
+      addPoints(this.sessionScoreBoard, points);
       this.updateHighScore();
+    },
+    awardExtraPoints() {
+      let extraPoints = this.timerBarAnimator.timeLeftInSeconds() * 100;
+      extraPoints = Math.round(extraPoints / 100) * 100;
+      this.addPoints(extraPoints);
+      this.soundBoard.points();
+
+      if (this.shouldFlipCubes) {
+        const flipsToCancel = this.cubeAnimator.flipsToCancel();
+        for (let i = 0; i < flipsToCancel; i++) {
+          const extraPoints = flipsToCancel * 100;
+          this.addPoints(extraPoints);
+          this.soundBoard.points();
+        }
+      }
     },
     displayNextLevelCard() {
       this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
@@ -712,7 +734,7 @@ export default {
       if (roundScore > highScore) {
         this.highScore.scoreCount = roundScore;
         localStorage.setItem(SAVED_HIGH_SCORE_KEY, String(roundScore));
-        renderNextTick(this.highScoreBoard);
+        addPoints(this.highScoreBoard, 0);
       }
     },
     toggleSilenced() {

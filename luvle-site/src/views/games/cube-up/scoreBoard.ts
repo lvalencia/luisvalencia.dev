@@ -17,12 +17,15 @@ const url = new URL(
 const FontURI = url.href;
 
 export class Scoreboard implements Representable {
+  public readonly id: string;
   private readonly prefix: Text;
   private readonly points: Text;
   private readonly color: number;
   private score: number;
 
   constructor(args: ScoreboardArgs) {
+    this.id = crypto.randomUUID();
+    
     const {
       text,
       initialScore,
@@ -101,6 +104,14 @@ export class Scoreboard implements Representable {
   // Getters / Setters
   public get position(): Vector3 {
     return this.prefix.position;
+  }
+
+  public get pointsPosition():  Vector3 {
+    return this.points.position;
+  }
+
+  public set pointsPosition({x,y,z}: Vector3) {
+    this.points.position.set(x,y,z);
   }
 
   public get rotation(): Euler {

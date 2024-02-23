@@ -246,6 +246,10 @@ export class CubeAnimator {
       }
     }
   }
+
+  public flipsToCancel(): number {
+    return Math.floor(Object.entries(this.flipData).length / 2);
+  }
 }
 
 export function toggleLose(cube: Cube): void {

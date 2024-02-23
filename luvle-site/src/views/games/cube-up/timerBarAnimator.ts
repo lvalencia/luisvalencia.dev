@@ -62,7 +62,6 @@ export class TimerBarAnimator {
 
     const outOfTime = !shouldAnimate;
     return outOfTime;
-
   }
 
   public startCountDown(totalTimeInSeconds: number, timeStarted: number): void {
@@ -78,6 +77,10 @@ export class TimerBarAnimator {
   public resume(resumedAt: number = performance.now()) {
     this.shortCircuit = false;
     this.startedAt = resumedAt - this.timeAllotmentUsedBeforePauseInSeconds * MILLIS_IN_SECONDS;
+  }
+
+  public timeLeftInSeconds(fromNow: number = performance.now()) {
+    return this.timeLeft(fromNow);
   }
 
   public reset(): void {
