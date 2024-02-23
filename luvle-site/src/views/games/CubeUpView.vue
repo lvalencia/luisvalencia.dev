@@ -20,6 +20,7 @@ import { stringIsSomething, fromNullable, removeIfFound } from "@luvle/utils";
 import { LevelCard } from "./cube-up/levelCard";
 import { LevelCardAnimator } from "./cube-up/levelCardAnimator";
 import { isSoundIcon, SoundIcon } from "./cube-up/soundIcon";
+import { isPauseIcon, PauseIcon } from "./cube-up/pauseIcon";
 import { CubeAnimator, toggleLose, toggleWin } from "./cube-up/cubeAnimator";
 import { FullscreenIcon, isFullscreenIcon } from "./cube-up/fullscreenIcon";
 import { InteractionResult, interactionResult } from "./cube-up/cubeInteractor";
@@ -74,6 +75,7 @@ interface GameViewData {
   levelCardAnimator: LevelCardAnimator;
   intersectable: Object3D<Object3DEventMap>[];
   levels: LevelConfiguration[];
+  pauseIcon: PauseIcon;
   game: {
     currentRound: number;
     currentLevel: number;
@@ -116,6 +118,7 @@ export default {
       levelCardAnimator: {} as LevelCardAnimator,
       intersectable: [],
       levels: this.levelConfigurations(),
+      pauseIcon: {} as PauseIcon,
       game: {
         currentRound: 0,
         currentLevel: 0,
@@ -131,36 +134,44 @@ export default {
     const { canvas, renderer } = initializeWebGL({
       id: "scene",
     });
+
     this.canvas = canvas;
     const { camera, scene } = initializeScene({
       canvas,
     });
+
     this.scene = scene;
     this.camera = camera;
     this.cameraAnimator = new CameraAnimator({
       camera
     });
+
     // Create and Add Objects to Scene
     const cubes: Cube[] = createCubes({
       rows: [3, 4, 3],
     });
     this.cubes = cubes;
     this.guaranteeAtLeastOnePointScoringCube();
+
     cubes.forEach((cube) => {
       addToScene(cube, scene);
     });
     this.intersectable.push(...this.cubes.map((cube) => cube.getRepresentation()));
+
     const cubeAnimator = new CubeAnimator();
     this.cubeAnimator = cubeAnimator;
+
     const timerBar = createTimerBar({
       camera
     });
     addToScene(timerBar, scene);
+
     const timerBarAnimator = new TimerBarAnimator({
       timerBar,
       camera
     });
     this.timerBarAnimator = timerBarAnimator;
+
     const scoreBoard = createScoreboard({
       text: this.t("score"),
       camera,
@@ -168,6 +179,7 @@ export default {
     });
     this.scoreBoard = scoreBoard;
     addToScene(scoreBoard, scene);
+
     const highScore = createScoreboard({
       text: this.t("high_score"),
       camera,
@@ -181,6 +193,7 @@ export default {
     });
     this.highScore = highScore;
     addToScene(highScore, scene);
+
     const submitButton = createSubmitButton({
       initialColor: this.noMoreCubesThatWeNeedToPress ? CubeState.SHOULD_PRESS : CubeState.DONT_PRESS,
       onPressed: () => {
@@ -190,38 +203,56 @@ export default {
     this.submitButton = submitButton;
     addToScene(submitButton, scene);
     this.intersectable.push(submitButton.getRepresentation());
+
     const submitButtonAnimator = new SubmitButtonAnimator({
       submitButton,
       cubeAnimator
     });
+
     this.soundBoard = new SoundBoard();
+
     const levelCard = new LevelCard({
       color: 0xffffff,
     });
     this.levelCard = levelCard;
     addToScene(levelCard, scene);
+
     const levelCardAnimator = new LevelCardAnimator({
       levelCard,
     });
     this.levelCardAnimator = levelCardAnimator;
+
     const soundIcon = new SoundIcon();
     this.intersectable.push(soundIcon.getRepresentation());
     addToScene(soundIcon, scene);
+
     const fullscreenIcon = new FullscreenIcon();
     this.intersectable.push(fullscreenIcon.getRepresentation());
     addToScene(fullscreenIcon, scene);
+
+    const pauseIcon = new PauseIcon();
+    this.pauseIcon = pauseIcon;
+    this.intersectable.push(pauseIcon.getRepresentation());
+    addToScene(pauseIcon, scene);
+    pauseIcon.hide();
+
     // Behaviors Setup
     this.prepFakeOut();
+
     const randomWalker = new RandomWalker({
       walkables: this.getWalkables()
     });
     this.randomWalker = randomWalker;
+
     this.levelCardAnimator.updateContentAndShow(this.currentLevelContent);
+
     this.soundBoard.setIsHeavy(this.cubesAreHeavy);
     this.soundBoard.startWind();
+
     // Interaction Setup
     this.canvas.addEventListener("click", this.onCanvasClick);
     this.canvas.addEventListener("keydown", this.handleInput);
+
     // Render Loop
     const animate = (time: DOMHighResTimeStamp) => {
       cubes.forEach((cube) => {
@@ -237,30 +268,37 @@ export default {
           ...animationsArgs
         });
       });
+
       if (this.noMoreCubesThatWeNeedToPress) {
         this.submitButton.indicateShouldPress(this.currentPointsState);
       }
       else {
         this.submitButton.indicateShouldNotPress();
       }
+
       if (this.shouldRandomWalk) {
         this.randomWalker.walk();
       }
+
       const countdownDone = timerBarAnimator.countdown(time);
       if (countdownDone) {
         this.loseAnimation();
       }
+
       submitButtonAnimator.update(time);
+
       adjustView({ canvas, renderer, camera });
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
+
     // Kick-Off Render Loop
     requestAnimationFrame(animate);
   },
   beforeUnmount() {
     this.canvas.removeEventListener("click", this.onCanvasClick);
     this.canvas.removeEventListener("keydown", this.handleInput);
+
     this.soundBoard.stop();
     this.soundBoard.silenced = true;
   },
@@ -268,43 +306,55 @@ export default {
     // Game Interaction
     onCanvasClick(event: MouseEvent) {
       const haventStartedLevel = !this.game.roundIsActive;
+
       const intersected = this.getIntersectedObject(event);
       if (isSoundIcon(intersected)) {
         const soundIcon = intersected;
         soundIcon.toggle();
         this.toggleSilenced();
-        if (haventStartedLevel)
-          return;
+        if (haventStartedLevel) { return; }
       }
+
       if (isFullscreenIcon(intersected)) {
         const fullscreenIcon = intersected;
         fullscreenIcon.toggle();
         this.toggleFullScreen();
-        if (haventStartedLevel)
-          return;
+        if (haventStartedLevel) { return; }
+      }
+
+      if (isPauseIcon(intersected)) {
+        const pauseIcon = intersected;
+        this.handleInput({ key: 'Escape' } as KeyboardEvent);
+        if (haventStartedLevel) { return; }
       }
 
       if (this.isPaused) { return; }
 
       if (haventStartedLevel) {
         this.levelCard.hide();
+        this.pauseIcon.show();
         this.soundBoard.stopWind();
         this.soundBoard.startLevelBackground();
         this.game.roundIsActive = true;
         this.prepCubeToFlip();
         this.startCountDown();
+
         return;
       }
+
       if (isCube(intersected)) {
         const cube = intersected;
+
         const result = interactionResult({
           cube,
           loseState: CubeState.DONT_PRESS,
           pointsState: this.currentPointsState
         });
+
         if (this.cubesAreHeavy) {
           this.cameraAnimator.shake();
         }
+
         switch (result) {
           case InteractionResult.LOST:
             this.loseAnimation();
@@ -321,9 +371,11 @@ export default {
             this.scrambleCubes();
             break;
         }
+
         this.fakeOut();
         this.prepLastOneRuns();
       }
+
       if (isSubmitButton(intersected)) {
         const submitButton = intersected;
         if (this.cubesAreHeavy) {
@@ -337,27 +389,31 @@ export default {
     },
     getIntersectedObject(event: MouseEvent): Maybe<Cube | ToggleableIcon> {
       const rect = this.canvas.getBoundingClientRect();
+
       // Position relative to canvas
       const canvasRelativeX = event.clientX - rect.left;
       const canvasRelativeY = event.clientY - rect.top;
       const canvasWidth = rect.width;
       const canvasHeight = rect.height;
+
       // Normalize
       // Normalized Device Coordinates [-1,1]
       const ndcUnit = 1;
       const lengthOfNDCSquare = 2; // length from -1 to 1
       const inversion = -1;
       const normalizedX = (canvasRelativeX / canvasWidth) * lengthOfNDCSquare - ndcUnit;
-      const normalizedY = inversion * (canvasRelativeY / canvasHeight) * lengthOfNDCSquare +
-        ndcUnit;
+      const normalizedY = inversion * (canvasRelativeY / canvasHeight) * lengthOfNDCSquare + ndcUnit;
+
       // set Coordinates
       this.mouse.x = normalizedX;
       this.mouse.y = normalizedY;
       this.raycaster.setFromCamera(this.mouse, this.camera);
+
       const intersects = this.raycaster.intersectObjects(this.intersectable, false);
       if (intersects.length > 0) {
         return intersects[0].object.userData.object;
       }
+
       return undefined;
     },
     handleInput({ key }: KeyboardEvent) {
@@ -389,13 +445,17 @@ export default {
     // Game Animations
     animateLevelEnd(values: ShakeValues, animation: () => void, endActions: () => void = () => { }) {
       this.endRound();
+
       this.canvas.removeEventListener("click", this.onCanvasClick);
       this.canvas.removeEventListener("keydown", this.handleInput);
+
       this.timerBarAnimator.pause();
       this.cubeAnimator.setShakeValues(values);
+
       this.cubes.forEach((cube) => {
         cube.unpress();
       });
+
       const flashInterval = setInterval(animation, 250);
       setTimeout(() => {
         clearInterval(flashInterval);
@@ -407,6 +467,7 @@ export default {
     },
     loseAnimation() {
       this.soundBoard.lost();
+
       this.animateLevelEnd({
         shakingDurationInMillis: 1500,
         shakeIntensity: 0.05,
@@ -421,6 +482,7 @@ export default {
     },
     winAnimation() {
       this.soundBoard.win();
+
       this.animateLevelEnd({
         shakingDurationInMillis: 1500,
         shakeIntensity: 0.05,
@@ -436,6 +498,7 @@ export default {
       // Reset Objects
       this.timerBarAnimator.reset();
       this.submitButton.resetPosition();
+
       this.cubes.forEach((cube) => {
         cube.reset();
       });
@@ -453,9 +516,11 @@ export default {
       this.prepFakeOut();
       this.prepareRandomWalk();
       this.prepLastOneRuns();
+
       if (this.game.roundIsActive) {
         this.prepCubeToFlip();
       }
+
       this.soundBoard.setIsHeavy(this.cubesAreHeavy);
       this.submitButton.indicateShouldNotPress();
 
@@ -465,6 +530,7 @@ export default {
       const atLeastOnePointScoringCube = this.cubes.filter((cube) => {
         return cube.state === this.currentPointsState
       }).length > 0;
+
       if (!atLeastOnePointScoringCube) {
         const cube = selectRandomFrom(this.cubes);
         cube.state = this.currentPointsState;
@@ -488,6 +554,7 @@ export default {
         const nonScoringCubes = this.cubes.filter((cube) => {
           return cube.state !== this.currentPointsState;
         });
+
         const toFlip = selectRandomFrom(nonScoringCubes) as Cube;
         this.cubeAnimator.flip({
           cube: toFlip,
@@ -500,17 +567,21 @@ export default {
         const unpressed = this.cubes.filter((cube) => {
           return cube.state !== CubeState.PRESSED;
         });
+
         let toPress = this.cubes.filter((cube) => {
           return cube.state === this.currentPointsState;
         }).length;
+
         while (!isEmpty(unpressed)) {
           const unpressedCube = popRandomFrom(unpressed);
-          const needsShouldPress = toPress > 0;
+
           const animationArgs = {
             intervalTiming: 10,
             minTimeToFlip: 25,
             maxTimeToFlip: 100
           };
+
+          const needsShouldPress = toPress > 0;
           if (needsShouldPress) {
             this.cubeAnimator.flip({
               ...animationArgs,
@@ -520,18 +591,22 @@ export default {
             toPress -= 1;
             continue;
           }
+
           let availableStates = [
             CubeState.NOT_PRESSED,
             CubeState.SHOULD_PRESS,
             CubeState.DONT_PRESS,
           ];
+
           let invalidStates = [
             unpressedCube.state,
             this.currentPointsState
           ];
+
           invalidStates.forEach((state) => {
             availableStates = removeIfFound(state, availableStates);
           });
+
           this.cubeAnimator.flip({
             ...animationArgs,
             cube: unpressedCube as Cube,
@@ -543,10 +618,12 @@ export default {
     prepFakeOut() {
       if (this.shouldFakeOut) {
         this.game.fakeOutCount = getRandomIntInclusive(1, 3);
+
         const pointScoringCubes = this.cubes.filter((cube) => {
           return cube.state === this.currentPointsState;
         });
         popRandomFrom(pointScoringCubes);
+
         pointScoringCubes.forEach((cube) => {
           const availableStates = removeIfFound(this.currentPointsState, [
             CubeState.NOT_PRESSED,
@@ -561,10 +638,12 @@ export default {
       const shouldFakeout = this.shouldFakeOut && this.game.fakeOutCount > 0;
       if (shouldFakeout) {
         this.game.fakeOutCount -= 1;
+
         const unpressed = this.cubes.filter((cube) => {
           return cube.state !== CubeState.PRESSED;
         });
         const unpressedCube = selectRandomFrom(unpressed);
+
         this.cubeAnimator.flip({
           cube: unpressedCube as Cube,
           endState: this.currentPointsState,
@@ -588,9 +667,11 @@ export default {
       if (this.allShouldRun) {
         return this.cubes.map((cube) => cube.getRepresentation());
       }
+
       if (this.lastOneShouldRun && this.onlyOneLeft) {
         return this.cubes.filter((cube) => cube.state === this.currentPointsState).map((cube) => cube.getRepresentation());
       }
+
       return [];
     },
     // Game Actions
@@ -627,6 +708,7 @@ export default {
     updateHighScore() {
       const roundScore = this.scoreBoard.scoreCount;
       const highScore = this.highScore.scoreCount;
+
       if (roundScore > highScore) {
         this.highScore.scoreCount = roundScore;
         localStorage.setItem(SAVED_HIGH_SCORE_KEY, String(roundScore));
@@ -638,12 +720,14 @@ export default {
     },
     togglePaused() {
       this.game.paused = !this.game.paused;
+      this.pauseIcon.toggle();
     },
     pause() {
       this.levelCardAnimator.updateContentAndShow({
         title: 'Paused',
         instructions: ''
       });
+
       this.timerBarAnimator.pause(performance.now());
     },
     unpause() {
@@ -777,10 +861,12 @@ export default {
     },
     toggleFullScreen() {
       this.game.isFullScreen = !this.game.isFullScreen;
+
       if (this.game.isFullScreen) {
         makeFullScreen(this.$refs.container as Element);
         return;
       }
+
       exitFullScreen(this.$refs.container as Element);
     },
   },
@@ -835,8 +921,7 @@ export default {
       return this.noMoreCubesThatWeNeedToPress;
     },
     noMoreCubesThatWeNeedToPress(): boolean {
-      const noMoreCubesThatWeNeedToPress = this.cubes.filter((cube) => cube.state === this.currentPointsState)
-        .length === 0;
+      const noMoreCubesThatWeNeedToPress = this.cubes.filter((cube) => cube.state === this.currentPointsState).length === 0;
       return noMoreCubesThatWeNeedToPress && this.canInteract;
     },
     levelIsOver(): boolean {
@@ -857,9 +942,11 @@ export default {
         nullable: localStorage.getItem(SAVED_HIGH_SCORE_KEY),
         fallback: ""
       });
+
       if (stringIsSomething(score)) {
         return Number(score);
       }
+
       return 0;
     },
     // Game Configuration
