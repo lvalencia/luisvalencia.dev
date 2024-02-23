@@ -40,6 +40,11 @@ export default {
       releasedGames,
     }
   },
+  computed: {
+    totalNumberOfGames(): number {
+      return inDevelopmentGames.length + releasedGames.length;
+    }
+  }
 };
 
 </script>
@@ -47,6 +52,8 @@ export default {
 <template>
   <div class="games">
     <h1>{{ t("title") }}</h1>
+    <p v-html='t("snippet", { link: `<a target="_blank" href="https://abagames.github.io/joys-of-small-game-development-en/fun_to_make_small_games.html">"Making Small Games, Which Is Fun in Itself"</a>` })'></p>
+    <p>{{ t("number_of_games", { count: totalNumberOfGames }) }}</p>
     <h2>{{ t("in_development") }}</h2>
     <AboutSnippet
       v-for="(snippet, index) in inDevelopmentGames"
@@ -74,6 +81,8 @@ export default {
   "en": {
     "title": "Games",
     "in_development": "In Development",
+    "snippet": "Inspired by the ABA Games post {link}, below is a collection of games I've written.",
+    "number_of_games": "Right now, it's just {count} game. | Currently, that's {count} games",
     "image_text": "(Click image to play game in browser).",
     "about_game": "About this Game",
     "cube_up_title": "Cube Up!",
@@ -83,7 +92,9 @@ export default {
   "es": {
     "title": "Juegos",
     "in_development": "En Desarollo",
-    "image_text": "(Haz clic en la imagen para descargar en juegop el navegador).",
+    "snippet": "Inspirado por un post de ABA Games {link}, aqui esta la colección de juegos que escrito.",
+    "number_of_games": "Ahorita solo es {count}. | En total son {count} juegos.",
+    "image_text": "(Haz clic en la imagen para descargar en juego el navegador).",
     "about_game": "Acerca de Este Juego",
     "cube_up_title": "Cubos Arriba!",
     "cube_up_content": "Este es el primer juego que llamaría mi propio juego. Quería que el juego fuera simple, tonto y desenfadado. Es mi versión de una variante de golpear-topos basada en cubos.",
@@ -91,8 +102,10 @@ export default {
   },
   "ca": {
     "title": "Jocs",
-    "image_text": "(Fes clic a la imatge per jugar al joc al navegador).",
     "in_development": "En Desenvolupament",
+    "snippet": "Inspirat per un post d'ABA Games {link}, aquí està la col·lecció de jocs que he escrit.",
+    "number_of_games": "Ara mateix només és {count}. | En total són {count} jocs.",
+    "image_text": "(Fes clic a la imatge per jugar al joc al navegador).",
     "about_game": "Sobre Aquest Joc",
     "cube_up_title": "Cubs Amunt!",
     "cube_up_content": "Aquest és el primer joc que anomenaria el meu propi joc. Volia que el joc fos senzill, ximple i desenfadat. És la meva versió d'una variant de picar-talps basada en cubs.",
