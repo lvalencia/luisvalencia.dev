@@ -80,6 +80,7 @@ interface GameViewData {
     roundIsActive: boolean;
     isFullScreen: boolean;
     fakeOutCount: number;
+    paused: boolean;
   };
 }
 
@@ -121,6 +122,7 @@ export default {
         roundIsActive: false,
         isFullScreen: false,
         fakeOutCount: 0,
+        paused: false,
       },
     };
   },
@@ -281,6 +283,9 @@ export default {
         if (haventStartedLevel)
           return;
       }
+
+      if (this.isPaused) { return; }
+
       if (haventStartedLevel) {
         this.levelCard.hide();
         this.soundBoard.stopWind();
@@ -358,7 +363,9 @@ export default {
     handleInput({ key }: KeyboardEvent) {
       const Keys = {
         Space: " ",
+        Escape: "Escape",
       };
+
       switch (key) {
         case Keys.Space:
           if (this.didWin) {
@@ -366,6 +373,15 @@ export default {
           }
           else {
             this.loseAnimation();
+          }
+          break;
+        case Keys.Escape:
+          if (!this.game.roundIsActive) { break; }
+          this.togglePaused();
+          if (this.isPaused) {
+            this.pause();
+          } else {
+            this.unpause();
           }
           break;
       }
@@ -620,6 +636,20 @@ export default {
     toggleSilenced() {
       this.soundBoard.silenced = !this.soundBoard.silenced;
     },
+    togglePaused() {
+      this.game.paused = !this.game.paused;
+    },
+    pause() {
+      this.levelCardAnimator.updateContentAndShow({
+        title: 'Paused',
+        instructions: ''
+      });
+      this.timerBarAnimator.pause(performance.now());
+    },
+    unpause() {
+      this.levelCard.hide();
+      this.timerBarAnimator.resume();
+    },
     // Game Configuration
     levelConfigurations(): LevelConfiguration[] {
       return [
@@ -796,7 +826,7 @@ export default {
     },
     // Game State
     canInteract(): boolean {
-      return this.game.roundIsActive;
+      return this.game.roundIsActive && !this.game.paused;
     },
     shouldIdleBreathe(): boolean {
       return !this.game.roundIsActive;
@@ -811,6 +841,9 @@ export default {
     },
     levelIsOver(): boolean {
       return this.game.currentRound >= this.numberOfRoundsInCurrentLevel;
+    },
+    isPaused(): boolean {
+      return this.game.paused;
     },
     // Game Objects
     sessionScoreBoard(): Scoreboard {

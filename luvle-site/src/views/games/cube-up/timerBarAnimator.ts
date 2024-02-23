@@ -20,6 +20,7 @@ export class TimerBarAnimator {
   private readonly camera: PerspectiveCamera;
   private readonly timerBar: TimerBar;
   private startedAt: number = 0;
+  private timeAllotmentUsedBeforePauseInSeconds: number = 0;
   private timeAllotedInSeconds: number = Number.POSITIVE_INFINITY;
   private shortCircuit: boolean = false;
   private initialPosition: SimpleVector;
@@ -45,10 +46,7 @@ export class TimerBarAnimator {
   public countdown(time: DOMHighResTimeStamp): boolean {
     if (this.timeAllotedInSeconds === Number.POSITIVE_INFINITY || this.shortCircuit) return false;
 
-    const startTime = this.startedAt;
-
-    const elapsedTimeInSeconds = (time - startTime) / MILLIS_IN_SECONDS;
-    const timeLeft = this.timeAllotedInSeconds - elapsedTimeInSeconds;
+    const timeLeft = this.timeLeft(time);
     const shouldAnimate = timeLeft > 0;
 
     const breathingAmplitude = 1 / 2200; 
@@ -72,8 +70,14 @@ export class TimerBarAnimator {
     this.timeAllotedInSeconds = totalTimeInSeconds;
   }
 
-  public pause() {
+  public pause(pausedAt: number = performance.now()) {
     this.shortCircuit = true;
+    this.timeAllotmentUsedBeforePauseInSeconds = this.timeAllotedInSeconds - this.timeLeft(pausedAt);
+  }
+
+  public resume(resumedAt: number = performance.now()) {
+    this.shortCircuit = false;
+    this.startedAt = resumedAt - this.timeAllotmentUsedBeforePauseInSeconds * MILLIS_IN_SECONDS;
   }
 
   public reset(): void {
@@ -89,6 +93,13 @@ export class TimerBarAnimator {
     if (progress > 0.5) return TimerState.MID_TIME;
     if (progress > 0.15) return TimerState.RUNNING_OUT_OF_TIME;
     return TimerState.DANGER;
+  }
+
+  private timeLeft(currentTime: number): number {
+    const startTime = this.startedAt;
+    const elapsedTimeInSeconds = (currentTime - startTime) / MILLIS_IN_SECONDS; 
+    const timeLeft = this.timeAllotedInSeconds - elapsedTimeInSeconds;
+    return timeLeft;
   }
 
 }
