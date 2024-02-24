@@ -82,7 +82,7 @@ export default {
     "title": "Games",
     "in_development": "In Development",
     "snippet": "Inspired by the ABA Games post {link}, below is a collection of games I've written.",
-    "number_of_games": "Right now, it's just {count} game. | Currently, that's {count} games",
+    "number_of_games": "Right now it's just {count} game. | Currently, that's {count} games",
     "image_text": "(Click image to play game in browser).",
     "about_game": "About this Game",
     "cube_up_title": "Cube Up!",

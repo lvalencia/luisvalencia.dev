@@ -244,6 +244,7 @@ export class CubeAnimator {
       if (type === 'Timeout') {
         clearTimeout(id);
       }
+      delete this.flipData[id];
     }
   }
 

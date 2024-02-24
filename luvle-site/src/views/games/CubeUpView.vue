@@ -52,7 +52,7 @@ interface LevelConfiguration {
   content: LevelContent;
   roundTimeInSeconds: number;
   numberOfRounds: number;
-  behaviors: GameBehavior[];
+  behaviors: number;
 }
 
 interface GameViewData {
@@ -86,6 +86,8 @@ interface GameViewData {
   };
 }
 
+const VERSION = "RC-1";
+const VERSION_KEY = "version";
 const SAVED_HIGH_SCORE_KEY = "saved_high_score";
 
 export default {
@@ -694,11 +696,9 @@ export default {
 
       if (this.shouldFlipCubes) {
         const flipsToCancel = this.cubeAnimator.flipsToCancel();
-        for (let i = 0; i < flipsToCancel; i++) {
-          const extraPoints = flipsToCancel * 100;
-          this.addPoints(extraPoints);
-          this.soundBoard.points();
-        }
+        const extraPoints = flipsToCancel * 100;
+        this.addPoints(extraPoints);
+        this.soundBoard.points();
       }
     },
     displayNextLevelCard() {
@@ -772,9 +772,8 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 3,
-          behaviors: [
+          behaviors: 
             GameBehavior.SELECT_GREENS
-          ]
         },
         {
           content: {
@@ -783,10 +782,9 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
-          behaviors: [
-            GameBehavior.SELECT_GREENS,
+          behaviors: 
+            GameBehavior.SELECT_GREENS |
             GameBehavior.CHANGE_RANDOM
-          ]
         },
         {
           content: {
@@ -795,10 +793,9 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
-          behaviors: [
-            GameBehavior.SELECT_GREENS,
-            GameBehavior.LAST_ONE_RUNS,
-          ]
+          behaviors: 
+            GameBehavior.SELECT_GREENS |
+            GameBehavior.LAST_ONE_RUNS
         },
         {
           content: {
@@ -806,11 +803,10 @@ export default {
             instructions: this.t("level_4_instructions"),
           },
           roundTimeInSeconds: 7,
-          numberOfRounds: 5,
-          behaviors: [
-            GameBehavior.SELECT_GREENS,
+          numberOfRounds: 4,
+          behaviors: 
+            GameBehavior.SELECT_GREENS |
             GameBehavior.CHANGE_COLORS_ON_TOUCH
-          ]
         },
         {
           content: {
@@ -818,11 +814,10 @@ export default {
             instructions: this.t("level_5_instructions"),
           },
           roundTimeInSeconds: 5,
-          numberOfRounds: 5,
-          behaviors: [
-            GameBehavior.SELECT_GREENS,
-            GameBehavior.CUBES_ARE_HEAVY,
-          ]
+          numberOfRounds: 6,
+          behaviors: 
+            GameBehavior.SELECT_GREENS |
+            GameBehavior.CUBES_ARE_HEAVY 
         },
         {
           content: {
@@ -831,9 +826,8 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behaviors: [
+          behaviors: 
             GameBehavior.SELECT_GREENS
-          ]
         },
         {
           content: {
@@ -841,11 +835,10 @@ export default {
             instructions: this.t("level_7_instructions"),
           },
           roundTimeInSeconds: 2.8,
-          numberOfRounds: 5,
-          behaviors: [
-            GameBehavior.SELECT_GREENS,
+          numberOfRounds: 4,
+          behaviors:
+            GameBehavior.SELECT_GREENS |
             GameBehavior.FAKE_OUT
-          ]
         },
         {
           content: {
@@ -854,10 +847,9 @@ export default {
           },
           roundTimeInSeconds: 4,
           numberOfRounds: 5,
-          behaviors: [
-            GameBehavior.SELECT_GREENS,
+          behaviors: 
+            GameBehavior.SELECT_GREENS |
             GameBehavior.ALL_RUN
-          ]
         },
         {
           content: {
@@ -866,9 +858,8 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behaviors: [
+          behaviors: 
             GameBehavior.SELECT_BLUES
-          ]
         },
         {
           content: {
@@ -877,15 +868,17 @@ export default {
           },
           roundTimeInSeconds: 6,
           numberOfRounds: Number.POSITIVE_INFINITY,
-          behaviors: [
-            GameBehavior.SELECT_GREENS,
-            GameBehavior.CHANGE_RANDOM,
-            GameBehavior.CUBES_ARE_HEAVY,
-            GameBehavior.ALL_RUN,
-            GameBehavior.LAST_ONE_RUNS,
-          ]
+          behaviors: 
+            GameBehavior.SELECT_GREENS |
+            GameBehavior.CHANGE_RANDOM |
+            GameBehavior.CUBES_ARE_HEAVY |
+            GameBehavior.ALL_RUN |
+            GameBehavior.LAST_ONE_RUNS
         },
       ];
+    },
+    levelHasBehavior(behavior: GameBehavior): boolean {
+      return (this.currentLevelBehaviors & behavior) !== 0;
     },
     toggleFullScreen() {
       this.game.isFullScreen = !this.game.isFullScreen;
@@ -901,22 +894,22 @@ export default {
   computed: {
     // Game Behavior
     shouldFlipCubes(): boolean {
-      return this.currentLevelBehaviors.includes(GameBehavior.CHANGE_RANDOM);
+      return this.levelHasBehavior(GameBehavior.CHANGE_RANDOM);
     },
     shouldScrambleColors(): boolean {
-      return this.currentLevelBehaviors.includes(GameBehavior.CHANGE_COLORS_ON_TOUCH);
+      return this.levelHasBehavior(GameBehavior.CHANGE_COLORS_ON_TOUCH);
     },
     cubesAreHeavy(): boolean {
-      return this.currentLevelBehaviors.includes(GameBehavior.CUBES_ARE_HEAVY);
+      return this.levelHasBehavior(GameBehavior.CUBES_ARE_HEAVY);
     },
     shouldFakeOut(): boolean {
-      return this.currentLevelBehaviors.includes(GameBehavior.FAKE_OUT);
+      return this.levelHasBehavior(GameBehavior.FAKE_OUT);
     },
     lastOneShouldRun(): boolean {
-      return this.currentLevelBehaviors.includes(GameBehavior.LAST_ONE_RUNS);
+      return this.levelHasBehavior(GameBehavior.LAST_ONE_RUNS);
     },
     allShouldRun(): boolean {
-      return this.currentLevelBehaviors.includes(GameBehavior.ALL_RUN);
+      return this.levelHasBehavior(GameBehavior.ALL_RUN);
     },
     shouldRandomWalk(): boolean {
       if (this.allShouldRun) {
@@ -933,7 +926,7 @@ export default {
       }).length == 1;
     },
     currentPointsState(): CubeState {
-      if (this.currentLevelBehaviors.includes(GameBehavior.SELECT_BLUES)) {
+      if (this.levelHasBehavior(GameBehavior.SELECT_BLUES)) {
         return CubeState.NOT_PRESSED;
       }
       return CubeState.SHOULD_PRESS;
@@ -966,6 +959,18 @@ export default {
       return this.highScore as Scoreboard;
     },
     savedHighScore(): number {
+      const version = fromNullable({
+        nullable: localStorage.getItem(VERSION_KEY),
+        fallback: ""
+      });
+
+      if (version !== VERSION) {
+        localStorage.setItem(VERSION_KEY, VERSION);
+        localStorage.removeItem(SAVED_HIGH_SCORE_KEY);
+
+        return 0;
+      }
+
       const score = fromNullable({
         nullable: localStorage.getItem(SAVED_HIGH_SCORE_KEY),
         fallback: ""
@@ -990,7 +995,7 @@ export default {
     numberOfRoundsInCurrentLevel(): number {
       return this.currentLevel.numberOfRounds;
     },
-    currentLevelBehaviors(): GameBehavior[] {
+    currentLevelBehaviors(): number {
       return this.currentLevel.behaviors;
     },
   },
