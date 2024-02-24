@@ -36,6 +36,8 @@ import type { LevelContent } from "./cube-up/levelCard";
 import type { Maybe } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 import type { ToggleableIcon } from "./cube-up/toggleableIcon";
+import type { Lives } from "./cube-up/lives";
+import { createLives } from "./cube-up/livesFactory";
 
 enum GameBehavior {
   SELECT_GREENS = 1,
@@ -76,6 +78,7 @@ interface GameViewData {
   intersectable: Object3D<Object3DEventMap>[];
   levels: LevelConfiguration[];
   pauseIcon: PauseIcon;
+  lives: Lives;
   game: {
     currentRound: number;
     currentLevel: number;
@@ -83,6 +86,7 @@ interface GameViewData {
     isFullScreen: boolean;
     fakeOutCount: number;
     paused: boolean;
+    lives: number;
   };
 }
 
@@ -121,6 +125,7 @@ export default {
       intersectable: [],
       levels: this.levelConfigurations(),
       pauseIcon: {} as PauseIcon,
+      lives: {} as Lives,
       game: {
         currentRound: 0,
         currentLevel: 0,
@@ -128,6 +133,7 @@ export default {
         isFullScreen: false,
         fakeOutCount: 0,
         paused: false,
+        lives: 3,
       },
     };
   },
@@ -237,6 +243,10 @@ export default {
     this.intersectable.push(pauseIcon.getRepresentation());
     addToScene(pauseIcon, scene);
     pauseIcon.hide();
+
+    const lives = createLives(this.game.lives);
+    this.lives = lives;
+    addToScene(lives, scene);
 
     // Behaviors Setup
     this.prepFakeOut();
@@ -485,7 +495,12 @@ export default {
           toggleLose(cube as Cube);
         });
       }, () => {
-        this.resetGame();
+        this.decrementLives();
+        if (this.didLose) {
+          this.resetGame();
+        } else {
+          this.restartRound();
+        }
       });
     },
     winAnimation() {
@@ -534,6 +549,10 @@ export default {
       this.submitButton.indicateShouldNotPress();
 
       this.updateHighScore();
+    },
+    restartRound() {
+      this.game.currentRound -= 1;
+      this.prepNextRound();
     },
     guaranteeAtLeastOnePointScoringCube() {
       const atLeastOnePointScoringCube = this.cubes.filter((cube) => {
@@ -718,6 +737,8 @@ export default {
       this.game.currentRound = 0;
       this.game.currentLevel = 0;
       this.game.fakeOutCount = 0;
+      this.game.lives = 3;
+      this.lives.setLivesTo(this.game.lives);
       this.cubeAnimator.cancelFlips();
       this.timerBarAnimator.pause();
       this.timerBarAnimator.reset();
@@ -741,6 +762,10 @@ export default {
         localStorage.setItem(SAVED_HIGH_SCORE_KEY, String(roundScore));
         renderNextTick(this.highScoreBoard);
       }
+    },
+    decrementLives() {
+      this.game.lives -= 1;
+      this.lives.setLivesTo(this.game.lives);
     },
     toggleSilenced() {
       this.soundBoard.silenced = !this.soundBoard.silenced;
@@ -945,6 +970,9 @@ export default {
     },
     didWin(): boolean {
       return this.noMoreCubesThatWeNeedToPress;
+    },
+    didLose(): boolean {
+      return this.game.lives <= 0;
     },
     noMoreCubesThatWeNeedToPress(): boolean {
       const noMoreCubesThatWeNeedToPress = this.cubes.filter((cube) => cube.state === this.currentPointsState).length === 0;

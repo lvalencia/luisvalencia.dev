@@ -68,7 +68,7 @@ export class ToggleableIcon implements Representable {
     this.isActive = toggleState === ToggleableState.ACTIVE;
 
     this.material = new MeshStandardMaterial({
-        map: this.isActive ? this.active : this.inactive,
+      map: this.isActive ? this.active : this.inactive,
       transparent: true, 
       opacity: 1 
     });
