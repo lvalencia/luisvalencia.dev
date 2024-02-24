@@ -15,6 +15,10 @@ export function addToScene(representable: Representable, scene: Scene) {
   scene.add(representable.getRepresentation());
 }
 
+export function removeFromScene(representable: Representable, scene: Scene) {
+  scene.remove(representable.getRepresentation());
+}
+
 interface AdjustViewArgs {
   canvas: HTMLCanvasElement;
   renderer: WebGLRenderer;

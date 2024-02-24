@@ -96,11 +96,6 @@ export class Scoreboard implements Representable {
     this.points.sync();
   }
 
-  public orientToward(point: Vector3): void {
-    this.prefix.lookAt(point);
-    this.points.lookAt(point);
-  }
-
   // Getters / Setters
   public get position(): Vector3 {
     return this.prefix.position;

@@ -684,14 +684,19 @@ export default {
       return [];
     },
     // Game Actions
-    addPoints(points: number = 50) {
-      addPoints(this.sessionScoreBoard, points);
+    addPoints(points: number = 50, color?: number) {
+      addPoints({
+        scoreboard: this.sessionScoreBoard,
+        points,
+        scene: this.scene,
+        color,
+      });
       this.updateHighScore();
     },
     awardExtraPoints() {
       let extraPoints = this.timerBarAnimator.timeLeftInSeconds() * 100;
       extraPoints = Math.round(extraPoints / 100) * 100;
-      this.addPoints(extraPoints);
+      this.addPoints(extraPoints, this.timerBarAnimator.color);
       this.soundBoard.points();
 
       if (this.shouldFlipCubes) {
@@ -734,7 +739,7 @@ export default {
       if (roundScore > highScore) {
         this.highScore.scoreCount = roundScore;
         localStorage.setItem(SAVED_HIGH_SCORE_KEY, String(roundScore));
-        addPoints(this.highScoreBoard, 0);
+        renderNextTick(this.highScoreBoard);
       }
     },
     toggleSilenced() {
@@ -772,7 +777,7 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 3,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS
         },
         {
@@ -782,7 +787,7 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS |
             GameBehavior.CHANGE_RANDOM
         },
@@ -793,7 +798,7 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 5,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS |
             GameBehavior.LAST_ONE_RUNS
         },
@@ -804,7 +809,7 @@ export default {
           },
           roundTimeInSeconds: 7,
           numberOfRounds: 4,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS |
             GameBehavior.CHANGE_COLORS_ON_TOUCH
         },
@@ -815,9 +820,9 @@ export default {
           },
           roundTimeInSeconds: 5,
           numberOfRounds: 6,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS |
-            GameBehavior.CUBES_ARE_HEAVY 
+            GameBehavior.CUBES_ARE_HEAVY
         },
         {
           content: {
@@ -826,7 +831,7 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS
         },
         {
@@ -847,7 +852,7 @@ export default {
           },
           roundTimeInSeconds: 4,
           numberOfRounds: 5,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS |
             GameBehavior.ALL_RUN
         },
@@ -858,7 +863,7 @@ export default {
           },
           roundTimeInSeconds: 2.8,
           numberOfRounds: 5,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_BLUES
         },
         {
@@ -868,7 +873,7 @@ export default {
           },
           roundTimeInSeconds: 6,
           numberOfRounds: Number.POSITIVE_INFINITY,
-          behaviors: 
+          behaviors:
             GameBehavior.SELECT_GREENS |
             GameBehavior.CHANGE_RANDOM |
             GameBehavior.CUBES_ARE_HEAVY |

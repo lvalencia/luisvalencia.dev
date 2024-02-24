@@ -105,4 +105,8 @@ export class TimerBarAnimator {
     return timeLeft;
   }
 
+  public get color(): number {
+    return this.timerBar.barColor;
+  }
+
 }

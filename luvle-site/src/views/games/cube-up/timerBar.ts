@@ -110,4 +110,7 @@ export class TimerBar implements Representable {
     this.material.emissive.set(color);
   }
 
+  public get barColor(): number {
+    return this.material.color.getHex();
+  }
 }
