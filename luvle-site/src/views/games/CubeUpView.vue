@@ -492,7 +492,9 @@ export default {
         this.cubes.forEach((cube) => {
           toggleLose(cube as Cube);
         });
+        this.lives.toggleOpacity();
       }, () => {
+        this.lives.visible();
         this.decrementLives();
         if (this.didLose) {
           this.resetGame();

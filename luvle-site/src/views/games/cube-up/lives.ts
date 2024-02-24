@@ -51,6 +51,8 @@ export class Lives implements Representable {
   private readonly mesh: Mesh;
   private readonly imageMaterial: MeshStandardMaterial;
   private amount: number;
+  private opaque: boolean = true;
+  private animating: Record<string, {interval: number, timeout: number}> = {};
 
   constructor(args: LivesArgs) {
     const size = 0.32;
@@ -73,9 +75,13 @@ export class Lives implements Representable {
     const geometry = new PlaneGeometry(width, height);
 
     this.happy = loader.load(uriForImage(happyImage));
+    configureTexture(this.happy);
     this.worried = loader.load(uriForImage(worriedImage));
+    configureTexture(this.worried);
     this.sad = loader.load(uriForImage(sadImage));
+    configureTexture(this.sad);
     this.dead = loader.load(uriForImage(deadImage));
+    configureTexture(this.dead);
 
     this.imageMaterial = new MeshStandardMaterial({
       map: this.currentTexture,
@@ -104,6 +110,18 @@ export class Lives implements Representable {
     this.text.sync();
 
     this.imageMaterial.map = this.currentTexture;
+  }
+
+  public toggleOpacity(): void {
+    this.opaque = !this.opaque;
+    const opacity = this.opaque ? 1 : 0.6;
+    this.imageMaterial.opacity = opacity;
+    this.text.fillOpacity = opacity;
+  }
+
+  public visible(): void {
+    this.imageMaterial.opacity = 1;
+    this.text.fillOpacity = 1;
   }
 
   public getRepresentation(): Object3D<Object3DEventMap> {
