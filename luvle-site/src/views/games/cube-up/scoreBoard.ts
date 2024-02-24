@@ -120,4 +120,8 @@ export class Scoreboard implements Representable {
   public set scoreCount(score: number) {
     this.score = score;
   }
+
+  public get currentScore(): number {
+    return this.score;
+  }
 }

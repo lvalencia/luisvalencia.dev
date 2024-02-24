@@ -46,6 +46,7 @@ export class SoundBoard {
   private readonly wind: Silenceable;
   private readonly backgroundMusic: Silenceable;
   private readonly gameOverEffect: Silenceable;
+  private readonly beatGameEffect: Silenceable;
   private isHeavy: boolean = false;
 
   constructor(args: SoundboardArgs = {}) {
@@ -100,7 +101,14 @@ export class SoundBoard {
       track: new Howl({
         src: [uriForAudio('wuawuawuaa.mp3')]
       })
-    })
+    });
+
+    this.beatGameEffect = new Silenceable({
+      silenced: isSilent,
+      track: new Howl({
+        src: [uriForAudio('bumbumpbumpba.mp3')]
+      })
+    });
 
     this.pointsEffect = new Silenceable({
       silenced: isSilent,
@@ -210,6 +218,10 @@ export class SoundBoard {
 
   public gameOver(): void {
     this.gameOverEffect.play();
+  }
+
+  public beatGame(): void {
+    this.beatGameEffect.play();
   }
 
   public startWind(): void {

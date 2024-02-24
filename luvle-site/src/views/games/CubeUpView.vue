@@ -439,7 +439,7 @@ export default {
       const gameIsOver = this.game.gameOver;
       const haventStartedLevel = !this.game.roundIsActive;
       const shouldNotAllowInput = gameIsOver || haventStartedLevel;
-      
+
       if (shouldNotAllowInput) {
         return;
       }
@@ -536,6 +536,10 @@ export default {
     },
     // Game Level and Round Behavior
     prepNextRound() {
+      if (this.beatGame) {
+        this.gameWon();
+        return;
+      }
       // Reset Objects
       this.timerBarAnimator.reset();
       this.submitButton.resetPosition();
@@ -748,6 +752,16 @@ export default {
     startCountDown() {
       this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
     },
+    gameWon() {
+      this.addPoints(this.game.lives * 250);
+      this.game.gameOver = true;
+      this.levelCardAnimator.updateContentAndShow({
+        title: this.t("beat_game"),
+        instructions: this.t("total_score", {score: this.sessionScoreBoard.currentScore}),
+      });
+      this.soundBoard.stopLevelBackground();
+      this.soundBoard.beatGame();
+    },
     gameOver() {
       this.game.gameOver = true;
       this.levelCardAnimator.updateContentAndShow({
@@ -924,7 +938,7 @@ export default {
             instructions: this.t("level_10_instructions"),
           },
           roundTimeInSeconds: 6,
-          numberOfRounds: Number.POSITIVE_INFINITY,
+          numberOfRounds: 8,
           behaviors:
             GameBehavior.SELECT_GREENS |
             GameBehavior.CHANGE_RANDOM |
@@ -1010,6 +1024,9 @@ export default {
     },
     isPaused(): boolean {
       return this.game.paused;
+    },
+    beatGame(): boolean {
+      return this.levelIsOver && this.game.currentLevel + 1 >= this.levelConfigurations().length;
     },
     // Game Objects
     sessionScoreBoard(): Scoreboard {
@@ -1164,7 +1181,9 @@ div.canvas-container {
     "score": "Score:",
     "high_score": "High Score:",
     "paused": "Paused",
-    "game_over": "Game Over"
+    "game_over": "Game Over",
+    "beat_game": "Hooray!",
+    "total_score": "Final Score: {score}"
   },
   "es": {
     "title": "Juego",
@@ -1192,7 +1211,9 @@ div.canvas-container {
     "score": "Pts. :",
     "high_score": "Pts. Alto:",
     "paused": "Pausa",
-    "game_over": "Fin de Juego"
+    "game_over": "Fin de Juego",
+    "beat_game": "Ganaste!",
+    "total_score": "Pts. Total: {score}"
   },
   "ca": {
     "title": "Joc",
@@ -1220,7 +1241,9 @@ div.canvas-container {
     "score": "Pts.: ",
     "high_score": "Pts. Alt:",
     "paused": "Paused",
-    "game_over": "Fin del Joc"
+    "game_over": "Fin del Joc",
+    "beat_game": "Guanya't!",
+    "total_score": "Pts. Total: {score}"
   }
 }
 </i18n>
