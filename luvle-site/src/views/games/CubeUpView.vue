@@ -87,6 +87,7 @@ interface GameViewData {
     fakeOutCount: number;
     paused: boolean;
     lives: number;
+    gameOver: boolean;
   };
 }
 
@@ -134,6 +135,7 @@ export default {
         fakeOutCount: 0,
         paused: false,
         lives: 3,
+        gameOver: false,
       },
     };
   },
@@ -317,6 +319,11 @@ export default {
   methods: {
     // Game Interaction
     onCanvasClick(event: MouseEvent) {
+      const gameIsOver = this.game.gameOver;
+      if (gameIsOver) {
+        this.resetGame();
+        return;
+      }
       const haventStartedLevel = !this.game.roundIsActive;
 
       const intersected = this.getIntersectedObject(event);
@@ -429,6 +436,14 @@ export default {
       return undefined;
     },
     handleInput({ key }: KeyboardEvent) {
+      const gameIsOver = this.game.gameOver;
+      const haventStartedLevel = !this.game.roundIsActive;
+      const shouldNotAllowInput = gameIsOver || haventStartedLevel;
+      
+      if (shouldNotAllowInput) {
+        return;
+      }
+      
       const Keys = {
         Space: " ",
         Escape: "Escape",
@@ -497,7 +512,7 @@ export default {
         this.lives.visible();
         this.decrementLives();
         if (this.didLose) {
-          this.resetGame();
+          this.gameOver();
         } else {
           this.restartRound();
         }
@@ -733,8 +748,18 @@ export default {
     startCountDown() {
       this.timerBarAnimator.startCountDown(this.currentRoundTimeInSeconds, performance.now());
     },
+    gameOver() {
+      this.game.gameOver = true;
+      this.levelCardAnimator.updateContentAndShow({
+        title: this.t("game_over"),
+        instructions: ''
+      });
+      this.soundBoard.stopLevelBackground();
+      this.soundBoard.gameOver();
+    },
     resetGame() {
       this.scoreBoard.scoreCount = 0;
+      this.game.gameOver = false;
       this.game.roundIsActive = false;
       this.game.currentRound = 0;
       this.game.currentLevel = 0;
@@ -778,7 +803,7 @@ export default {
     },
     pause() {
       this.levelCardAnimator.updateContentAndShow({
-        title: 'Paused',
+        title: this.t("paused"),
         instructions: ''
       });
 
@@ -1137,7 +1162,9 @@ div.canvas-container {
     "level_9_instructions": "Hit all the Blues!",
     "level_10_instructions": "Chaos",
     "score": "Score:",
-    "high_score": "High Score:"
+    "high_score": "High Score:",
+    "paused": "Paused",
+    "game_over": "Game Over"
   },
   "es": {
     "title": "Juego",
@@ -1163,7 +1190,9 @@ div.canvas-container {
     "level_9_instructions": "Ahora los azules!",
     "level_10_instructions": "Caos",
     "score": "Pts. :",
-    "high_score": "Pts. Alto:"
+    "high_score": "Pts. Alto:",
+    "paused": "Pausa",
+    "game_over": "Fin de Juego"
   },
   "ca": {
     "title": "Joc",
@@ -1189,7 +1218,9 @@ div.canvas-container {
     "level_9_instructions": "Ara els blaus!",
     "level_10_instructions": "Caos",
     "score": "Pts.: ",
-    "high_score": "Pts. Alt:"
+    "high_score": "Pts. Alt:",
+    "paused": "Paused",
+    "game_over": "Fin del Joc"
   }
 }
 </i18n>
