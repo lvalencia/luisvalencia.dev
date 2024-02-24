@@ -24,7 +24,7 @@ export class Points implements Representable {
     } = args;
     this.points = new Text();
 
-    this.points.text = `${points}`;
+    this.points.text = `+${points}`;
     this.points.anchorX = 'center';
     this.points.anchorY = 'middle';
     this.points.font = FontURI;

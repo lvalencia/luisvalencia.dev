@@ -32,11 +32,11 @@ export function renderNextTick(scoreboard: Scoreboard): void {
 }
 
 const POINTS_ANIMATION_INTERVAL = 25;
-const POINTS_ANIMATION_DURATION = 2400;
+const POINTS_ANIMATION_DURATION = 1600;
 const STEP = 1 / (POINTS_ANIMATION_DURATION / POINTS_ANIMATION_INTERVAL);
 
 const POINTS_VECTOR_2 = {
-  x: 2.4,
+  x: 2.5,
   y: 1.6
 }
 
