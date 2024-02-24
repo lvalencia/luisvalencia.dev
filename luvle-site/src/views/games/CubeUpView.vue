@@ -475,8 +475,6 @@ export default {
       setTimeout(() => {
         clearInterval(flashInterval);
 
-        this.prepNextRound();
-
         this.canvas.addEventListener("click", this.onCanvasClick);
         this.canvas.addEventListener("keydown", this.handleInput);
 
@@ -515,6 +513,8 @@ export default {
         this.cubes.forEach((cube) => {
           toggleWin(cube as Cube);
         });
+      }, () => {
+        this.prepNextRound();
       });
     },
     // Game Level and Round Behavior
