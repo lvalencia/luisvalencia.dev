@@ -57,6 +57,14 @@ export default {
       type: String,
       required: false,
     },
+    releaseDate: {
+      type: String,
+      required: false,
+    },
+    releaseDateId: {
+      type: String,
+      required: false,
+    },
   },
 };
 </script>
@@ -81,6 +89,11 @@ export default {
         {{ contentTitle }}
       </h4>
     </MaybeComponent>
+    <MaybeComponent :render-if="releaseDate">
+      <strong :id="releaseDateId" :key="releaseDate">
+        Release Date: {{ releaseDate }}
+      </strong>
+    </MaybeComponent>
     <MaybeComponent :render-if="content">
       <p :id="contentId" :key="content">
         {{ content }}
@@ -89,3 +102,9 @@ export default {
     <slot />
   </div>
 </template>
+
+<style lang="scss">
+strong {
+  opacity: 0.72;
+}
+</style>

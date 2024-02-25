@@ -2,6 +2,7 @@
 import { nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import Enlarger from "@/components/stylers/Enlarger.vue";
+import Coffee from "@/components/games/Coffee.vue";
 import { exitFullScreen, makeFullScreen } from "@/helpers/fullScreen";
 import { initializeWebGL } from "./shared/webgl";
 import { initializeScene, addToScene, adjustView } from "./cube-up/scene";
@@ -28,6 +29,7 @@ import { selectRandomFrom, popRandomFrom, getRandomIntInclusive } from "@/helper
 import { isEmpty } from "underscore";
 import { CameraAnimator } from "./cube-up/cameraAnimator";
 import { RandomWalker } from "./cube-up/randomWalker";
+import { createLives } from "./cube-up/livesFactory";
 import type { ShakeValues } from "./cube-up/cubeAnimator";
 import type { SubmitButton } from "./cube-up/submitButton";
 import type { Cube } from "./cube-up/cube";
@@ -37,7 +39,6 @@ import type { Maybe } from "@luvle/utils";
 import type { Object3DEventMap, Object3D } from "three";
 import type { ToggleableIcon } from "./cube-up/toggleableIcon";
 import type { Lives } from "./cube-up/lives";
-import { createLives } from "./cube-up/livesFactory";
 
 enum GameBehavior {
   SELECT_GREENS = 1,
@@ -1087,7 +1088,8 @@ export default {
     }
   },
   components: {
-    Enlarger
+    Enlarger,
+    Coffee
   }
 };
 
@@ -1100,6 +1102,7 @@ export default {
     <div class="canvas-container">
       <canvas :id="sceneId" tabindex="0"></canvas>
     </div>
+    <p class="coffee">If you enjoyed the game: <Coffee></Coffee></p>
   </div>
   <Enlarger></Enlarger>
 </template>
@@ -1136,21 +1139,18 @@ div.canvas-container {
   margin: auto;
   position: relative;
 
-  .volume-icon {
-    position: absolute;
-    bottom: 3.2vh;
-    left: 2vw;
-    font-size: 240%;
-    color: #9966FF;
-    z-index: 10;
-  }
-
   canvas {
     width: 100%;
     height: 100%;
     outline: none;
   }
 }
+
+.coffee{
+    div {
+      display: inline;
+    }
+  }
 </style>
 
 <i18n lang="json">

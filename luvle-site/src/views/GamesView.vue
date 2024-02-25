@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import AboutSnippet from "@/components/games/AboutSnippet.vue";
 import { useI18n } from "vue-i18n";
+import moment from 'moment';
+import AboutSnippet from "@/components/games/AboutSnippet.vue";
 import { translationOrNothing } from "@/helpers/translation";
-import { inDevelopmentGames, releasedGames } from "./games/cube-up/gameSnippetLink";
-import { fromMaybe } from "@luvle/utils";
-import type { GameSnippet } from "./games/cube-up/gameSnippets";
+import { inDevelopmentGames, releasedGames } from "./games/gameSnippetLink";
+import { fromMaybe, isSomething, type ISO8601 } from "@luvle/utils";
+import type { GameSnippet } from "./games/gameSnippets";
 import type { Maybe } from "@luvle/utils";
+import MaybeComponent from "@/components/MaybeComponent.vue";
 
 const { t } = useI18n({
   useScope: "local",
@@ -18,10 +20,19 @@ function uriForImage(image: Maybe<string>) {
   });
 
   const url = new URL(
-      `../assets/images/${image}`,
-      import.meta.url
-    );
-    return url.href;
+    `../assets/images/${image}`,
+    import.meta.url
+  );
+  return url.href;
+}
+
+function humanReadableDateOrNothing(iso: Maybe<ISO8601>): Maybe<string> {
+  if (isSomething(iso)) {
+    const date = new Date(iso);
+    const formattedDate = moment(date).format('MMMM Do YYYY');
+    return formattedDate;
+  }
+  return undefined;
 }
 
 </script>
@@ -43,6 +54,18 @@ export default {
   computed: {
     totalNumberOfGames(): number {
       return inDevelopmentGames.length + releasedGames.length;
+    },
+    gameGroupings() {
+      return [
+        {
+          heading: "in_development",
+          games: inDevelopmentGames
+        },
+        {
+          heading: "released",
+          games: releasedGames
+        }
+      ];
     }
   }
 };
@@ -52,35 +75,34 @@ export default {
 <template>
   <div class="games">
     <h1>{{ t("title") }}</h1>
-    <p v-html='t("snippet", { link: `<a target="_blank" href="https://abagames.github.io/joys-of-small-game-development-en/fun_to_make_small_games.html">"Making Small Games, Which Is Fun in Itself"</a>` })'></p>
+    <p
+      v-html='t("snippet", { link: `<a target="_blank" href="https://abagames.github.io/joys-of-small-game-development-en/fun_to_make_small_games.html">"Making Small Games, Which Is Fun in Itself"</a>` })'>
+    </p>
     <p>{{ t("number_of_games", { count: totalNumberOfGames }) }}</p>
-    <h2>{{ t("in_development") }}</h2>
-    <AboutSnippet
-      v-for="(snippet, index) in inDevelopmentGames"
-      :key="`snippet-${index}`"
-      :title="translationOrNothing(t, snippet.title)"
-      :titleId="snippet.titleId"
-      :contentTitle="translationOrNothing(t, 'about_game')"
-      :content="translationOrNothing(t, snippet.content)"
-      :contentId="snippet.contentId"
-      :image="uriForImage(translationOrNothing(t, snippet.image))"
-      :imageText="translationOrNothing(t, 'image_text')"
-      :href="snippet.link.href"
-      :hrefId="snippet.link.id"
-    >
-    </AboutSnippet>
+    <template v-for="{ heading, games } in gameGroupings">
+      <MaybeComponent :renderIf="games.length > 0">
+        <h2>{{ t(heading) }}</h2>
+        <AboutSnippet v-for="(snippet, index) in games" :key="`snippet-${index}`"
+          :title="translationOrNothing(t, snippet.title)" :titleId="snippet.titleId"
+          :contentTitle="translationOrNothing(t, 'about_game')" 
+          :content="translationOrNothing(t, snippet.content)"
+          :contentId="snippet.contentId" :image="uriForImage(translationOrNothing(t, snippet.image))"
+          :releaseDate="humanReadableDateOrNothing(snippet.meta.released)"
+          :imageText="translationOrNothing(t, 'image_text')" :href="snippet.link.href" :hrefId="snippet.link.id">
+        </AboutSnippet>
+      </MaybeComponent>
+    </template>
   </div>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
 
 <i18n lang="json">
 {
   "en": {
     "title": "Games",
     "in_development": "In Development",
+    "released": "Released",
     "snippet": "Inspired by the ABA Games post {link}, below is a collection of games I've written.",
     "number_of_games": "Right now it's just {count} game. | Currently, that's {count} games",
     "image_text": "(Click image to play game in browser).",
@@ -92,6 +114,7 @@ export default {
   "es": {
     "title": "Juegos",
     "in_development": "En Desarollo",
+    "released": "Lanzados",
     "snippet": "Inspirado por un post de ABA Games {link}, aqui esta la colección de juegos que escrito.",
     "number_of_games": "Ahorita solo es {count}. | En total son {count} juegos.",
     "image_text": "(Haz clic en la imagen para descargar en juego el navegador).",
@@ -103,6 +126,7 @@ export default {
   "ca": {
     "title": "Jocs",
     "in_development": "En Desenvolupament",
+    "released": "Llançats",
     "snippet": "Inspirat per un post d'ABA Games {link}, aquí està la col·lecció de jocs que he escrit.",
     "number_of_games": "Ara mateix només és {count}. | En total són {count} jocs.",
     "image_text": "(Fes clic a la imatge per jugar al joc al navegador).",

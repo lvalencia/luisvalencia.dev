@@ -813,6 +813,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-vue", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:9.9.0"],\
             ["howler", "npm:2.2.4"],\
             ["jsdom", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:20.0.3"],\
+            ["moment", "npm:2.30.1"],\
             ["npm-run-all", "npm:4.1.5"],\
             ["pinia", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:2.0.29"],\
             ["prettier", "npm:2.8.3"],\
@@ -4821,6 +4822,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yargs", "npm:16.2.0"],\
             ["yargs-parser", "npm:20.2.4"],\
             ["yargs-unparser", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["moment", [\
+        ["npm:2.30.1", {\
+          "packageLocation": "./.yarn/cache/moment-npm-2.30.1-1c51a5c631-859236bab1.zip/node_modules/moment/",\
+          "packageDependencies": [\
+            ["moment", "npm:2.30.1"]\
           ],\
           "linkType": "HARD"\
         }]\
