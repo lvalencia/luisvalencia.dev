@@ -92,7 +92,7 @@ interface GameViewData {
   };
 }
 
-const VERSION = "RC-1";
+const VERSION = "1.0";
 const VERSION_KEY = "version";
 const SAVED_HIGH_SCORE_KEY = "saved_high_score";
 
