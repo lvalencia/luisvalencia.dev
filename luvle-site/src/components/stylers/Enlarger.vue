@@ -1,6 +1,6 @@
 <script lang="ts">
-import { fromNullable } from '@luvle/utils';
-import type { Nullable } from '@luvle/utils';
+import { mapActions } from 'pinia';
+import { useEnlarger } from '@/stores/useEnlarger';
 
 export default {
   mounted() {
@@ -10,23 +10,14 @@ export default {
     this.resetMaxPageWidth();
   },
   methods: {
+    ...mapActions(useEnlarger, ["enlarge", "reset"]),
     enlargeMaxPageWidth() {
-      this.container.classList.add('large');
+      this.enlarge();
     },
     resetMaxPageWidth() {
-      this.container.classList.remove('large');
+      this.reset();
     },
   },
-  computed: {
-    container(): Element {
-      const element: Nullable<Element> = document.querySelector('#app > div.grid-container');
-
-      return fromNullable({
-        nullable: element,
-        fallback: document.createElement('null')
-      });
-    },
-  }
 }
 </script>
 

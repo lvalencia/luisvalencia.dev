@@ -8,13 +8,25 @@ import SiteOptions from "./components/SiteOptions.vue";
 <script lang="ts">
 import { useGrid } from "./stores/useGrid";
 import { mapState } from "pinia";
+import { useEnlarger } from "./stores/useEnlarger";
 
 export default {
   data() {
     return {};
   },
   computed: {
-    ...mapState(useGrid, ["classObject"]),
+    ...mapState(useGrid, {
+      gridClassObject: 'classObject'
+    }),
+    ...mapState(useEnlarger, {
+      enlargerClassObject: 'classObject'
+    }),
+    classObject() {
+      return {
+        ...this.gridClassObject,
+        ...this.enlargerClassObject,
+      }
+    }
   },
 };
 </script>
