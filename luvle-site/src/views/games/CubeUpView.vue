@@ -1111,8 +1111,17 @@ export default {
 .fullscreen {
 
   h1,
-  h2 {
+  h2, {
     display: none
+  }
+  .coffee {
+    margin-left: 8px;
+  }
+
+  @media screen and (orientation:landscape) {
+    .coffee {
+      display: none;
+    }
   }
 
   div.canvas-container {
