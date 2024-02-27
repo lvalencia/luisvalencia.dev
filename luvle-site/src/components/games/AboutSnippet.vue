@@ -1,5 +1,11 @@
+
 <script setup lang="ts">
 import MaybeComponent from "../MaybeComponent.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n({
+  useScope: "local",
+});
 </script>
 
 <script lang="ts">
@@ -65,6 +71,14 @@ export default {
       type: String,
       required: false,
     },
+    retroLink: {
+      type: String,
+      required: false,
+    },
+    retroLinkId: {
+      type: String,
+      required: false,
+    },
   },
 };
 </script>
@@ -99,12 +113,28 @@ export default {
         {{ content }}
       </p>
     </MaybeComponent>
-    <slot />
+    <MaybeComponent :render-if="retroLink">
+      <router-link :to="retroLink" :id="retroLinkId">{{ `${title || ''} ${t("retro")}`.trim() }}</router-link>
+    </MaybeComponent>
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 strong {
   opacity: 0.72;
 }
 </style>
+
+<i18n lang="json">
+  {
+    "en": {
+      "retro": "Retrospective"
+    },
+    "es": {
+      "retro": "Retrospectiva"
+    },
+    "ca": {
+      "retro": "Retrospectiu"
+    }
+  }
+  </i18n>

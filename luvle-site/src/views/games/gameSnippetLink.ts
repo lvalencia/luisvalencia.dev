@@ -12,6 +12,7 @@ const gameSnippets: GameSnippet[] = [
     },
     meta: {
       released: toISO8601("2024-02-25T08:00:00.000Z"),
+      retroLink: "/games/cube-up/retro"
     }
   }
 ];

@@ -3,6 +3,7 @@ import type { BaseSnippet, BaseSnippetLink, BaseSnippetMeta } from "../shared/sn
 
 export interface GameSnippetMeta extends BaseSnippetMeta {
   released?: ISO8601;
+  retroLink?: string;
 }
 
 export interface GameSnippet extends BaseSnippet {

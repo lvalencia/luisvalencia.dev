@@ -83,12 +83,20 @@ export default {
       <MaybeComponent :renderIf="games.length > 0">
         <h2>{{ t(heading) }}</h2>
         <AboutSnippet v-for="(snippet, index) in games" :key="`snippet-${index}`"
-          :title="translationOrNothing(t, snippet.title)" :titleId="snippet.titleId"
+          :title="translationOrNothing(t, snippet.title)" 
+          :titleId="snippet.titleId"
           :contentTitle="translationOrNothing(t, 'about_game')" 
           :content="translationOrNothing(t, snippet.content)"
-          :contentId="snippet.contentId" :image="uriForImage(translationOrNothing(t, snippet.image))"
+          :contentId="snippet.contentId" 
+          :image="uriForImage(translationOrNothing(t, snippet.image))"
           :releaseDate="humanReadableDateOrNothing(snippet.meta.released)"
-          :imageText="translationOrNothing(t, 'image_text')" :href="snippet.link.href" :hrefId="snippet.link.id">
+          :releaseDateId="snippet.meta.released"
+          :imageText="translationOrNothing(t, 'image_text')" 
+          :href="snippet.link.href" 
+          :hrefId="snippet.link.id"
+          :retroLink="snippet.meta.retroLink"
+          :retroLinkId="snippet.meta.retroLink"
+          >
         </AboutSnippet>
       </MaybeComponent>
     </template>
