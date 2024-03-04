@@ -269,6 +269,8 @@ a + svg {
     "_skeptic": "The Skeptics' Guide to the Future: What Yesterday's Science and Science Fiction Tell Us About the World of Tomorrow",
     "_aizgorri": "La casa de Aizgorri",
     "_labraz": "El mayorazgo de Labraz",
+    "_creative_act": "The Creative Act: A Way of Being",
+    "_sensual_home": "the sensual home: liberate your senses and change your life",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -308,6 +310,8 @@ a + svg {
     "_skeptic": "The Skeptics' Guide to the Future: What Yesterday's Science and Science Fiction Tell Us About the World of Tomorrow",
     "_aizgorri": "La casa de Aizgorri",
     "_labraz": "El mayorazgo de Labraz",
+    "_creative_act": "The Creative Act: A Way of Being",
+    "_sensual_home": "the sensual home: liberate your senses and change your life",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -347,6 +351,8 @@ a + svg {
     "_skeptic": "The Skeptics' Guide to the Future: What Yesterday's Science and Science Fiction Tell Us About the World of Tomorrow",
     "_aizgorri": "La casa de Aizgorri",
     "_labraz": "El mayorazgo de Labraz",
+    "_creative_act": "The Creative Act: A Way of Being",
+    "_sensual_home": "the sensual home: liberate your senses and change your life",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }

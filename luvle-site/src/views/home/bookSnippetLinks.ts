@@ -140,6 +140,7 @@ const bookSnippetLinks: BookSnippetLink[] = [
     text: "_mycelium",
     meta: {
       external: true,
+      finished: toISO8601("2024-03-01T08:00:00.000Z"),
     },
   },
   {
@@ -177,6 +178,24 @@ const bookSnippetLinks: BookSnippetLink[] = [
       external: true,
     },
   },
+  {
+    id: "creative",
+    href: "https://www.amazon.com/Creative-Act-Way-Being/dp/0593652886",
+    text: "_creative_act",
+    meta: {
+      external: true,
+    }, 
+  }, 
+  {
+    id: "sensualHome",
+    href: "https://archive.org/details/sensualhomeliber0000craw",
+    text: "_sensual_home",
+    meta: {
+      external: true,
+      recommended: true,
+      finished: toISO8601("2024-03-01T08:00:00.000Z"),
+    }, 
+  }
 ];
 
 function hasFinishedAttribute(snippetLink: BookSnippetLink) {
