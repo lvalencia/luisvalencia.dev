@@ -272,6 +272,10 @@ a + svg {
     "_creative_act": "The Creative Act: A Way of Being",
     "_sensual_home": "the sensual home: liberate your senses and change your life",
     "_remote_work": "Remote: Office Not Required",
+    "_ferryman": "The Ferryman",
+    "_portraits_from_memory": "Portraits from Memory: And Other Essays",
+    "_halting_state": "Halting State",
+    "_infinite_jest": "Infinite Jest",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -314,6 +318,10 @@ a + svg {
     "_creative_act": "The Creative Act: A Way of Being",
     "_sensual_home": "the sensual home: liberate your senses and change your life",
     "_remote_work": "Remote: Office Not Required",
+    "_ferryman": "The Ferryman",
+    "_portraits_from_memory": "Portraits from Memory: And Other Essays",
+    "_halting_state": "Halting State",
+    "_infinite_jest": "Infinite Jest",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -356,6 +364,10 @@ a + svg {
     "_creative_act": "The Creative Act: A Way of Being",
     "_sensual_home": "the sensual home: liberate your senses and change your life",
     "_remote_work": "Remote: Office Not Required",
+    "_ferryman": "The Ferryman",
+    "_portraits_from_memory": "Portraits from Memory: And Other Essays",
+    "_halting_state": "Halting State",
+    "_infinite_jest": "Infinite Jest",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }

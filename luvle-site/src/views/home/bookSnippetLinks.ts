@@ -208,6 +208,41 @@ const bookSnippetLinks: BookSnippetLink[] = [
       finished: toISO8601("2025-01-04T08:00:00.000Z"),
     },
   },
+  {
+    id: "ferryman",
+    href: "https://www.amazon.com/Ferryman-NHB-Modern-Plays-ebook/dp/B0718XGKRY",
+    text: "_ferryman",
+    meta: {
+      external: true,
+      recommended: true,
+      finished: toISO8601("2024-10-25T08:00:00.000Z"),
+    },
+  },
+  {
+    id: "portraitsFromMemory ",
+    href: "https://archive.org/details/portraitsfrommem011249mbp",
+    text: "_portraits_from_memory",
+    meta: {
+      external: true,
+      finished: toISO8601("2024-09-15T08:00:00.000Z"),
+    },
+  },
+  {
+    id: "haltingState",
+    href: "https://www.amazon.com/Halting-State-Charles-Stross-ebook/dp/B000W9180A",
+    text: "_halting_state",
+    meta: {
+      external: true,
+    },
+  },
+  {
+    id: "infiniteJest",
+    href: "https://www.amazon.com/Infinite-Jest-David-Foster-Wallace/dp/0316066524",
+    text: "_infinite_jest",
+    meta: {
+      external: true,
+    },
+  },
 ];
 
 function hasFinishedAttribute(snippetLink: BookSnippetLink) {
