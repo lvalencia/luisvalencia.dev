@@ -276,6 +276,7 @@ a + svg {
     "_portraits_from_memory": "Portraits from Memory: And Other Essays",
     "_halting_state": "Halting State",
     "_infinite_jest": "Infinite Jest",
+    "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -322,6 +323,7 @@ a + svg {
     "_portraits_from_memory": "Portraits from Memory: And Other Essays",
     "_halting_state": "Halting State",
     "_infinite_jest": "Infinite Jest",
+    "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -368,6 +370,7 @@ a + svg {
     "_portraits_from_memory": "Portraits from Memory: And Other Essays",
     "_halting_state": "Halting State",
     "_infinite_jest": "Infinite Jest",
+    "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }

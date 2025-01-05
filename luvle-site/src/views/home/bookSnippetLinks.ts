@@ -243,6 +243,14 @@ const bookSnippetLinks: BookSnippetLink[] = [
       external: true,
     },
   },
+  {
+    id: "models",
+    href: "https://fs.blog/tgmm/#volume_three",
+    text: "_mental_models_3",
+    meta: {
+      external: true,
+    },
+  },
 ];
 
 function hasFinishedAttribute(snippetLink: BookSnippetLink) {
