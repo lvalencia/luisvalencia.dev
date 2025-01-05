@@ -150,6 +150,7 @@ const bookSnippetLinks: BookSnippetLink[] = [
     meta: {
       external: true,
       recommended: true,
+      finished: toISO8601("2024-12-15T08:00:00.000Z"),
     },
   },
   {
@@ -176,6 +177,7 @@ const bookSnippetLinks: BookSnippetLink[] = [
     text: "_labraz",
     meta: {
       external: true,
+      finished: toISO8601("2024-12-15T08:00:00.000Z"),
     },
   },
   {
@@ -184,6 +186,7 @@ const bookSnippetLinks: BookSnippetLink[] = [
     text: "_creative_act",
     meta: {
       external: true,
+      finished: toISO8601("2024-12-15T08:00:00.000Z"),
     }, 
   }, 
   {
@@ -195,7 +198,16 @@ const bookSnippetLinks: BookSnippetLink[] = [
       recommended: true,
       finished: toISO8601("2024-03-01T08:00:00.000Z"),
     }, 
-  }
+  },
+  {
+    id: "remoteWork",
+    href: "https://www.amazon.com/Remote-Office-Required-Jason-Fried-ebook/dp/B00C0ALZ0W",
+    text: "_remote_work",
+    meta: {
+      external: true,
+      finished: toISO8601("2025-01-04T08:00:00.000Z"),
+    },
+  },
 ];
 
 function hasFinishedAttribute(snippetLink: BookSnippetLink) {

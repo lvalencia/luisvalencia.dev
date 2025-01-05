@@ -271,6 +271,7 @@ a + svg {
     "_labraz": "El mayorazgo de Labraz",
     "_creative_act": "The Creative Act: A Way of Being",
     "_sensual_home": "the sensual home: liberate your senses and change your life",
+    "_remote_work": "Remote: Office Not Required",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -312,6 +313,7 @@ a + svg {
     "_labraz": "El mayorazgo de Labraz",
     "_creative_act": "The Creative Act: A Way of Being",
     "_sensual_home": "the sensual home: liberate your senses and change your life",
+    "_remote_work": "Remote: Office Not Required",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -353,6 +355,7 @@ a + svg {
     "_labraz": "El mayorazgo de Labraz",
     "_creative_act": "The Creative Act: A Way of Being",
     "_sensual_home": "the sensual home: liberate your senses and change your life",
+    "_remote_work": "Remote: Office Not Required",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }
