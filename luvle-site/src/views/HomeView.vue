@@ -30,7 +30,7 @@ const aboutSnippet: HomeSnippet = {
   links: [
     {
       id: "current_job",
-      href: "https://www.aboutamazon.com/what-we-do/devices-services/project-kuiper/",
+      href: "https://www.singularity6.com/",
       text: "_current_job",
       meta: {
         external: true,
