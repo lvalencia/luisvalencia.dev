@@ -457,34 +457,41 @@ const RAW_RUNTIME_STATE =
           ["@fortawesome/fontawesome-common-types", "npm:6.2.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:6.7.2", {\
+        "packageLocation": "./.yarn/cache/@fortawesome-fontawesome-common-types-npm-6.7.2-07bf35c518-3c2e938afe.zip/node_modules/@fortawesome/fontawesome-common-types/",\
+        "packageDependencies": [\
+          ["@fortawesome/fontawesome-common-types", "npm:6.7.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@fortawesome/fontawesome-svg-core", [\
-      ["npm:6.2.1", {\
-        "packageLocation": "./.yarn/unplugged/@fortawesome-fontawesome-svg-core-npm-6.2.1-d290dc12b5/node_modules/@fortawesome/fontawesome-svg-core/",\
+      ["npm:6.7.2", {\
+        "packageLocation": "./.yarn/cache/@fortawesome-fontawesome-svg-core-npm-6.7.2-e22b101297-a376763132.zip/node_modules/@fortawesome/fontawesome-svg-core/",\
         "packageDependencies": [\
-          ["@fortawesome/fontawesome-svg-core", "npm:6.2.1"],\
-          ["@fortawesome/fontawesome-common-types", "npm:6.2.1"]\
+          ["@fortawesome/fontawesome-svg-core", "npm:6.7.2"],\
+          ["@fortawesome/fontawesome-common-types", "npm:6.7.2"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@fortawesome/free-brands-svg-icons", [\
-      ["npm:6.2.1", {\
-        "packageLocation": "./.yarn/unplugged/@fortawesome-free-brands-svg-icons-npm-6.2.1-c96621f3ad/node_modules/@fortawesome/free-brands-svg-icons/",\
+      ["npm:6.7.2", {\
+        "packageLocation": "./.yarn/cache/@fortawesome-free-brands-svg-icons-npm-6.7.2-efb785a9d7-7dcbb389cc.zip/node_modules/@fortawesome/free-brands-svg-icons/",\
         "packageDependencies": [\
-          ["@fortawesome/free-brands-svg-icons", "npm:6.2.1"],\
-          ["@fortawesome/fontawesome-common-types", "npm:6.2.1"]\
+          ["@fortawesome/free-brands-svg-icons", "npm:6.7.2"],\
+          ["@fortawesome/fontawesome-common-types", "npm:6.7.2"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@fortawesome/free-regular-svg-icons", [\
-      ["npm:6.2.1", {\
-        "packageLocation": "./.yarn/unplugged/@fortawesome-free-regular-svg-icons-npm-6.2.1-6e0ced55b5/node_modules/@fortawesome/free-regular-svg-icons/",\
+      ["npm:6.7.2", {\
+        "packageLocation": "./.yarn/cache/@fortawesome-free-regular-svg-icons-npm-6.7.2-8fa73dc908-f4385f19f0.zip/node_modules/@fortawesome/free-regular-svg-icons/",\
         "packageDependencies": [\
-          ["@fortawesome/free-regular-svg-icons", "npm:6.2.1"],\
-          ["@fortawesome/fontawesome-common-types", "npm:6.2.1"]\
+          ["@fortawesome/free-regular-svg-icons", "npm:6.7.2"],\
+          ["@fortawesome/fontawesome-common-types", "npm:6.7.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -500,18 +507,18 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@fortawesome/vue-fontawesome", [\
-      ["npm:3.0.3", {\
-        "packageLocation": "./.yarn/cache/@fortawesome-vue-fontawesome-npm-3.0.3-7a99a3139e-906669fdfc.zip/node_modules/@fortawesome/vue-fontawesome/",\
+      ["npm:3.0.8", {\
+        "packageLocation": "./.yarn/cache/@fortawesome-vue-fontawesome-npm-3.0.8-82cfbc3635-6615b2217e.zip/node_modules/@fortawesome/vue-fontawesome/",\
         "packageDependencies": [\
-          ["@fortawesome/vue-fontawesome", "npm:3.0.3"]\
+          ["@fortawesome/vue-fontawesome", "npm:3.0.8"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@fortawesome-vue-fontawesome-virtual-035f71ac30/0/cache/@fortawesome-vue-fontawesome-npm-3.0.3-7a99a3139e-906669fdfc.zip/node_modules/@fortawesome/vue-fontawesome/",\
+      ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.0.8", {\
+        "packageLocation": "./.yarn/__virtual__/@fortawesome-vue-fontawesome-virtual-88c01f677c/0/cache/@fortawesome-vue-fontawesome-npm-3.0.8-82cfbc3635-6615b2217e.zip/node_modules/@fortawesome/vue-fontawesome/",\
         "packageDependencies": [\
-          ["@fortawesome/vue-fontawesome", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.0.3"],\
-          ["@fortawesome/fontawesome-svg-core", "npm:6.2.1"],\
+          ["@fortawesome/vue-fontawesome", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.0.8"],\
+          ["@fortawesome/fontawesome-svg-core", "npm:6.7.2"],\
           ["@types/fortawesome__fontawesome-svg-core", null],\
           ["@types/vue", null],\
           ["vue", "npm:3.2.45"]\
@@ -775,11 +782,11 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./luvle-site/",\
         "packageDependencies": [\
           ["@luvle/luisvalencia.dev", "workspace:luvle-site"],\
-          ["@fortawesome/fontawesome-svg-core", "npm:6.2.1"],\
-          ["@fortawesome/free-brands-svg-icons", "npm:6.2.1"],\
-          ["@fortawesome/free-regular-svg-icons", "npm:6.2.1"],\
+          ["@fortawesome/fontawesome-svg-core", "npm:6.7.2"],\
+          ["@fortawesome/free-brands-svg-icons", "npm:6.7.2"],\
+          ["@fortawesome/free-regular-svg-icons", "npm:6.7.2"],\
           ["@fortawesome/free-solid-svg-icons", "npm:6.2.1"],\
-          ["@fortawesome/vue-fontawesome", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.0.3"],\
+          ["@fortawesome/vue-fontawesome", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.0.8"],\
           ["@intlify/unplugin-vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.8.1"],\
           ["@luvle/utils", "workspace:luvle-utils"],\
           ["@pinia/testing", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.0.14"],\
