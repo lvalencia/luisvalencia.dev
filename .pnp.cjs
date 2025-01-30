@@ -814,8 +814,8 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.3"],\
           ["rimraf", "npm:3.0.2"],\
           ["sass", "npm:1.57.1"],\
-          ["three", "npm:0.160.0"],\
-          ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.49.0"],\
+          ["three", "npm:0.172.0"],\
+          ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.52.3"],\
           ["typescript", "patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"],\
           ["underscore", "npm:1.13.7"],\
           ["vite", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:6.0.11"],\
@@ -6425,10 +6425,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["three", [\
-      ["npm:0.160.0", {\
-        "packageLocation": "./.yarn/cache/three-npm-0.160.0-970ca82042-2053f5f89f.zip/node_modules/three/",\
+      ["npm:0.172.0", {\
+        "packageLocation": "./.yarn/cache/three-npm-0.172.0-2be0fa9bda-ad166a5629.zip/node_modules/three/",\
         "packageDependencies": [\
-          ["three", "npm:0.160.0"]\
+          ["three", "npm:0.172.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6537,22 +6537,22 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["troika-three-text", [\
-      ["npm:0.49.0", {\
-        "packageLocation": "./.yarn/cache/troika-three-text-npm-0.49.0-697c58d032-0138621512.zip/node_modules/troika-three-text/",\
+      ["npm:0.52.3", {\
+        "packageLocation": "./.yarn/cache/troika-three-text-npm-0.52.3-1b51bd89d2-aabdf79bfc.zip/node_modules/troika-three-text/",\
         "packageDependencies": [\
-          ["troika-three-text", "npm:0.49.0"]\
+          ["troika-three-text", "npm:0.52.3"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.49.0", {\
-        "packageLocation": "./.yarn/__virtual__/troika-three-text-virtual-1c96c69f9c/0/cache/troika-three-text-npm-0.49.0-697c58d032-0138621512.zip/node_modules/troika-three-text/",\
+      ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.52.3", {\
+        "packageLocation": "./.yarn/__virtual__/troika-three-text-virtual-6ddb217db1/0/cache/troika-three-text-npm-0.52.3-1b51bd89d2-aabdf79bfc.zip/node_modules/troika-three-text/",\
         "packageDependencies": [\
-          ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.49.0"],\
+          ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.52.3"],\
           ["@types/three", "npm:0.160.0"],\
           ["bidi-js", "npm:1.0.3"],\
-          ["three", "npm:0.160.0"],\
-          ["troika-three-utils", "virtual:1c96c69f9cdd998ee4fe773cae8e9ffd7336c5922c2f7e3bc6e1371b43c62ee65a097272c82fb63a018ae4369a31c7b2eb9e6821b4773e0dc3a3a54a5d712f4a#npm:0.49.0"],\
-          ["troika-worker-utils", "npm:0.49.0"],\
+          ["three", "npm:0.172.0"],\
+          ["troika-three-utils", "virtual:6ddb217db130cc68a0d4a16b8d6a4cf97fa7fa4b7ba3d4bad1de2135e7163a4f2429f94d3eaa8522237c0431161bac9312e112f2d4ab89b9937c351ad21a2eac#npm:0.52.0"],\
+          ["troika-worker-utils", "npm:0.52.0"],\
           ["webgl-sdf-generator", "npm:1.1.1"]\
         ],\
         "packagePeers": [\
@@ -6563,19 +6563,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["troika-three-utils", [\
-      ["npm:0.49.0", {\
-        "packageLocation": "./.yarn/cache/troika-three-utils-npm-0.49.0-e5b1be0aaa-29c9a44d75.zip/node_modules/troika-three-utils/",\
+      ["npm:0.52.0", {\
+        "packageLocation": "./.yarn/cache/troika-three-utils-npm-0.52.0-cdb1d52751-d0d4589dca.zip/node_modules/troika-three-utils/",\
         "packageDependencies": [\
-          ["troika-three-utils", "npm:0.49.0"]\
+          ["troika-three-utils", "npm:0.52.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:1c96c69f9cdd998ee4fe773cae8e9ffd7336c5922c2f7e3bc6e1371b43c62ee65a097272c82fb63a018ae4369a31c7b2eb9e6821b4773e0dc3a3a54a5d712f4a#npm:0.49.0", {\
-        "packageLocation": "./.yarn/__virtual__/troika-three-utils-virtual-cdca33926d/0/cache/troika-three-utils-npm-0.49.0-e5b1be0aaa-29c9a44d75.zip/node_modules/troika-three-utils/",\
+      ["virtual:6ddb217db130cc68a0d4a16b8d6a4cf97fa7fa4b7ba3d4bad1de2135e7163a4f2429f94d3eaa8522237c0431161bac9312e112f2d4ab89b9937c351ad21a2eac#npm:0.52.0", {\
+        "packageLocation": "./.yarn/__virtual__/troika-three-utils-virtual-1c3dcb8545/0/cache/troika-three-utils-npm-0.52.0-cdb1d52751-d0d4589dca.zip/node_modules/troika-three-utils/",\
         "packageDependencies": [\
-          ["troika-three-utils", "virtual:1c96c69f9cdd998ee4fe773cae8e9ffd7336c5922c2f7e3bc6e1371b43c62ee65a097272c82fb63a018ae4369a31c7b2eb9e6821b4773e0dc3a3a54a5d712f4a#npm:0.49.0"],\
+          ["troika-three-utils", "virtual:6ddb217db130cc68a0d4a16b8d6a4cf97fa7fa4b7ba3d4bad1de2135e7163a4f2429f94d3eaa8522237c0431161bac9312e112f2d4ab89b9937c351ad21a2eac#npm:0.52.0"],\
           ["@types/three", "npm:0.160.0"],\
-          ["three", "npm:0.160.0"]\
+          ["three", "npm:0.172.0"]\
         ],\
         "packagePeers": [\
           "@types/three",\
@@ -6585,10 +6585,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["troika-worker-utils", [\
-      ["npm:0.49.0", {\
-        "packageLocation": "./.yarn/cache/troika-worker-utils-npm-0.49.0-525c087de8-d812060df8.zip/node_modules/troika-worker-utils/",\
+      ["npm:0.52.0", {\
+        "packageLocation": "./.yarn/cache/troika-worker-utils-npm-0.52.0-d96986a292-7b58418a20.zip/node_modules/troika-worker-utils/",\
         "packageDependencies": [\
-          ["troika-worker-utils", "npm:0.49.0"]\
+          ["troika-worker-utils", "npm:0.52.0"]\
         ],\
         "linkType": "HARD"\
       }]\

@@ -597,8 +597,8 @@ __metadata:
     prettier: "npm:^2.7.1"
     rimraf: "npm:^3.0.2"
     sass: "npm:^1.57.1"
-    three: "npm:^0.160.0"
-    troika-three-text: "npm:^0.49.0"
+    three: "npm:^0.172.0"
+    troika-three-text: "npm:^0.52.3"
     typescript: "npm:^4.8.4"
     underscore: "npm:^1.13.7"
     vite: "npm:^6.0.11"
@@ -5464,10 +5464,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.160.0":
-  version: 0.160.0
-  resolution: "three@npm:0.160.0"
-  checksum: 10/2053f5f89fa051a2baf02b0ff3b3724528f1b1b9a289c803c1d80df2cb9caf3224b1581327dc18b2f261f81d280de87d22886d1eccaa2ba46fdc3b8eb6e15326
+"three@npm:^0.172.0":
+  version: 0.172.0
+  resolution: "three@npm:0.172.0"
+  checksum: 10/ad166a56290258331b358ab70e57fccc25eece7879cdf5638f209709b77b7277002e8653ce517c28566d6529908f08c9ba96d4fbb4a1a553a3ffcc0f57c21b1a
   languageName: node
   linkType: hard
 
@@ -5558,33 +5558,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"troika-three-text@npm:^0.49.0":
-  version: 0.49.0
-  resolution: "troika-three-text@npm:0.49.0"
+"troika-three-text@npm:^0.52.3":
+  version: 0.52.3
+  resolution: "troika-three-text@npm:0.52.3"
   dependencies:
     bidi-js: "npm:^1.0.2"
-    troika-three-utils: "npm:^0.49.0"
-    troika-worker-utils: "npm:^0.49.0"
+    troika-three-utils: "npm:^0.52.0"
+    troika-worker-utils: "npm:^0.52.0"
     webgl-sdf-generator: "npm:1.1.1"
   peerDependencies:
     three: ">=0.125.0"
-  checksum: 10/01386215125628d1bab8b68fa362cb330796b2fe932a35541ffd5ecee751b85c4b0525a0dc5b757a668cb31a983f62325cd2974cdba4bbd5bc077f731d473ccd
+  checksum: 10/aabdf79bfc255618d77625b3f22898b1049ce4a641532acca8063f677e91c3726ca545356db9af31bc226f7297b3298086fa736b15a0f9ea9652462fcfb71262
   languageName: node
   linkType: hard
 
-"troika-three-utils@npm:^0.49.0":
-  version: 0.49.0
-  resolution: "troika-three-utils@npm:0.49.0"
+"troika-three-utils@npm:^0.52.0":
+  version: 0.52.0
+  resolution: "troika-three-utils@npm:0.52.0"
   peerDependencies:
     three: ">=0.125.0"
-  checksum: 10/29c9a44d75ec1a5fdd37ef680ff9febf9ff91b3afeb2a5033af361ddd2fe9cef35ab119d898d38bc0ea94908f1c77c87f8fe452534e24eed89423429ac1ab8c4
+  checksum: 10/d0d4589dca3010c370adf1ca230b9bc62391ac68e665232f71cd7cac3bf04b904b4870df8877aabab1cf71f5c9b0e5b8ca3216c6109321127074b1d7d874dc4c
   languageName: node
   linkType: hard
 
-"troika-worker-utils@npm:^0.49.0":
-  version: 0.49.0
-  resolution: "troika-worker-utils@npm:0.49.0"
-  checksum: 10/d812060df83d78a0744cb32ca521ecc407be9ab26b8489dc2f8a4a7dffb07182f0aeb326701c15002e24fbbeab2e365eae422cd4e9b17ea058d1db982bcfa375
+"troika-worker-utils@npm:^0.52.0":
+  version: 0.52.0
+  resolution: "troika-worker-utils@npm:0.52.0"
+  checksum: 10/7b58418a201611f0e350534c6ab6c4fcc0121d6ed3fdaf74b04b8d873e87341122e4f344d48c144d37cce73263d9948db9a7ab61141d90eed3652ebada4b56e4
   languageName: node
   linkType: hard
 
