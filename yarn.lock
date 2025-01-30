@@ -594,8 +594,8 @@ __metadata:
     troika-three-text: "npm:^0.52.3"
     typescript: "npm:^4.8.4"
     underscore: "npm:^1.13.7"
+    unplugin-inject-preload: "npm:^3.0.0"
     vite: "npm:^6.0.11"
-    vite-plugin-inject-preload: "npm:^1.1.2"
     vitest: "npm:^3.0.4"
     vue: "npm:^3.2.45"
     vue-demi: "npm:^0.13.11"
@@ -612,6 +612,7 @@ __metadata:
     esbuild: "npm:^0.24.2"
     npm-run-all: "npm:^4.1.5"
     typescript: "npm:^4.8.4"
+    unplugin-inject-preload: "npm:^3.0.0"
   languageName: unknown
   linkType: soft
 
@@ -1639,6 +1640,15 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: 10/8be2a40714756d713dfb62544128adce3b7102c6eb94bc312af196c2cc4af76e5b93079bd66b05e9ca31b35a9b0ce12171d16bc55f366cafdb794fdab9d753ec
+  languageName: node
+  linkType: hard
+
+"acorn@npm:^8.14.0":
+  version: 8.14.0
+  resolution: "acorn@npm:8.14.0"
+  bin:
+    acorn: bin/acorn
+  checksum: 10/6df29c35556782ca9e632db461a7f97947772c6c1d5438a81f0c873a3da3a792487e83e404d1c6c25f70513e91aa18745f6eafb1fcc3a43ecd1920b21dd173d2
   languageName: node
   linkType: hard
 
@@ -5800,6 +5810,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unplugin-inject-preload@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "unplugin-inject-preload@npm:3.0.0"
+  dependencies:
+    mime-types: "npm:^2.1.35"
+    unplugin: "npm:^1.12.2"
+    webpack-sources: "npm:^3.2.3"
+  peerDependencies:
+    html-webpack-plugin: ">=5.0.0"
+  peerDependenciesMeta:
+    html-webpack-plugin:
+      optional: true
+  checksum: 10/5efb0767d5b5545ecb20bad2ab8414d2788934343ccbbfe650ca106ef5f4b591b490d15422605fb2ddc0d51b41ae506a67dc3cf9574eb5cd3b1cfd5089a16125
+  languageName: node
+  linkType: hard
+
 "unplugin@npm:^1.0.0":
   version: 1.0.1
   resolution: "unplugin@npm:1.0.1"
@@ -5809,6 +5835,16 @@ __metadata:
     webpack-sources: "npm:^3.2.3"
     webpack-virtual-modules: "npm:^0.5.0"
   checksum: 10/59f0d29c634adbc56e7e770f9753bff9ec52c479ff837b798354ec5d1b2e8cb971412645df43eb14a698db5bff4db23634c1506657e24d1ba86f4a8f27c1bf87
+  languageName: node
+  linkType: hard
+
+"unplugin@npm:^1.12.2":
+  version: 1.16.1
+  resolution: "unplugin@npm:1.16.1"
+  dependencies:
+    acorn: "npm:^8.14.0"
+    webpack-virtual-modules: "npm:^0.6.2"
+  checksum: 10/4b46d7d2a63d334a45111ba57a266b3f8993ef12a72b77d7b31ffc455e8a9bef9c0e37ea463eb409dbf7ccec0b9868aeb845dd42c690d9288e4b8ac2d90fbefd
   languageName: node
   linkType: hard
 
@@ -5889,17 +5925,6 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 10/89d21f8d788b7e90aaedc149646123761b0a073ee1db5dd9eef109cd142ce465a00b0e0c0d1a8897f6b1080b7e5ec879e9f19e149774b111e7f162001ac34665
-  languageName: node
-  linkType: hard
-
-"vite-plugin-inject-preload@npm:^1.1.2":
-  version: 1.2.0
-  resolution: "vite-plugin-inject-preload@npm:1.2.0"
-  dependencies:
-    mime-types: "npm:^2.1.35"
-  peerDependencies:
-    vite: ^3.0.0 || ^4.0.0
-  checksum: 10/9bca8d47012ea71d05abc3c554fac9bdf8850fdfb00bdffecdc0f785d84848b11096cca3057b30123be73db92e1d46a17f0e1307d54745666c665d8bf135e20c
   languageName: node
   linkType: hard
 
@@ -6166,6 +6191,13 @@ __metadata:
   version: 0.5.0
   resolution: "webpack-virtual-modules@npm:0.5.0"
   checksum: 10/65a8f90c7e6609ba1c4ad2697bb83ae662485893fb545f6aa9a74e3a5d7485bbc50ef057c5bc3feca25d3153ebf9c097c233cbe4d67b52418bc84348dfb20c1a
+  languageName: node
+  linkType: hard
+
+"webpack-virtual-modules@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "webpack-virtual-modules@npm:0.6.2"
+  checksum: 10/d9a0d035f7ec0c7f1055aaf88bfe48b7f96458043916a1b2926d9012fd61de3810a6b768e31a8cd4b3c84a9b6d55824361a9dd20aaf9f5ccfb6f017af216a178
   languageName: node
   linkType: hard
 
