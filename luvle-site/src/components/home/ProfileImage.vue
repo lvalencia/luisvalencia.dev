@@ -8,15 +8,13 @@ interface MakeImageIteratorArgs {
   extension: string;
 }
 
-let imagesDirectoryRelativePath = "assets/images";
-
 function makeImages({ prefix, size, extension }: MakeImageIteratorArgs) {
   return range({
     startAt: 1,
     size,
   }).map((index) => {
     const url = new URL(
-      `../../${imagesDirectoryRelativePath}/${prefix}_${index}.${extension}`,
+      `../../assets/images/${prefix}_${index}.${extension}`,
       import.meta.url
     );
     return url.href;
