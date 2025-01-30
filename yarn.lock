@@ -299,13 +299,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-common-types@npm:6.2.1":
-  version: 6.2.1
-  resolution: "@fortawesome/fontawesome-common-types@npm:6.2.1"
-  checksum: 10/59727e8ca97bfc714adf561611b303f71b3c986d6dd639cc7210cd2e1343f19447e95ade47f66ebed5e64f73950cac385ab77ff68759c1c295c5f2493280ba1f
-  languageName: node
-  linkType: hard
-
 "@fortawesome/fontawesome-common-types@npm:6.7.2":
   version: 6.7.2
   resolution: "@fortawesome/fontawesome-common-types@npm:6.7.2"
@@ -340,12 +333,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-solid-svg-icons@npm:^6.2.1":
-  version: 6.2.1
-  resolution: "@fortawesome/free-solid-svg-icons@npm:6.2.1"
+"@fortawesome/free-solid-svg-icons@npm:^6.7.2":
+  version: 6.7.2
+  resolution: "@fortawesome/free-solid-svg-icons@npm:6.7.2"
   dependencies:
-    "@fortawesome/fontawesome-common-types": "npm:6.2.1"
-  checksum: 10/42a741f46e671b56c6f81388e17f518846ef9c2fea1247f6203986f5ef2b0fc527263aae1622f2987af0935d46cdc441ccce8e9094ce7a473b6ca3ed74303493
+    "@fortawesome/fontawesome-common-types": "npm:6.7.2"
+  checksum: 10/efcd90cd5d333995ff4012a9d77a8b23523e246fa418524edf08bb6af8b14db2ee0b08ee5f7460a86474d352af06e1a2581cc827ee3706e9c0e92e178b50e27f
   languageName: node
   linkType: hard
 
@@ -568,12 +561,12 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
     "@fortawesome/free-brands-svg-icons": "npm:^6.7.2"
     "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
-    "@fortawesome/free-solid-svg-icons": "npm:^6.2.1"
+    "@fortawesome/free-solid-svg-icons": "npm:^6.7.2"
     "@fortawesome/vue-fontawesome": "npm:^3.0.8"
     "@intlify/unplugin-vue-i18n": "npm:^0.8.1"
     "@luvle/utils": "npm:0.1.4"
-    "@pinia/testing": "npm:^0.0.14"
-    "@playwright/test": "npm:^1.28.1"
+    "@pinia/testing": "npm:^0.1.7"
+    "@playwright/test": "npm:^1.50.0"
     "@rushstack/eslint-patch": "npm:^1.1.4"
     "@types/howler": "npm:^2.2.11"
     "@types/jsdom": "npm:^20.0.1"
@@ -689,26 +682,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/testing@npm:^0.0.14":
-  version: 0.0.14
-  resolution: "@pinia/testing@npm:0.0.14"
+"@pinia/testing@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "@pinia/testing@npm:0.1.7"
   dependencies:
-    vue-demi: "npm:*"
+    vue-demi: "npm:^0.14.10"
   peerDependencies:
-    pinia: ">=2.0.19"
-  checksum: 10/314dfa5f0eb8efe8055152ea1409f709c3a06614cdc15aaae8f92d424371bdaae844531358235d2ad922456c54059df96ac9da84298fd8b72be0d6a1b65459af
+    pinia: ">=2.2.6"
+  checksum: 10/ec864a46aa6df171ba3e23974006a56049bd933c289bc2c5563290f09f10a28a5a415b843eb42e06907063d092e24cd67a51dde525fbd1fe7c6d03199f8c21a3
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.28.1":
-  version: 1.30.0
-  resolution: "@playwright/test@npm:1.30.0"
+"@playwright/test@npm:^1.50.0":
+  version: 1.50.0
+  resolution: "@playwright/test@npm:1.50.0"
   dependencies:
-    "@types/node": "npm:*"
-    playwright-core: "npm:1.30.0"
+    playwright: "npm:1.50.0"
   bin:
     playwright: cli.js
-  checksum: 10/d6fa23bb3901f4fe079fa60df40ddb1fce24899f06b5cdb0a55362df8fd6b956fa2cdf16a094df861f2bd9bc19aa6db2d8fc57c1218101ff7cabff7a765b84c4
+  checksum: 10/1fec2ed986205b57b03f24392bb01c6454c1f0a5c14204ce921afd51c3f5d61f20eddb3a18d36a02b19b3e3d731c7ff6bb7ba3c622aabc8fa3802021aef7d21b
   languageName: node
   linkType: hard
 
@@ -2992,7 +2984,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@npm:~2.3.2":
+"fsevents@npm:2.3.2, fsevents@npm:~2.3.2":
   version: 2.3.2
   resolution: "fsevents@npm:2.3.2"
   dependencies:
@@ -3012,7 +3004,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>":
+"fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>":
   version: 2.3.2
   resolution: "fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
   dependencies:
@@ -4667,12 +4659,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.30.0":
-  version: 1.30.0
-  resolution: "playwright-core@npm:1.30.0"
+"playwright-core@npm:1.50.0":
+  version: 1.50.0
+  resolution: "playwright-core@npm:1.50.0"
+  bin:
+    playwright-core: cli.js
+  checksum: 10/0d27e52164bcc37ed5aeaa0c7efa6a0b3616cfbb01e206c26572bff8b8e5f0923a993369c826056cd7bee4b975508a1ec257b533098ee9db7bc5b75832110e4d
+  languageName: node
+  linkType: hard
+
+"playwright@npm:1.50.0":
+  version: 1.50.0
+  resolution: "playwright@npm:1.50.0"
+  dependencies:
+    fsevents: "npm:2.3.2"
+    playwright-core: "npm:1.50.0"
+  dependenciesMeta:
+    fsevents:
+      optional: true
   bin:
     playwright: cli.js
-  checksum: 10/a0d997d107a790d4104c25a6d6b8ee954b2cefda0b3b666936c73db8bb01965fb63aaab04fe3fa9473d70f3d86caa68dfaa6fac9d14c16bc927e58b5883d6eae
+  checksum: 10/53521f05c48ab51a37d6fa280a7c1e6486e2879f9997e877227517945faf195ce16829cf144709bba292c3023bcd07cf44a4dd965458c9adc30ea6fbe1f0f74a
   languageName: node
   linkType: hard
 
@@ -6014,6 +6021,22 @@ __metadata:
     vue-demi-fix: bin/vue-demi-fix.js
     vue-demi-switch: bin/vue-demi-switch.js
   checksum: 10/6c02d1248cfc405478f21f2d3eca3bfba537ad0ff5116f5efc4e0bf296b35cd5d3e2beff4807365018894da18901110c4d5cb8c205273872c4c902fe7522de4f
+  languageName: node
+  linkType: hard
+
+"vue-demi@npm:^0.14.10":
+  version: 0.14.10
+  resolution: "vue-demi@npm:0.14.10"
+  peerDependencies:
+    "@vue/composition-api": ^1.0.0-rc.1
+    vue: ^3.0.0-0 || ^2.6.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  bin:
+    vue-demi-fix: bin/vue-demi-fix.js
+    vue-demi-switch: bin/vue-demi-switch.js
+  checksum: 10/3028239c0c25a84361a13ab936fcc9a199f54e0320c2ec1d2f4fdf7da8bae663382b7c1e5b1f5a1a43f6aebc73b955892cd4b6c7b3eaf2b766e18cc2a6f7ebea
   languageName: node
   linkType: hard
 
