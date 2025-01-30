@@ -7,7 +7,7 @@ const delay = (ms: number) => {
 };
 
 describe("ProfileImage", () => {
-  const serverPrefix = "http://localhost:3000";
+  const serverPrefix = "file://";
   it("constructs the image urls", () => {
     const wrapper = mount(ProfileImage, {});
     expect(wrapper.vm.images[0]).equals(
