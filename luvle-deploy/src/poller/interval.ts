@@ -2,7 +2,7 @@ import { fromMaybe, Time, PromiseCallback } from "@luvle/utils";
 import { DefaultLogger, Logger } from "../logger";
 import { Poller } from "./shared";
 
-type Timer = NodeJS.Timer;
+type Timeout = NodeJS.Timeout;
 
 interface IntervalPollerArgs {
   interval?: Time;
@@ -18,8 +18,8 @@ export class IntervalPoller implements Poller {
   private readonly logger: Logger;
   private readonly interval: Time;
   private readonly timeout: Time;
-  private intervalId?: Timer;
-  private timeoutId?: Timer;
+  private intervalId?: Timeout;
+  private timeoutId?: Timeout;
 
   constructor(args?: IntervalPollerArgs) {
     const { interval, timeout, logger } = { ...args };
