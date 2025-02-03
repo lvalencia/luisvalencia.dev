@@ -923,10 +923,10 @@ const RAW_RUNTIME_STATE =
           ["@types/three", "npm:0.173.0"],\
           ["@types/underscore", "npm:1.13.0"],\
           ["@vitejs/plugin-vue", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:5.2.1"],\
-          ["@vue/compiler-dom", "npm:3.2.45"],\
+          ["@vue/compiler-dom", "npm:3.5.13"],\
           ["@vue/eslint-config-prettier", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:10.2.0"],\
           ["@vue/eslint-config-typescript", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:14.3.0"],\
-          ["@vue/runtime-dom", "npm:3.2.45"],\
+          ["@vue/runtime-dom", "npm:3.5.13"],\
           ["@vue/test-utils", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:2.2.7"],\
           ["@vue/tsconfig", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.7.0"],\
           ["eslint", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:9.19.0"],\
@@ -2318,14 +2318,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@vue/reactivity", [\
-      ["npm:3.2.45", {\
-        "packageLocation": "./.yarn/cache/@vue-reactivity-npm-3.2.45-bc3378a52c-f8f0b7c6f5.zip/node_modules/@vue/reactivity/",\
-        "packageDependencies": [\
-          ["@vue/reactivity", "npm:3.2.45"],\
-          ["@vue/shared", "npm:3.2.45"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.2.47", {\
         "packageLocation": "./.yarn/cache/@vue-reactivity-npm-3.2.47-1182f7aa47-4bf6c7a038.zip/node_modules/@vue/reactivity/",\
         "packageDependencies": [\
@@ -2370,15 +2362,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@vue/runtime-core", [\
-      ["npm:3.2.45", {\
-        "packageLocation": "./.yarn/cache/@vue-runtime-core-npm-3.2.45-084482e779-5576dfae29.zip/node_modules/@vue/runtime-core/",\
-        "packageDependencies": [\
-          ["@vue/runtime-core", "npm:3.2.45"],\
-          ["@vue/reactivity", "npm:3.2.45"],\
-          ["@vue/shared", "npm:3.2.45"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.2.47", {\
         "packageLocation": "./.yarn/cache/@vue-runtime-core-npm-3.2.47-d5ec5c27c7-040254b09f.zip/node_modules/@vue/runtime-core/",\
         "packageDependencies": [\
@@ -2399,16 +2382,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@vue/runtime-dom", [\
-      ["npm:3.2.45", {\
-        "packageLocation": "./.yarn/cache/@vue-runtime-dom-npm-3.2.45-6ab018299f-cfcfcca691.zip/node_modules/@vue/runtime-dom/",\
-        "packageDependencies": [\
-          ["@vue/runtime-dom", "npm:3.2.45"],\
-          ["@vue/runtime-core", "npm:3.2.45"],\
-          ["@vue/shared", "npm:3.2.45"],\
-          ["csstype", "npm:2.6.21"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.2.47", {\
         "packageLocation": "./.yarn/cache/@vue-runtime-dom-npm-3.2.47-da74228cd1-08cce7dc0b.zip/node_modules/@vue/runtime-dom/",\
         "packageDependencies": [\
