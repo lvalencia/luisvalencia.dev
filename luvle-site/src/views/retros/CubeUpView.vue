@@ -21,13 +21,13 @@ const { t } = useI18n({
     </p>
     <p>
       The intention of developing this game was to:
+    </p>
     <ul>
       <li>Find my spark for building software again</li>
       <li>Build something silly</li>
       <li>Attempt to make it entertaining for my friends</li>
       <li>Learn something about game development along the way</li>
     </ul>
-    </p>
     <p>
       Now that it's done, I'm going to take a breather and retro on how it went.
     </p>

@@ -31,7 +31,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/color.scss";
+@use "@/assets/color.scss";
 
 $input-height: 1.5em;
 $input-width: calc($input-height * 2);
@@ -63,7 +63,7 @@ input[type="checkbox"] {
   // Styling
   width: $input-width;
   height: $input-height;
-  background-color: $primary;
+  background-color: color.$primary;
   border-radius: 1em;
   box-shadow: 0px 2px 5px 1px hsla(0, 0%, 0%, 0.5);
 
@@ -79,7 +79,7 @@ input[type="checkbox"] {
     content: " ";
     width: $slider-width;
     height: $slider-height;
-    background-color: $on-primary;
+    background-color: color.$on-primary;
     border-radius: 100%;
 
     // Location
@@ -93,7 +93,7 @@ input[type="checkbox"] {
   }
 
   &:checked {
-    background-color: $primary-variant;
+    background-color: color.$primary-variant;
 
     &:before {
       transform: translate(100%);

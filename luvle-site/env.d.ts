@@ -6,7 +6,11 @@ declare module 'troika-three-text' {
   import type { Color, Material, MeshBasicMaterial, MeshStandardMaterial } from 'three';
   import { Object3D } from 'three';
 
-  export class Text extends Object3D {
+  interface TextEventMap extends Object3DEventMap {
+    synccomplete: (...args: any[]) => any
+  }
+
+  export class Text extends Object3D<TextEventMap> {
     constructor();
 
     text: string;

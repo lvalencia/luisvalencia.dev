@@ -42,8 +42,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/mixins.scss";
-@import "@/assets/color.scss";
+@use "@/assets/mixins.scss";
+@use "@/assets/color.scss";
 
 .wrapper {
   position: relative;
@@ -52,10 +52,10 @@ export default {
 select {
   position: relative;
   background: transparent;
-  @include appearance;
+  @include mixins.appearance;
   border: none;
   padding-right: 24px;
-  color: $secondary-variant;
+  color: color.$secondary-variant;
 }
 
 $arrow-height: 1em;

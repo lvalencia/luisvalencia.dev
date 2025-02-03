@@ -113,9 +113,7 @@ export default {
         {{ content }}
       </p>
     </MaybeComponent>
-    <MaybeComponent :render-if="retroLink">
-      <router-link :to="retroLink" :id="retroLinkId">{{ `${title || ''} ${t("retro")}`.trim() }}</router-link>
-    </MaybeComponent>
+    <router-link v-if="retroLink" :to="retroLink" :id="retroLinkId">{{ `${title || ''} ${t("retro")}`.trim() }}</router-link>
   </div>
 </template>
 

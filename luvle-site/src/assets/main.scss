@@ -1,6 +1,6 @@
-@import './color.scss';
-@import './fonts.scss';
-@import './mixins.scss';
+@use 'color.scss';
+@use 'fonts.scss';
+@use 'mixins.scss';
 
 .grid-container {
   display: grid;
@@ -8,9 +8,9 @@
   max-width: 656px;
   margin: 0 auto;
   &.show * {
-    @include sizeless-border($grid-line);
+    @include mixins.sizeless-border(color.$grid-line);
     &:hover {
-      background-color: $grid-area;
+      background-color: color.$grid-area;
     }
   }
   &.large {
@@ -54,7 +54,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-family: PlayfairDisplay, serif;
   font-size: 3.75em;
-  color: $on-surface;
+  color: color.$on-surface;
 
   p {
     margin-top: 8px;
@@ -91,22 +91,22 @@ p {
   font-family: Raleway, sans-serif;
   font-weight: 500;
   font-size: 1em;
-  color: $on-surface-variant;
+  color: color.$on-surface-variant;
 }
 
 a {
   font-family: Raleway, sans-serif;
   font-weight: 500;
   font-size: 1em;
-  color: $primary-variant;
+  color: color.$primary-variant;
   text-decoration: none;
   &:hover {
-      color: $primary-variant-900;
+      color: color.$primary-variant-900;
   }
   &:visited {
-    color: $primary-variant;
+    color: color.$primary-variant;
     &:hover {
-      color: $primary-variant-900;
+      color: color.$primary-variant-900;
     }
   }
 }
