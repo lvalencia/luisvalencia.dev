@@ -67,15 +67,18 @@ nav > * + * {
 {
   "en": {
     "home": "Home",
-    "games": "Games"
+    "games": "Games",
+    "talks": "Talks"
   },
   "es": {
     "home": "Inicio",
-    "games": "Juegos"
+    "games": "Juegos",
+    "talks": "Charlas"
   },
   "ca": {
     "home": "Inici",
-    "games": "Jocs"
+    "games": "Jocs",
+    "talks": "Xerrades"
   }
 }
 </i18n>

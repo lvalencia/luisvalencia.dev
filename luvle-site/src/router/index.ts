@@ -23,6 +23,15 @@ const router = createRouter({
       },
     },
     {
+      path: "/talks",
+      name: "talks",
+      component: () => import("../views/TalksView.vue"),
+      meta: {
+        appearsOnTopNavigation: true,
+        i18nKey: "talks",
+      }
+    },
+    {
       path: "/games/cube-up",
       name: "game-cube-up",
       component: () => import("../views/games/CubeUpView.vue"),
