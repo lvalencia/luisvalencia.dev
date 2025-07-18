@@ -78,9 +78,25 @@ const patentsSnippet: HomeSnippet = {
       },
     },
     {
+      id: "incremental_upload",
+      href: "https://patents.google.com/patent/US12293177B1/en",
+      text: "_incremental_upload",
+      meta: {
+        external: true,
+      },
+    },
+    {
       id: "manager",
       href: "https://www.linkedin.com/in/greghroberts/",
       text: "_manager",
+      meta: {
+        external: true,
+      },
+    },
+    {
+      id: "luna",
+      href: "https://luna.amazon.com/",
+      text: "_luna",
       meta: {
         external: true,
       },
@@ -242,9 +258,11 @@ a + svg {
     "_emphasis": "",
     "about": "I'm a Staff Software Engineer at {current_job}. {break} I am also a {patentHolder}, {familyMan}, and {reader}.",
     "_vui": "Polling with a Natural Language Interface",
+    "_incremental_upload": "Techniques for Uploading Network Applications",
     "_manager": "Greg Roberts",
+    "_luna": "Amazon Luna",
     "_patents_title": "Inventor",
-    "patents": "I currently hold a patent for {vui}; an idea that started as a brainstorm session between my then Software Manager {manager} and I for interactive podcasts. We ended up levarging the technology on a massive real-time trivia game in Alexa that we implemented with what now has become a great group of friends and collegues. {break} Additionally, I also have a patent pending for a generic video game representation format for our Cloud platform. {break}",
+    "patents": "I currently hold a patent for {vui}; an idea that started as a brainstorm session between my then Software Manager {manager} and I for interactive podcasts. We ended up levarging the technology on a massive real-time trivia game in Alexa that we implemented with what now has become a great group of friends and collegues. {break} I also have a patent for {incremental_upload} as a result of work I did at {luna} for optimizing Game uploads. {break}",
     "_family_title": "Husband and Father",
     "family": "I'm happily married to Jen. We are parents to two wonderful children.",
     "_groundness": "The Practice of Groundedness",
@@ -275,8 +293,9 @@ a + svg {
     "_ferryman": "The Ferryman",
     "_portraits_from_memory": "Portraits from Memory: And Other Essays",
     "_halting_state": "Halting State",
-    "_infinite_jest": "Infinite Jest",
+    "_rule_34": "Rule 34 (Halting State Book 2)",
     "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
+    "_cien_años": "Cien años de soledad",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -289,9 +308,11 @@ a + svg {
     "_emphasis": "",
     "about": "Soy Ingeniero de Software (Staff) en {current_job}. {break} Tambien soy {patentHolder}, {familyMan}, y {reader}.",
     "_vui": "Votación usando una Interfaz de Lenguaje Natural",
+    "_incremental_upload": "Técnicas para Subir Aplicaciones de Red",
     "_manager": "Greg Roberts",
+    "_luna": "Amazon Luna",
     "_patents_title": "Inventor",
-    "patents": "Actualmente, tengo un patente de {vui}. La idea empezó en una sesión entre mi Gerente de Ingeniería ({manager}) y yo, en la cual queriamos averiguar como crear la tecnología para un podcast interactivo. Terminamos usando la tecnología para un juego de trivia masivo que creamos en Alexa con colegas los cuales ahora serian considerados amigos. {break} Tambien tengo otro patente pendiene para un formato generico para representar cualquier video juego en nuestra plataforma Cloud. {break}",
+    "patents": "Actualmente, tengo un patente de {vui}. La idea empezó en una sesión entre mi Gerente de Ingeniería ({manager}) y yo, en la cual queriamos averiguar como crear la tecnología para un podcast interactivo. Terminamos usando la tecnología para un juego de trivia masivo que creamos en Alexa con colegas los cuales ahora serian considerados amigos. {break} También tengo una patente para {incremental_upload}, resultado del trabajo que hice en {luna} optimizando la carga incremental de datos de juegos. {break}",
     "_family_title": "Marido y Padre",
     "family": "Estoy felizmente casado a mi esposa Jennifer. Juntos tenemos dos niñas hermosas.",
     "_groundness": "The Practice of Groundedness",
@@ -322,8 +343,9 @@ a + svg {
     "_ferryman": "The Ferryman",
     "_portraits_from_memory": "Portraits from Memory: And Other Essays",
     "_halting_state": "Halting State",
-    "_infinite_jest": "Infinite Jest",
+    "_rule_34": "Rule 34 (Halting State Book 2)",
     "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
+    "_cien_años": "Cien años de soledad",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -336,9 +358,11 @@ a + svg {
     "_emphasis": "També un novell en Català; perdonin la traducció fatal.",
     "about": "Sóc Enginyer de Software (Staff) a {current_job}. {break} També sóc {patentHolder}, {familyMan}, i {reader}. {emphasis}",
     "_vui": "Votació usant una Interfície de Llenguatge Natural",
+    "_incremental_upload": "Tècniques per pujar Aplicacions de Xarxa",
     "_manager": "Greg Roberts",
+    "_luna": "Amazon Luna",
     "_patents_title": "Patents",
-    "patents": "Actualment, tinc un patent de {vui}. La idea va començar en una sessió entre el meu Gerent d'Enginyeria ({manager}) i jo, en què volíem esbrinar com crear la tecnologia per a un podcast interactiu. Acabem usant la tecnologia per a un joc de trivia massiu a Alexa el qual creem amb companys que ara serien considerats amics. {break} També tinc un altre patent pendiene per a un format genèric que representa qualsevol videojoc a la nostra plataforma Cloud. {break}",
+    "patents": "Actualment, tinc un patent de {vui}. La idea va començar en una sessió entre el meu Gerent d'Enginyeria ({manager}) i jo, en què volíem esbrinar com crear la tecnologia per a un podcast interactiu. Acabem usant la tecnologia per a un joc de trivia massiu a Alexa el qual creem amb companys que ara serien considerats amics. {break} També tinc una patent per a {incremental_upload}, resultat de la feina que vaig fer a {luna} optimitzant la càrrega incremental de dades de jocs. {break}",
     "_family_title": "Marit i Pare",
     "family": "Estic feliçment casat a la meva dona Jennifer. Junts tenim dues nenes moltas belles.",
     "_groundness": "The Practice of Groundedness",
@@ -369,8 +393,9 @@ a + svg {
     "_ferryman": "The Ferryman",
     "_portraits_from_memory": "Portraits from Memory: And Other Essays",
     "_halting_state": "Halting State",
-    "_infinite_jest": "Infinite Jest",
+    "_rule_34": "Rule 34 (Halting State Book 2)",
     "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
+    "_cien_años": "Cien años de soledad",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }

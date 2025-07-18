@@ -19,14 +19,6 @@ export default {
       type: String,
       required: false,
     },
-    href: {
-      type: String,
-      required: false,
-    },
-    hrefId: {
-      type: String,
-      required: false,
-    },
     image: {
       type: String,
       required: true,
@@ -66,9 +58,9 @@ export default {
         {{ title }}
       </h3>
     </MaybeComponent>
-    <router-link v-if="href" :to="href" :id="hrefId">
+    <MaybeComponent :render-if="image"> 
       <img :src="image" :id="imageId" :alt="imageAlt" />
-    </router-link>
+    </MaybeComponent>
     <MaybeComponent :render-if="contentTitle">
       <h4 :id="contentTitleId" :key="contentTitle">
         {{ contentTitle }}
@@ -85,6 +77,9 @@ export default {
 <style scoped lang="scss">
 strong {
   opacity: 0.72;
+}
+img {
+  max-width: 480px;
 }
 </style>
 

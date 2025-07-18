@@ -1,6 +1,6 @@
 import { isSomething, Maybe } from "./maybe";
 
-export function isEmpty(arr: Maybe<any[]>): boolean {
+export function hasContents(arr: Maybe<any[]>): boolean {
   return isSomething(arr) && arr.length > 0;
 }
 

@@ -233,12 +233,22 @@ const bookSnippetLinks: BookSnippetLink[] = [
     text: "_halting_state",
     meta: {
       external: true,
+      finished: toISO8601("2025-03-15T08:00:00.000Z"),
     },
   },
   {
-    id: "infiniteJest",
-    href: "https://www.amazon.com/Infinite-Jest-David-Foster-Wallace/dp/0316066524",
-    text: "_infinite_jest",
+    id: "cienAñosDeSoledad",
+    href: "https://www.amazon.com/soledad-Spanish-Gabriel-Garc%C3%ADa-M%C3%A1rquez-ebook/dp/B018RGALE8",
+    text: "_cien_años",
+    meta: {
+      external: true,
+      finished: toISO8601("2025-03-15T08:00:00.000Z"),
+    },
+  },
+  {
+    id: "rule34",
+    href: "https://www.amazon.com/Rule-34-Halting-State-Book-ebook/dp/B004Y3I6XW",
+    text: "_rule_34",
     meta: {
       external: true,
     },
