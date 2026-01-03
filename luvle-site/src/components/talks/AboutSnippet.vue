@@ -11,6 +11,10 @@ const { t } = useI18n({
 <script lang="ts">
 export default {
   props: {
+    date: {
+      type: String,
+      required: false,
+    },
     title: {
       type: String,
       required: false,
@@ -55,7 +59,7 @@ export default {
   <div>
     <MaybeComponent :render-if="title">
       <h3 :key="title" :id="titleId">
-        {{ title }}
+        {{ date }} {{ title }}
       </h3>
     </MaybeComponent>
     <MaybeComponent :render-if="image"> 

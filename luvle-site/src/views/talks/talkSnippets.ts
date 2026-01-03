@@ -49,7 +49,7 @@ function alreadyPresented(snippet: TalkSnippet): boolean {
   return new Date(snippet.meta.date!).getTime() <= Date.now()
 }
 
-export const givenTalks = talkSnippets.filter(alreadyPresented);
+export const givenTalks = talkSnippets.filter(alreadyPresented).reverse();
 export const upcomingTalks = talkSnippets.filter((talkSnippet) => {
   return !alreadyPresented(talkSnippet);
 })

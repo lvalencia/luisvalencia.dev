@@ -11,11 +11,11 @@ import moment from "moment";
 import type { SuppportedLocales } from "@/helpers/i18n";
 import type { LocaleSpecification, Moment } from "moment";
 import type { TalkSnippet } from "./talks/talkSnippets";
-import type { Maybe } from "@luvle/utils";
+import type { ISO8601, Maybe } from "@luvle/utils";
 import AboutSnippet from "@/components/talks/AboutSnippet.vue";
 import { givenTalks, upcomingTalks } from "./talks/talkSnippets";
 import { translationOrNothing } from "@/helpers/translation";
-import { fromMaybe } from "@luvle/utils";
+import { fromMaybe, isSomething } from "@luvle/utils";
 import MaybeComponent from "@/components/MaybeComponent.vue";
 
 type OverridenLocale = Exclude<SuppportedLocales, "en">;
@@ -70,6 +70,14 @@ export default {
       upcomingTalks,
     }
   },
+  methods: {
+    formattedDate(maybeDate: Maybe<ISO8601>) {
+      if (isSomething(maybeDate)) {
+        return moment(maybeDate).format("MM/DD/YYYY")
+      }
+      return "";
+    }
+  },
   computed: {
     talkGroupings() {
       return [
@@ -96,6 +104,7 @@ export default {
       <MaybeComponent :render-if="talks">
         <h2>{{  t(heading) }}</h2>
         <AboutSnippet v-for="(snippet, index) in talks" :key="`snippet-${index}`" class="about"
+          :date="formattedDate(snippet.meta.date)"
           :title="translationOrNothing(t, snippet.title)" 
           :titleId="snippet.titleId"
           :content="translationOrNothing(t, snippet.content)"
@@ -133,7 +142,7 @@ export default {
       "lean_times_content": "A talk about how the industry has changed the past couple years and what the current landscape means for getting a job, remote work, and your skillset in the era of AI.",
       "game_lifecycle": "Video Game Lifecycle Management in Distribution Platforms",
       "game_lifecycle_content": "We all more or less know what goes into making a game, but what about all the ancillary work necessary to manage the lifecycle of a game in a distribution platform? This talk explains what goes into managing the lifecycle of a game in a distribution platform such as Amazon Luna, Steam, Epic Games Store, etc.",
-      "career_planning": "Navigating Industry in Lean Times",
+      "career_planning": "Planning for a Meaningful Career",
       "career_planning_content": "How to think about your career progression over time and be intentional about your career choices.",
       "given_talks": "Previous Talks",
       "upcoming_talks": "Upcoming Talks"
@@ -146,7 +155,7 @@ export default {
       "lean_times_content": "Una charla sobre cómo ha cambiado la industria en los últimos años y qué significa el panorama actual para conseguir trabajo, el trabajo remoto y tu conjunto de habilidades en la era de la inteligencia artificial.",
       "game_lifecycle": "Gestión del Ciclo de Vida de Videojuegos en Plataformas de Distribución",
       "game_lifecycle_content": "Más o menos todos sabemos lo que implica hacer un juego, pero ¿qué hay del trabajo adicional necesario para gestionar su ciclo de vida en una plataforma de distribución? Esta charla explica lo que implica administrar el ciclo de vida de un juego en plataformas como Amazon Luna, Steam, Epic Games Store, etc.",
-      "career_planning": "Navegando la Industria en Tiempos Difíciles",
+      "career_planning": "Planeando una carrera con propósito",
       "career_planning_content": "Cómo pensar en la progresión de tu carrera a lo largo del tiempo y tomar decisiones profesionales de manera intencional.",
       "given_talks": "Charlas Previas",
       "upcoming_talks": "Proximas Charlas"
@@ -159,7 +168,7 @@ export default {
       "lean_times_content": "Una xerrada sobre com ha canviat la indústria els darrers anys i què significa el panorama actual per trobar feina, el treball remot i el teu conjunt d’habilitats en l’era de la intel·ligència artificial.",
       "game_lifecycle": "Gestió del Cicle de Vida dels Videojocs en Plataformes de Distribució",
       "game_lifecycle_content": "Més o menys tots sabem què implica fer un joc, però què hi ha de tota la feina addicional necessària per gestionar-ne el cicle de vida en una plataforma de distribució? Aquesta xerrada explica què comporta administrar el cicle de vida d’un joc en plataformes com Amazon Luna, Steam, Epic Games Store, etc.",
-      "career_planning": "Navegant la Indústria en Temps Difícils",
+      "career_planning": "Planificant una trajectòria professional amb propòsit",
       "career_planning_content": "Com pensar en la progressió de la teva carrera al llarg del temps i prendre decisions professionals de manera intencionada.",
       "given_talks": "Xerrades prèvies",
       "upcoming_talks": "Xerrades Pròximes"
