@@ -109,11 +109,18 @@ export default {
 </template>
 
 <style scoped lang="scss">
-.about {
-  &+ .about {
-    margin-top: 32px;
+.talks {
+  .about {
+    :deep(img) {
+      max-width: 100%;
+    }
+    &+ .about {
+      margin-top: 32px;
+    }
+
   }
 }
+
 </style>
 
 <i18n lang="json">
