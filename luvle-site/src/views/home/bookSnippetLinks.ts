@@ -251,12 +251,31 @@ const bookSnippetLinks: BookSnippetLink[] = [
     text: "_rule_34",
     meta: {
       external: true,
+      finished: toISO8601("2025-12-15T08:00:00.000Z"),
     },
   },
   {
     id: "models",
     href: "https://fs.blog/tgmm/#volume_three",
     text: "_mental_models_3",
+    meta: {
+      external: true,
+      finished: toISO8601("2025-12-15T08:00:00.000Z"),
+    },
+  },
+  {
+    id: "ggNoRemach",
+    href: "https://www.harpercollins.com/products/good-game-no-rematch-mike-drucker",
+    text: "_good_game_no_rematch",
+    meta: {
+      external: true,
+      finished: toISO8601("2026-01-02T08:00:00.000Z"),
+    },
+  },
+  {
+    id: "nexus",
+    href: "https://www.ynharari.com/book/nexus/",
+    text: "_nexus",
     meta: {
       external: true,
     },

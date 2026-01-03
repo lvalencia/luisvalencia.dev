@@ -296,6 +296,8 @@ a + svg {
     "_rule_34": "Rule 34 (Halting State Book 2)",
     "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
     "_cien_años": "Cien años de soledad",
+    "_good_game_no_rematch": "Good Game, No Rematch: A Life Made of Video Games",
+    "_nexus": "Nexus: A Brief History of Information Networks from the Stone Age to AI",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -346,6 +348,8 @@ a + svg {
     "_rule_34": "Rule 34 (Halting State Book 2)",
     "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
     "_cien_años": "Cien años de soledad",
+    "_good_game_no_rematch": "Good Game, No Rematch: A Life Made of Video Games",
+    "_nexus": "Nexus. Breve historia de las redes de información desde la Edad de Piedra hasta la IA",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -396,6 +400,8 @@ a + svg {
     "_rule_34": "Rule 34 (Halting State Book 2)",
     "_mental_models_3": "The Great Mental Models, Volume 3: Systems and Mathematics",
     "_cien_años": "Cien años de soledad",
+    "_good_game_no_rematch": "Good Game, No Rematch: A Life Made of Video Games",
+    "_nexus": "Nexus. Breve historia de las redes de información desde la Edad de Piedra hasta la IA",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }
