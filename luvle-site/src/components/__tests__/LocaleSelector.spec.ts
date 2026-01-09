@@ -39,7 +39,7 @@ describe("LocaleSelector", () => {
     expect((wrapper.vm as any).locale).toBe(locale);
 
     const selector = wrapper.find("select");
-    const value = selector.findAll("option").at(1)?.element.value;
+    const value = selector.findAllComponents("option").at(1)?.element.value;
     selector.setValue(value);
     selector.element.dispatchEvent(new Event("change"));
 
