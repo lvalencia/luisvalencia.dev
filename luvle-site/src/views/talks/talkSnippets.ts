@@ -3,6 +3,7 @@ import type { BaseSnippet, BaseSnippetMeta } from "../shared/snippets";
 
 interface TalkSnippetMeta extends BaseSnippetMeta {
   date?: ISO8601;
+  venue?: string;
 }
 
 export interface TalkSnippet extends BaseSnippet {
@@ -21,6 +22,7 @@ const talkSnippets: TalkSnippet[] = [
     notes: "document/lean_times.pages",
     meta: {
       date: toISO8601("2025-02-04T20:00:00.000Z"),
+      venue: "_ccp_sea_club",
     }
   },
   {
@@ -31,6 +33,7 @@ const talkSnippets: TalkSnippet[] = [
     notes: "document/game_lifecycle.pages",
     meta: {
       date: toISO8601("2025-02-11T20:00:00.000Z"),
+      venue: "_ccp_game_dev_club",
     }
   },
   {
@@ -41,6 +44,29 @@ const talkSnippets: TalkSnippet[] = [
     notes: "document/career_planning.pages",
     meta: {
       date: toISO8601("2025-03-13T20:00:00.000Z"),
+      venue: "_ccp_she_codes",
+    }
+  },
+  {
+    title: "lean_times",
+    content: "lean_times_content",
+    image: "lean_times_she_codes.png",
+    presentation:  "presentation/lean_times.key",
+    notes: "document/lean_times.pages",
+    meta: {
+      date: toISO8601("2025-10-09T20:00:00.000Z"),
+      venue: "_ccp_she_codes",
+    }
+  },
+  {
+    title: "rust_arduino",
+    content: "rust_arduino_content",
+    image: "rust_arduino.png",
+    presentation:  "presentation/rust_arduino.key",
+    notes: "document/rust_arduino.pages",
+    meta: {
+      date: toISO8601("2025-10-09T20:00:00.000Z"),
+      venue: "_ieee_cpp",
     }
   },
 ]
