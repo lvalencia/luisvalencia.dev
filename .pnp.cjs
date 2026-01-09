@@ -914,7 +914,7 @@ const RAW_RUNTIME_STATE =
           ["@intlify/unplugin-vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.8.1"],\
           ["@luvle/utils", "workspace:luvle-utils"],\
           ["@pinia/testing", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.1.7"],\
-          ["@playwright/test", "npm:1.50.1"],\
+          ["@playwright/test", "npm:1.57.0"],\
           ["@rushstack/eslint-patch", "npm:1.10.5"],\
           ["@tsconfig/node22", "npm:22.0.0"],\
           ["@types/howler", "npm:2.2.12"],\
@@ -1229,11 +1229,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@playwright/test", [\
-      ["npm:1.50.1", {\
-        "packageLocation": "./.yarn/cache/@playwright-test-npm-1.50.1-157e09660a-0d8d2291d6.zip/node_modules/@playwright/test/",\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/cache/@playwright-test-npm-1.57.0-d5b9717312-07f5ba4841.zip/node_modules/@playwright/test/",\
         "packageDependencies": [\
-          ["@playwright/test", "npm:1.50.1"],\
-          ["playwright", "npm:1.50.1"]\
+          ["@playwright/test", "npm:1.57.0"],\
+          ["playwright", "npm:1.57.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6316,21 +6316,21 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["playwright", [\
-      ["npm:1.50.1", {\
-        "packageLocation": "./.yarn/cache/playwright-npm-1.50.1-eb600fd9db-a3687614ac.zip/node_modules/playwright/",\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/cache/playwright-npm-1.57.0-1712c32e43-241559210f.zip/node_modules/playwright/",\
         "packageDependencies": [\
-          ["playwright", "npm:1.50.1"],\
+          ["playwright", "npm:1.57.0"],\
           ["fsevents", "patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"],\
-          ["playwright-core", "npm:1.50.1"]\
+          ["playwright-core", "npm:1.57.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["playwright-core", [\
-      ["npm:1.50.1", {\
-        "packageLocation": "./.yarn/cache/playwright-core-npm-1.50.1-be16b4e251-9a310b8a66.zip/node_modules/playwright-core/",\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/cache/playwright-core-npm-1.57.0-1ccd5476ca-ec066602f0.zip/node_modules/playwright-core/",\
         "packageDependencies": [\
-          ["playwright-core", "npm:1.50.1"]\
+          ["playwright-core", "npm:1.57.0"]\
         ],\
         "linkType": "HARD"\
       }]\
