@@ -888,7 +888,7 @@ const RAW_RUNTIME_STATE =
           ["jsonc-eslint-parser", "npm:1.4.1"],\
           ["petite-vue-i18n", null],\
           ["source-map", "npm:0.6.1"],\
-          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.1.0"],\
+          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.2.8"],\
           ["yaml-eslint-parser", "npm:0.3.2"]\
         ],\
         "packagePeers": [\
@@ -901,22 +901,22 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@intlify/core-base", [\
-      ["npm:11.1.0", {\
-        "packageLocation": "./.yarn/cache/@intlify-core-base-npm-11.1.0-d7ef8979d2-5005b897fc.zip/node_modules/@intlify/core-base/",\
+      ["npm:11.2.8", {\
+        "packageLocation": "./.yarn/cache/@intlify-core-base-npm-11.2.8-9621e831e2-e162c4affe.zip/node_modules/@intlify/core-base/",\
         "packageDependencies": [\
-          ["@intlify/core-base", "npm:11.1.0"],\
-          ["@intlify/message-compiler", "npm:11.1.0"],\
-          ["@intlify/shared", "npm:11.1.0"]\
+          ["@intlify/core-base", "npm:11.2.8"],\
+          ["@intlify/message-compiler", "npm:11.2.8"],\
+          ["@intlify/shared", "npm:11.2.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@intlify/message-compiler", [\
-      ["npm:11.1.0", {\
-        "packageLocation": "./.yarn/cache/@intlify-message-compiler-npm-11.1.0-70b2e7eaca-9b6f1fd372.zip/node_modules/@intlify/message-compiler/",\
+      ["npm:11.2.8", {\
+        "packageLocation": "./.yarn/cache/@intlify-message-compiler-npm-11.2.8-44b7103612-89728352da.zip/node_modules/@intlify/message-compiler/",\
         "packageDependencies": [\
-          ["@intlify/message-compiler", "npm:11.1.0"],\
-          ["@intlify/shared", "npm:11.1.0"],\
+          ["@intlify/message-compiler", "npm:11.2.8"],\
+          ["@intlify/shared", "npm:11.2.8"],\
           ["source-map-js", "npm:1.0.2"]\
         ],\
         "linkType": "HARD"\
@@ -932,10 +932,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@intlify/shared", [\
-      ["npm:11.1.0", {\
-        "packageLocation": "./.yarn/cache/@intlify-shared-npm-11.1.0-85f9231100-e4048b558a.zip/node_modules/@intlify/shared/",\
+      ["npm:11.2.8", {\
+        "packageLocation": "./.yarn/cache/@intlify-shared-npm-11.2.8-5093670773-1629f15221.zip/node_modules/@intlify/shared/",\
         "packageDependencies": [\
-          ["@intlify/shared", "npm:11.1.0"]\
+          ["@intlify/shared", "npm:11.2.8"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -975,7 +975,7 @@ const RAW_RUNTIME_STATE =
           ["picocolors", "npm:1.0.0"],\
           ["source-map", "npm:0.6.1"],\
           ["unplugin", "npm:1.0.1"],\
-          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.1.0"],\
+          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.2.8"],\
           ["vue-i18n-bridge", null]\
         ],\
         "packagePeers": [\
@@ -1123,7 +1123,7 @@ const RAW_RUNTIME_STATE =
           ["vitest", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.0.5"],\
           ["vue", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.5.13"],\
           ["vue-demi", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.14.10"],\
-          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.1.0"],\
+          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.2.8"],\
           ["vue-router", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:4.5.0"],\
           ["vue-tsc", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:2.2.0"]\
         ],\
@@ -8586,19 +8586,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["vue-i18n", [\
-      ["npm:11.1.0", {\
-        "packageLocation": "./.yarn/cache/vue-i18n-npm-11.1.0-b579ea9477-72276382a0.zip/node_modules/vue-i18n/",\
+      ["npm:11.2.8", {\
+        "packageLocation": "./.yarn/cache/vue-i18n-npm-11.2.8-1b548b9b7e-ff9371de49.zip/node_modules/vue-i18n/",\
         "packageDependencies": [\
-          ["vue-i18n", "npm:11.1.0"]\
+          ["vue-i18n", "npm:11.2.8"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.1.0", {\
-        "packageLocation": "./.yarn/__virtual__/vue-i18n-virtual-ff38257add/0/cache/vue-i18n-npm-11.1.0-b579ea9477-72276382a0.zip/node_modules/vue-i18n/",\
+      ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.2.8", {\
+        "packageLocation": "./.yarn/__virtual__/vue-i18n-virtual-0f12efd11c/0/cache/vue-i18n-npm-11.2.8-1b548b9b7e-ff9371de49.zip/node_modules/vue-i18n/",\
         "packageDependencies": [\
-          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.1.0"],\
-          ["@intlify/core-base", "npm:11.1.0"],\
-          ["@intlify/shared", "npm:11.1.0"],\
+          ["vue-i18n", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:11.2.8"],\
+          ["@intlify/core-base", "npm:11.2.8"],\
+          ["@intlify/shared", "npm:11.2.8"],\
           ["@types/vue", null],\
           ["@vue/devtools-api", "npm:6.6.4"],\
           ["vue", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:3.5.13"]\
