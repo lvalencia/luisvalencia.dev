@@ -9,7 +9,7 @@ function fullScreenOnDesktop(target: Element) {
 
 function fullScreenOnMobile(target: Element) {
   const appContainer = document.getElementById('app')!;
-  const header = document.getElementsByTagName('header')[0];
+  const header = document.getElementsByTagName('header')[0]!;
   [
     appContainer,
     header,
@@ -27,7 +27,7 @@ function exitFullScreenOnDesktop() {
 
 function exitFullScreenOnMobile(target: Element) {
   const appContainer = document.getElementById('app')!;
-  const header = document.getElementsByTagName('header')[0];
+  const header = document.getElementsByTagName('header')[0]!;
   [
     appContainer,
     header,

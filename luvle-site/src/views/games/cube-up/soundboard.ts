@@ -285,7 +285,7 @@ abstract class BaseControllable implements Controllable {
 
     if (isSomething(tracks)) {
       this.tracks = tracks
-      this.currentTrack = this.tracks[0];
+      this.currentTrack = this.tracks[0]!;
       
       return;
     }
@@ -330,11 +330,11 @@ abstract class BaseControllable implements Controllable {
 class Randomizer extends BaseControllable {
   constructor(args: ControllableArgs) {
     super(args);
-    this.currentTrack = selectRandomFrom(this.tracks);
+    this.currentTrack = selectRandomFrom(this.tracks) as Controllable;
   }
 
   public play() {
-    this.currentTrack = selectRandomFrom(this.tracks);
+    this.currentTrack = selectRandomFrom(this.tracks) as Controllable;
     this.currentTrack.play();
   }
 
@@ -351,7 +351,7 @@ class Looper extends BaseControllable {
     super.on("end", () => {
       this.nextTrack()
     });
-    this.currentTrack = selectRandomFrom(this.tracks);
+    this.currentTrack = selectRandomFrom(this.tracks) as Controllable;
   }
 
   public play() {
@@ -366,7 +366,7 @@ class Looper extends BaseControllable {
 
   private nextTrack() {
     if (this.loopTracks) {
-      this.currentTrack = selectRandomFrom(this.tracks);
+      this.currentTrack = selectRandomFrom(this.tracks) as Controllable;
       this.currentTrack.play();
     }
   }
@@ -407,7 +407,7 @@ class Silenceable extends BaseControllable {
       });
     } else {
       for(const [index, volume] of Object.entries(this.volumes)) {
-        this.tracks[Number(index)].volume(volume);
+        this.tracks[Number(index)]?.volume(volume);
       }
     }
   }

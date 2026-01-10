@@ -30,7 +30,7 @@ describe("LocaleSelector", () => {
   it("defaults sets the current locale as the selected locale", () => {
     const selector = wrapper.find("select").element;
     const options = selector.options;
-    const selection = options[selector.selectedIndex].value;
+    const selection = options[selector.selectedIndex]?.value;
 
     expect(selection).toBe(locale);
   });

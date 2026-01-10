@@ -24,6 +24,6 @@ function respondsToTouchEvents(): boolean {
 }
 
 function cssMediaQueryIsMobile(): boolean {
-  const bodyElement = document.getElementsByTagName('body')[0];
+  const bodyElement = document.body;
   return window.getComputedStyle(bodyElement).getPropertyValue('content').indexOf('mobile') !== -1;
 }

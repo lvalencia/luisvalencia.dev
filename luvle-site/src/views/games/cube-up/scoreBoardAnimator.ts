@@ -89,7 +89,7 @@ function animateScoreboard(scoreboard: Scoreboard): void {
       action,
       interval,
       timeout
-    } = animating[scoreboard.id];
+    } = animating[scoreboard.id]!;
     clearInterval(interval);
     clearTimeout(timeout);
     action();

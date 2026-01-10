@@ -103,8 +103,8 @@ describe("AboutSnippet", () => {
       return domWrapper.element;
     });
 
-    expect(elements[0].innerHTML).toEqual(title);
-    expect(elements[1].innerHTML).toEqual(content);
-    expect(elements[2].innerHTML).toEqual(slotContent);
+    expect(elements[0]?.innerHTML).toEqual(title);
+    expect(elements[1]?.innerHTML).toEqual(content);
+    expect(elements[2]?.innerHTML).toEqual(slotContent);
   });
 });

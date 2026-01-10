@@ -60,7 +60,7 @@ export class Cube implements Representable {
 
     this.cubeState = fromMaybe({
       maybe: cubeState,
-      fallback: selectRandomFrom(CubeStates)
+      fallback: selectRandomFrom(CubeStates) as CubeState
     });
 
     this.material = fromMaybe({
@@ -112,7 +112,7 @@ export class Cube implements Representable {
 
   // State Manipulation
   public reset(): void {
-    this.cubeState = selectRandomFrom(CubeStates);
+    this.cubeState = selectRandomFrom(CubeStates) as CubeState;
     this.material.color.set(this.cubeState);
     this.position = this.initialPosition;
   }

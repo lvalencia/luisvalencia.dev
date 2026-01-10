@@ -125,7 +125,7 @@ export default {
       levelCard: {} as LevelCard,
       levelCardAnimator: {} as LevelCardAnimator,
       intersectable: [],
-      levels: this.levelConfigurations(),
+      levels: this.levelConfigurations!(),
       pauseIcon: {} as PauseIcon,
       lives: {} as Lives,
       game: {
@@ -431,7 +431,7 @@ export default {
 
       const intersects = this.raycaster.intersectObjects(this.intersectable, false);
       if (intersects.length > 0) {
-        return intersects[0].object.userData.object;
+        return intersects[0]?.object.userData.object;
       }
 
       return undefined;
@@ -582,7 +582,7 @@ export default {
       }).length > 0;
 
       if (!atLeastOnePointScoringCube) {
-        const cube = selectRandomFrom(this.cubes);
+        const cube = selectRandomFrom(this.cubes) as Cube;
         cube.state = this.currentPointsState;
       }
     },
@@ -623,7 +623,7 @@ export default {
         }).length;
 
         while (!isEmpty(unpressed)) {
-          const unpressedCube = popRandomFrom(unpressed);
+          const unpressedCube = popRandomFrom(unpressed) as Cube;
 
           const animationArgs = {
             intervalTiming: 10,
@@ -635,7 +635,7 @@ export default {
           if (needsShouldPress) {
             this.cubeAnimator.flip({
               ...animationArgs,
-              cube: unpressedCube as Cube,
+              cube: unpressedCube,
               endState: this.currentPointsState,
             });
             toPress -= 1;
@@ -660,7 +660,7 @@ export default {
           this.cubeAnimator.flip({
             ...animationArgs,
             cube: unpressedCube as Cube,
-            endState: selectRandomFrom(availableStates),
+            endState: selectRandomFrom(availableStates) as CubeState,
           });
         }
       }
@@ -680,7 +680,7 @@ export default {
             CubeState.SHOULD_PRESS,
             CubeState.DONT_PRESS,
           ]);
-          cube.state = selectRandomFrom(availableStates);
+          cube.state = selectRandomFrom(availableStates) as CubeState;
         });
       }
     },
@@ -692,10 +692,10 @@ export default {
         const unpressed = this.cubes.filter((cube) => {
           return cube.state !== CubeState.PRESSED;
         });
-        const unpressedCube = selectRandomFrom(unpressed);
+        const unpressedCube = selectRandomFrom(unpressed) as Cube;
 
         this.cubeAnimator.flip({
-          cube: unpressedCube as Cube,
+          cube: unpressedCube,
           endState: this.currentPointsState,
           intervalTiming: 10,
           minTimeToFlip: 25,
@@ -1062,7 +1062,7 @@ export default {
     },
     // Game Configuration
     currentLevel(): LevelConfiguration {
-      return this.levels[this.game.currentLevel];
+      return this.levels[this.game.currentLevel]!;
     },
     currentLevelContent(): LevelContent {
       return this.currentLevel.content;
