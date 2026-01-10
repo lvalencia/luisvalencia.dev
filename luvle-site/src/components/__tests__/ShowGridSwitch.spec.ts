@@ -14,7 +14,7 @@ describe("ShowGridSwitch", () => {
         plugins: [
           createTestingPinia({
             fakeApp: true,
-            createSpy: vi.fn(),
+            createSpy: vi.fn,
           }),
         ],
       },
