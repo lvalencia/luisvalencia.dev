@@ -272,15 +272,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@dimforge/rapier3d-compat", [\
-      ["npm:0.12.0", {\
-        "packageLocation": "./.yarn/cache/@dimforge-rapier3d-compat-npm-0.12.0-d35c7c9478-56cd538b59.zip/node_modules/@dimforge/rapier3d-compat/",\
-        "packageDependencies": [\
-          ["@dimforge/rapier3d-compat", "npm:0.12.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@esbuild/aix-ppc64", [\
       ["npm:0.25.0", {\
         "packageLocation": "./.yarn/unplugged/@esbuild-aix-ppc64-npm-0.25.0-e3aca9fae0/node_modules/@esbuild/aix-ppc64/",\
@@ -1411,7 +1402,7 @@ const RAW_RUNTIME_STATE =
           ["@types/howler", "npm:2.2.12"],\
           ["@types/jsdom", "npm:27.0.0"],\
           ["@types/node", "npm:25.0.3"],\
-          ["@types/three", "npm:0.182.0"],\
+          ["@types/three", "npm:0.173.0"],\
           ["@types/underscore", "npm:1.13.0"],\
           ["@vitejs/plugin-vue", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:6.0.3"],\
           ["@vue/compiler-dom", "npm:3.5.13"],\
@@ -1430,7 +1421,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:3.4.2"],\
           ["rimraf", "npm:6.0.1"],\
           ["sass", "npm:1.83.4"],\
-          ["three", "npm:0.182.0"],\
+          ["three", "npm:0.173.0"],\
           ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.52.3"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["underscore", "npm:1.13.7"],\
@@ -2248,17 +2239,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/three", [\
-      ["npm:0.182.0", {\
-        "packageLocation": "./.yarn/cache/@types-three-npm-0.182.0-f27df81840-00f08e2325.zip/node_modules/@types/three/",\
+      ["npm:0.173.0", {\
+        "packageLocation": "./.yarn/cache/@types-three-npm-0.173.0-34c8984d54-2030a7038f.zip/node_modules/@types/three/",\
         "packageDependencies": [\
-          ["@dimforge/rapier3d-compat", "npm:0.12.0"],\
           ["@tweenjs/tween.js", "npm:23.1.3"],\
           ["@types/stats.js", "npm:0.17.3"],\
-          ["@types/three", "npm:0.182.0"],\
+          ["@types/three", "npm:0.173.0"],\
           ["@types/webxr", "npm:0.5.24"],\
           ["@webgpu/types", "npm:0.1.54"],\
           ["fflate", "npm:0.8.2"],\
-          ["meshoptimizer", "npm:0.22.0"]\
+          ["meshoptimizer", "npm:0.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6137,10 +6127,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["meshoptimizer", [\
-      ["npm:0.22.0", {\
-        "packageLocation": "./.yarn/cache/meshoptimizer-npm-0.22.0-4311187c40-6def62fe70.zip/node_modules/meshoptimizer/",\
+      ["npm:0.18.1", {\
+        "packageLocation": "./.yarn/cache/meshoptimizer-npm-0.18.1-ce62c2344d-5cfef69185.zip/node_modules/meshoptimizer/",\
         "packageDependencies": [\
-          ["meshoptimizer", "npm:0.22.0"]\
+          ["meshoptimizer", "npm:0.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -7771,10 +7761,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["three", [\
-      ["npm:0.182.0", {\
-        "packageLocation": "./.yarn/cache/three-npm-0.182.0-018c941206-37bbc10cea.zip/node_modules/three/",\
+      ["npm:0.173.0", {\
+        "packageLocation": "./.yarn/cache/three-npm-0.173.0-e15eae306e-ba839ca592.zip/node_modules/three/",\
         "packageDependencies": [\
-          ["three", "npm:0.182.0"]\
+          ["three", "npm:0.173.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -7886,9 +7876,9 @@ const RAW_RUNTIME_STATE =
       ["virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.52.3", {\
         "packageLocation": "./.yarn/__virtual__/troika-three-text-virtual-6ddb217db1/0/cache/troika-three-text-npm-0.52.3-1b51bd89d2-aabdf79bfc.zip/node_modules/troika-three-text/",\
         "packageDependencies": [\
-          ["@types/three", "npm:0.182.0"],\
+          ["@types/three", "npm:0.173.0"],\
           ["bidi-js", "npm:1.0.3"],\
-          ["three", "npm:0.182.0"],\
+          ["three", "npm:0.173.0"],\
           ["troika-three-text", "virtual:a6aca00bcbd5ea3b1e6854c8a6e45df695c0e4cb2d239f7883864a676aeec762fa13c05177fd85b416807df0f1079cb204541f4bbc83aaec55e1d542cdafa15b#npm:0.52.3"],\
           ["troika-three-utils", "virtual:6ddb217db130cc68a0d4a16b8d6a4cf97fa7fa4b7ba3d4bad1de2135e7163a4f2429f94d3eaa8522237c0431161bac9312e112f2d4ab89b9937c351ad21a2eac#npm:0.52.0"],\
           ["troika-worker-utils", "npm:0.52.0"],\
@@ -7912,8 +7902,8 @@ const RAW_RUNTIME_STATE =
       ["virtual:6ddb217db130cc68a0d4a16b8d6a4cf97fa7fa4b7ba3d4bad1de2135e7163a4f2429f94d3eaa8522237c0431161bac9312e112f2d4ab89b9937c351ad21a2eac#npm:0.52.0", {\
         "packageLocation": "./.yarn/__virtual__/troika-three-utils-virtual-1c3dcb8545/0/cache/troika-three-utils-npm-0.52.0-cdb1d52751-d0d4589dca.zip/node_modules/troika-three-utils/",\
         "packageDependencies": [\
-          ["@types/three", "npm:0.182.0"],\
-          ["three", "npm:0.182.0"],\
+          ["@types/three", "npm:0.173.0"],\
+          ["three", "npm:0.173.0"],\
           ["troika-three-utils", "virtual:6ddb217db130cc68a0d4a16b8d6a4cf97fa7fa4b7ba3d4bad1de2135e7163a4f2429f94d3eaa8522237c0431161bac9312e112f2d4ab89b9937c351ad21a2eac#npm:0.52.0"]\
         ],\
         "packagePeers": [\
