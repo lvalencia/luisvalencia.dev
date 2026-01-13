@@ -1,6 +1,9 @@
+import type { ComponentPublicInstance } from "vue";
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import AboutSnippet from "@/components/home/AboutSnippet.vue";
+
+type AboutSnippetProps = ComponentPublicInstance<typeof AboutSnippet>["$props"];
 
 describe("AboutSnippet", () => {
   const titleTag = "h3";
@@ -25,7 +28,7 @@ describe("AboutSnippet", () => {
       props: {
         title,
         titleId,
-      },
+      } as AboutSnippetProps,
     });
     const heading = wrapper.find(titleTag);
     expect(heading.attributes().id).toEqual(titleId);
@@ -36,13 +39,13 @@ describe("AboutSnippet", () => {
       props: {
         title: undefined,
         titleId,
-      },
+      } as AboutSnippetProps,
     });
     let heading = wrapper.find(titleTag);
     expect(heading.exists()).toBe(false);
 
     wrapper = mount(AboutSnippet, {
-      props: {},
+      props: {} as AboutSnippetProps,
     });
     heading = wrapper.find(titleTag);
     expect(heading.exists()).toBe(false);
@@ -52,7 +55,7 @@ describe("AboutSnippet", () => {
     const wrapper = mount(AboutSnippet, {
       props: {
         content,
-      },
+      } as AboutSnippetProps,
     });
     const heading = wrapper.find(contentTag).element;
     expect(heading.innerHTML).toEqual(content);
@@ -63,7 +66,7 @@ describe("AboutSnippet", () => {
       props: {
         content,
         contentId,
-      },
+      } as AboutSnippetProps,
     });
     const heading = wrapper.find(contentTag);
     expect(heading.attributes().id).toEqual(contentId);
@@ -74,13 +77,13 @@ describe("AboutSnippet", () => {
       props: {
         content: undefined,
         contentId,
-      },
+      } as AboutSnippetProps,
     });
     let heading = wrapper.find(contentTag);
     expect(heading.exists()).toBe(false);
 
     wrapper = mount(AboutSnippet, {
-      props: {},
+      props: {} as AboutSnippetProps,
     });
     heading = wrapper.find(contentTag);
     expect(heading.exists()).toBe(false);
@@ -93,7 +96,7 @@ describe("AboutSnippet", () => {
       props: {
         title,
         content,
-      },
+      } as AboutSnippetProps,
       slots: {
         default: slotHTML,
       },
