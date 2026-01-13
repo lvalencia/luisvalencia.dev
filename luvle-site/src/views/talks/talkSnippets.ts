@@ -69,6 +69,28 @@ const talkSnippets: TalkSnippet[] = [
       venue: "_ieee_cpp",
     }
   },
+  {
+    title: "career_planning",
+    content: "career_planning_content",
+    image: "career_planning.png",
+    presentation:  "presentation/career_planning.key",
+    notes: "document/career_planning.pages",
+    meta: {
+      date: toISO8601("2026-02-19T20:00:00.000Z"),
+      venue: "_ccp_sea_club",
+    }
+  },
+    {
+    title: "lsb_embedding",
+    content: "lsb_embedding_content",
+    image: "lsb_embedding.png",
+    presentation:  "presentation/lsb_embedding.key",
+    notes: "document/lsb_embedding.pages",
+    meta: {
+      date: toISO8601("2026-02-26T20:00:00.000Z"),
+      venue: "_ccp_she_codes",
+    }
+  },
 ]
 
 function alreadyPresented(snippet: TalkSnippet): boolean {

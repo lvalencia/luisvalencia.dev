@@ -138,7 +138,7 @@ export default {
   {
     "en": {
       "title": "Talks",
-      "snippet": "After {yearsInIndustry} in the industry I've come to realize I have a knack for mentorship and clear, written commnunication. I wanted to see if this extends to verbal communication in the form of talks, wherein I could combine mentorship with a medium that scales.",
+      "snippet": "After {yearsInIndustry} in the industry I've come to realize I have a knack for mentorship and clear, written commnunication. I wanted to see if this could also extend to verbal communication in the form of talks.",
       "talks": "The following are talks I've given to date.",
       "_ccp_game_dev_club": "[CPP Game Development Club]",
       "_ccp_she_codes": "[CPP She Codes]",
@@ -152,12 +152,14 @@ export default {
       "career_planning_content": "How to think about your career progression over time and be intentional about your career choices.",
       "rust_arduino": "[Workshop] Rust x Arduino",
       "rust_arduino_content": "Workshop for how to cross-compile rust code for Arduino and load and run on an Uno microcontroller.",
+      "lsb_embedding": "Least Significant Bit Embedding in Lossless Images",
+      "lsb_embedding_content": "When you don’t want someone to know the contents of a message, you encrypt it. But what about when you don’t want someone to know that you’ve even sent a message? This talk devles into the Image Steganography technique of the Least Significant Bit Embedding for obfuscating data.",
       "given_talks": "Previous Talks",
       "upcoming_talks": "Upcoming Talks"
     },
     "es": {
       "title": "Charlas",
-      "snippet": "Despues de {yearsInIndustry} en la industria me he dado cuenta que tengo un don para le mentoría, aparte de poder communicarme de forma clara en el medio escrito. Quería ver si ese don se traducia al medio de communicaion verbal, donde (dado el formato) prodria expander mi mentoría.",
+      "snippet": "Despues de {yearsInIndustry} en la industria me he dado cuenta que tengo un don para le mentoría, aparte de poder communicarme de forma clara en el medio escrito. Quería ver si ese don se traducia al medio de communicaion verbal.",
       "talks": "Estas son algunas de charlas que he dado",
       "_ccp_game_dev_club": "[CPP Game Development Club]",
       "_ccp_she_codes": "[CPP She Codes]",
@@ -171,12 +173,14 @@ export default {
       "career_planning_content": "Cómo pensar en la progresión de tu carrera a lo largo del tiempo y tomar decisiones profesionales de manera intencional.",
       "rust_arduino": "[Taller] Rust x Arduino",
       "rust_arduino_content": "Taller sobre cómo compilar código Rust para Arduino y cargarlo y ejecutarlo en un microcontrolador Uno.",
+      "lsb_embedding": "",
+      "lsb_embedding_content": "",
       "given_talks": "Charlas Previas",
       "upcoming_talks": "Proximas Charlas"
     },
     "ca": {
       "title": "Xerrades",
-      "snippet": "Després de de {yearsInIndustry} a la indústria, m’he adonat que tinc un do per a la mentoria, a més de saber-me comunicar clarament per escrit. Volia veure si aquest do es traduïa també al mitjà de comunicació verbal, on, pel format, podria expandir la meva mentoria",
+      "snippet": "Després de de {yearsInIndustry} a la indústria, m’he adonat que tinc un do per a la mentoria, a més de saber-me comunicar clarament per escrit. Volia veure si aquest do es traduïa també al mitjà de comunicació verbal.",
       "_ccp_game_dev_club": "[CPP Game Development Club]",
       "_ccp_she_codes": "[CPP She Codes]",
       "_ccp_sea_club": "[CPP Software Engineering Association]",
@@ -190,6 +194,8 @@ export default {
       "career_planning_content": "Com pensar en la progressió de la teva carrera al llarg del temps i prendre decisions professionals de manera intencionada.",
       "rust_arduino": "[Taller] Rust x Arduino",
       "rust_arduino_content": "Taller sobre com compilar codi Rust per a Arduino i carregar-lo i executar-lo en un microcontrolador Uno.",
+      "lsb_embedding": "",
+      "lsb_embedding_content": "",
       "given_talks": "Xerrades prèvies",
       "upcoming_talks": "Xerrades Pròximes"
     }

@@ -298,6 +298,7 @@ a + svg {
     "_cien_años": "Cien años de soledad",
     "_good_game_no_rematch": "Good Game, No Rematch: A Life Made of Video Games",
     "_nexus": "Nexus: A Brief History of Information Networks from the Stone Age to AI",
+    "_small_is_beautiful": "Small Is Beautiful: Economics as If People Mattered",
     "reading": "I'm currently reading:{break} {links} {break} {asterisk} highly recommend"
   },
   "es": {
@@ -350,6 +351,7 @@ a + svg {
     "_cien_años": "Cien años de soledad",
     "_good_game_no_rematch": "Good Game, No Rematch: A Life Made of Video Games",
     "_nexus": "Nexus. Breve historia de las redes de información desde la Edad de Piedra hasta la IA",
+    "_small_is_beautiful": "Small Is Beautiful: Economics as If People Mattered",
     "reading": "Ahora estoy leyendo:{break} {links} {break} {asterisk} lo recomiendo"
   },
   "ca": {
@@ -402,8 +404,8 @@ a + svg {
     "_cien_años": "Cien años de soledad",
     "_good_game_no_rematch": "Good Game, No Rematch: A Life Made of Video Games",
     "_nexus": "Nexus. Breve historia de las redes de información desde la Edad de Piedra hasta la IA",
+    "_small_is_beautiful": "Small Is Beautiful: Economics as If People Mattered",
     "reading": "Actualment estic llegint:{break} {links} {break} {asterisk} ho recomano"
   }
 }
 </i18n>
-./home/bookSnippets

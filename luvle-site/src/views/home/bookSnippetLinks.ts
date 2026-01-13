@@ -280,6 +280,15 @@ const bookSnippetLinks: BookSnippetLink[] = [
       external: true,
     },
   },
+    {
+    id: "smallIsBeautiful",
+    href: "https://www.alibris.com/search/books/isbn/9780061997761",
+    text: "_small_is_beautiful",
+    meta: {
+      external: true,
+      recommended: true
+    },
+  },
 ];
 
 function hasFinishedAttribute(snippetLink: BookSnippetLink) {
