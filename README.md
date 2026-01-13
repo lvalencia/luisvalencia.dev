@@ -29,6 +29,8 @@ Additionally, this codebase uses a [Plug and Play (pnp)](https://yarnpkg.com/fea
 developing you just pull the codebase and start working in the package that you need to modify. No need to run `yarn install` because the dependencies are packaged 
 with the codebase.
 
+**Note**: This repo requires a minimum version of Node 24 LTS.
+
 To start developing in a particular package, read the package's README.md.
 
 # Release
